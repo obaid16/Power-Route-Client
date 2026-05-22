@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Zap, Menu, Bell, User } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -9,11 +9,21 @@ import { Button } from "@/components/ui/button";
 export function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const profileRef = useRef(null);
   const { theme, setTheme } = useTheme();
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
     setMounted(true);
+    
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -58,20 +68,21 @@ export function Navbar() {
               <Bell className="h-5 w-5" />
             </Button>
           </Link>
-          <div className="relative group">
-            <Button variant="outline" size="icon" className="rounded-full border-primary/50">
+          <div className="relative" ref={profileRef}>
+            <Button variant="outline" size="icon" className="rounded-full border-primary/50" onClick={() => setIsProfileOpen(!isProfileOpen)}>
               <User className="h-5 w-5 text-primary" />
             </Button>
             
             {/* Modern Glassmorphism Dropdown */}
-            <div className="absolute right-0 mt-2 w-48 rounded-xl border border-white/10 glass-card bg-background/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right scale-95 group-hover:scale-100">
+            <div className={`absolute right-0 mt-2 w-48 rounded-xl border border-white/10 glass-card bg-background/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] transition-all duration-300 transform origin-top-right z-50 ${isProfileOpen ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-95"}`}>
               <div className="p-2 space-y-1">
-                <Link href="/profile" className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-white/5 rounded-lg transition-colors">
+                <Link href="/profile" onClick={() => setIsProfileOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-white/5 rounded-lg transition-colors">
                   <User className="h-4 w-4" /> Profile
                 </Link>
                 <div className="h-px bg-white/10 my-1 mx-2" />
                 <button 
                   onClick={() => {
+                    setIsProfileOpen(false);
                     import("@/store/useAuthStore").then(module => {
                       module.default.getState().logout();
                       window.location.href = '/login';
