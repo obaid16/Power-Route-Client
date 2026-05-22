@@ -25,7 +25,11 @@ export default function SafetyCenter() {
               Instantly share your live location, vehicle details, and activate station cameras. This will immediately connect you to local authorities and our 24/7 safety response team.
             </p>
           </div>
-          <Button size="lg" className="h-20 px-10 rounded-full bg-red-600 hover:bg-red-700 text-white shadow-[0_0_30px_rgba(220,38,38,0.6)] animate-pulse border-4 border-red-400/50 text-xl font-bold w-full md:w-auto">
+          <Button 
+            onClick={() => alert("🚨 SOS TRIGGERED! Dialing emergency services and broadcasting your location to local authorities and emergency contacts.")}
+            size="lg" 
+            className="h-20 px-10 rounded-full bg-red-600 hover:bg-red-700 text-white shadow-[0_0_30px_rgba(220,38,38,0.6)] animate-pulse border-4 border-red-400/50 text-xl font-bold w-full md:w-auto"
+          >
             <PhoneCall className="mr-3 h-6 w-6" /> SOS ALERT
           </Button>
         </div>
@@ -41,7 +45,10 @@ export default function SafetyCenter() {
           <p className="text-sm text-muted-foreground mb-4">
             Activate enhanced security protocols. Station lights will turn to maximum brightness, camera feeds are monitored live, and security personnel are placed on standby.
           </p>
-          <Button className="w-full bg-pink-600/20 text-pink-400 hover:bg-pink-600/30 border border-pink-500/30 rounded-xl">
+          <Button 
+            onClick={() => alert("🛡️ Women's Safety Mode Activated! Station lights maxed, security on standby.")}
+            className="w-full bg-pink-600/20 text-pink-400 hover:bg-pink-600/30 border border-pink-500/30 rounded-xl"
+          >
             Activate Safe Mode
           </Button>
         </div>
@@ -55,7 +62,11 @@ export default function SafetyCenter() {
           <p className="text-sm text-muted-foreground mb-4">
             Check the live camera feed of any charging station before you arrive. Ensure the environment is well-lit and safe before proceeding.
           </p>
-          <Button variant="outline" className="w-full border-primary/30 text-primary rounded-xl">
+          <Button 
+            onClick={() => alert("📹 Loading live camera feeds... (Demo Mode)")}
+            variant="outline" 
+            className="w-full border-primary/30 text-primary rounded-xl"
+          >
             View Cameras <Video className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -69,7 +80,10 @@ export default function SafetyCenter() {
           <p className="text-sm text-muted-foreground mb-4">
             Share your live location, ETA, and charging status with trusted contacts. They will be notified automatically if you deviate from your route.
           </p>
-          <Button className="w-full bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 border border-blue-500/30 rounded-xl">
+          <Button 
+            onClick={() => alert("📍 Sharing live trip status with emergency contacts...")}
+            className="w-full bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 border border-blue-500/30 rounded-xl"
+          >
             Manage Contacts
           </Button>
         </div>
@@ -83,7 +97,11 @@ export default function SafetyCenter() {
           <p className="text-sm text-muted-foreground mb-4">
             Stranded with zero battery? Request our emergency mobile EV charging van to come to your location and provide enough charge to reach the nearest station.
           </p>
-          <Button variant="outline" className="w-full border-white/10 hover:bg-white/5 rounded-xl">
+          <Button 
+            onClick={() => alert("🚐 Dispatching emergency mobile charging van to your current GPS location...")}
+            variant="outline" 
+            className="w-full border-white/10 hover:bg-white/5 rounded-xl"
+          >
             Request Van
           </Button>
         </div>

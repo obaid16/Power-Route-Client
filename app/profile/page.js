@@ -5,9 +5,21 @@ import { GlassInput } from "@/components/ui/glass-input";
 import { Button } from "@/components/ui/button";
 import { Edit2, Save, MapPin, Zap, Battery, Award, Activity } from "lucide-react";
 import { useState } from "react";
+import useAuthStore from "@/store/useAuthStore";
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // In a real app we would upload to Cloudinary here
+      // For now, we mock the upload by creating a local blob URL
+      const imageUrl = URL.createObjectURL(file);
+      setProfileImage(imageUrl);
+    }
+  };
 
   return (
     <AnimatedPage className="space-y-6 pb-20">
@@ -21,14 +33,23 @@ export default function ProfilePage() {
         <div className="px-6 md:px-10 pb-8 relative -mt-16 flex flex-col md:flex-row gap-6 md:items-end">
           <div className="relative">
             <div className="w-32 h-32 rounded-full border-4 border-background bg-secondary/50 backdrop-blur-md overflow-hidden relative z-10 shadow-[0_0_20px_rgba(168,85,247,0.5)]">
-              {/* Fallback avatar */}
-              <div className="w-full h-full bg-gradient-to-br from-primary/40 to-purple-800/40 flex items-center justify-center text-4xl font-bold text-white">
-                JD
-              </div>
+              {profileImage ? (
+                <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-primary/40 to-purple-800/40 flex items-center justify-center text-4xl font-bold text-white">
+                  JD
+                </div>
+              )}
             </div>
-            <button className="absolute bottom-0 right-0 z-20 bg-primary rounded-full p-2 text-white hover:bg-primary/90 transition shadow-lg">
+            <label className="absolute bottom-0 right-0 z-20 bg-primary rounded-full p-2 text-white hover:bg-primary/90 transition shadow-lg cursor-pointer">
               <Edit2 className="h-4 w-4" />
-            </button>
+              <input 
+                type="file" 
+                accept="image/*" 
+                className="hidden" 
+                onChange={handleImageUpload} 
+              />
+            </label>
           </div>
           
           <div className="flex-1">
@@ -175,7 +196,14 @@ export default function ProfilePage() {
               <Button variant="outline" className="w-full justify-start text-left bg-white/5 border-white/10 hover:bg-white/10 transition-colors h-12 rounded-xl">
                 Notification Preferences
               </Button>
-              <Button variant="outline" className="w-full justify-start text-left bg-destructive/10 border-destructive/30 text-destructive hover:bg-destructive/20 transition-colors h-12 rounded-xl">
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  useAuthStore.getState().logout();
+                  window.location.href = '/login';
+                }}
+                className="w-full justify-start text-left bg-destructive/10 border-destructive/30 text-destructive hover:bg-destructive/20 transition-colors h-12 rounded-xl"
+              >
                 Sign Out
               </Button>
             </div>

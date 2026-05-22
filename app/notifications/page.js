@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { AnimatedPage } from "@/components/layout/AnimatedPage";
 import { Bell, Zap, CalendarCheck, ShieldAlert, CreditCard } from "lucide-react";
 
-const notifications = [
+const initialNotifications = [
   {
     id: 1,
     title: "Booking Confirmed",
@@ -47,6 +48,12 @@ const notifications = [
 ];
 
 export default function NotificationsPage() {
+  const [notifs, setNotifs] = useState(initialNotifications);
+
+  const markAllAsRead = () => {
+    setNotifs(notifs.map(n => ({ ...n, read: true })));
+  };
+
   return (
     <AnimatedPage className="max-w-3xl mx-auto space-y-6 pb-20">
       <div className="flex items-center justify-between mb-8">
@@ -59,13 +66,16 @@ export default function NotificationsPage() {
             <p className="text-muted-foreground">Stay updated on your charging activity</p>
           </div>
         </div>
-        <button className="text-sm font-medium text-primary hover:text-white transition-colors">
+        <button 
+          onClick={markAllAsRead}
+          className="text-sm font-medium text-primary hover:text-white transition-colors"
+        >
           Mark all as read
         </button>
       </div>
 
       <div className="space-y-4">
-        {notifications.map((notification) => {
+        {notifs.map((notification) => {
           const Icon = notification.icon;
           return (
             <div 

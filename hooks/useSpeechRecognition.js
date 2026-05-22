@@ -25,7 +25,23 @@ export function useSpeechRecognition() {
           for (let i = event.resultIndex; i < event.results.length; i++) {
             currentTranscript += event.results[i][0].transcript;
           }
-          setTranscript(currentTranscript);
+          
+          const lowerTranscript = currentTranscript.toLowerCase();
+          
+          // Wake Word Detection
+          if (lowerTranscript.includes("aura") || lowerTranscript.includes("hey aura")) {
+            window.dispatchEvent(new CustomEvent('open-ai-assistant'));
+            
+            // Extract the command after the wake word if any
+            const command = lowerTranscript.split(/aura|hey aura/)[1]?.trim();
+            if (command) {
+              setTranscript(command);
+            } else {
+              setTranscript("Listening...");
+            }
+          } else {
+            setTranscript(currentTranscript);
+          }
         };
 
         reco.onerror = (event) => {

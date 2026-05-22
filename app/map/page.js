@@ -13,6 +13,7 @@ export default function MapPage() {
   const [stations, setStations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedStation, setSelectedStation] = useState(null);
+  const [filter, setFilter] = useState('All');
 
   useEffect(() => {
     const fetchStations = async () => {
@@ -50,13 +51,28 @@ export default function MapPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           </div>
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-            <Button variant="outline" size="sm" className="rounded-full bg-primary/10 border-primary/30 text-primary">
+            <Button 
+              onClick={() => setFilter(filter === 'DC Fast' ? 'All' : 'DC Fast')}
+              variant="outline" 
+              size="sm" 
+              className={`rounded-full transition-colors ${filter === 'DC Fast' ? 'bg-primary/20 border-primary/50 text-primary neon-glow' : 'bg-white/5 border-white/10'}`}
+            >
               <Zap className="mr-1 h-3 w-3" /> DC Fast
             </Button>
-            <Button variant="outline" size="sm" className="rounded-full bg-white/5 border-white/10">
+            <Button 
+              onClick={() => setFilter(filter === 'Level 2' ? 'All' : 'Level 2')}
+              variant="outline" 
+              size="sm" 
+              className={`rounded-full transition-colors ${filter === 'Level 2' ? 'bg-primary/20 border-primary/50 text-primary neon-glow' : 'bg-white/5 border-white/10'}`}
+            >
               <Battery className="mr-1 h-3 w-3" /> Level 2
             </Button>
-            <Button variant="outline" size="sm" className="rounded-full bg-white/5 border-white/10">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="rounded-full bg-white/5 border-white/10"
+              onClick={() => alert("More filters coming soon!")}
+            >
               <Filter className="mr-1 h-3 w-3" /> More
             </Button>
           </div>
@@ -70,7 +86,14 @@ export default function MapPage() {
           ) : stations.length === 0 ? (
             <div className="text-center text-muted-foreground pt-10">No stations found nearby.</div>
           ) : (
-            stations.map((station) => (
+            stations
+              .filter(st => {
+                if (filter === 'All') return true;
+                if (filter === 'DC Fast') return parseInt(st.power) > 22; // Basic heuristic for DC fast
+                if (filter === 'Level 2') return parseInt(st.power) <= 22;
+                return true;
+              })
+              .map((station) => (
             <motion.div
               key={station.id}
               whileHover={{ scale: 1.02 }}

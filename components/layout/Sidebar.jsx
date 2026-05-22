@@ -47,7 +47,10 @@ export function Sidebar() {
         <div className="glass-card p-4 rounded-xl text-center">
           <p className="text-sm font-medium mb-2">Need Help?</p>
           <p className="text-xs text-muted-foreground mb-4">Our AI assistant is ready to help 24/7</p>
-          <button className="w-full py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors shadow-[0_0_10px_rgba(168,85,247,0.4)]">
+          <button 
+            onClick={() => window.dispatchEvent(new CustomEvent('open-ai-assistant'))}
+            className="w-full py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors shadow-[0_0_10px_rgba(168,85,247,0.4)]"
+          >
             Ask AI
           </button>
         </div>

@@ -19,6 +19,12 @@ export function AIAssistant() {
   const { isListening, transcript, startListening, stopListening, setTranscript } = useSpeechRecognition();
 
   useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener('open-ai-assistant', handleOpen);
+    return () => window.removeEventListener('open-ai-assistant', handleOpen);
+  }, []);
+
+  useEffect(() => {
     if (transcript && isListening) {
       setInputText(transcript);
     }
@@ -48,16 +54,17 @@ export function AIAssistant() {
       
       setMessages(prev => [...prev, { sender: "ai", text: aiText }]);
 
-      // Attempt voice playback (fails gracefully if ElevenLabs key is missing)
+      // Free Browser Native TTS
       try {
-        const audioRes = await api.post('/voice/reply', { text: aiText }, { responseType: 'blob' });
-        if (audioRes.data.size > 0) {
-          const audioUrl = URL.createObjectURL(audioRes.data);
-          const audio = new Audio(audioUrl);
-          audio.play();
+        if ('speechSynthesis' in window) {
+          const utterance = new SpeechSynthesisUtterance(aiText);
+          utterance.rate = 1.0;
+          utterance.pitch = 1.0;
+          // You can also try picking a specific voice if you like
+          window.speechSynthesis.speak(utterance);
         }
       } catch (voiceErr) {
-        console.error("Voice TTS skipped or failed:", voiceErr);
+        console.error("Browser TTS skipped or failed:", voiceErr);
       }
       
     } catch (error) {

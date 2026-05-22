@@ -57,15 +57,15 @@ export default function TrackingPage() {
           </h2>
           
           <div className="space-y-6 relative z-10">
-            <div className="relative pl-6 border-l-2 border-primary/30 space-y-6">
+            <div className="relative pl-6 border-l-2 border-primary/30 space-y-6 ml-2">
               <div className="relative">
-                <div className="absolute -left-[31px] w-4 h-4 rounded-full bg-background border-2 border-primary"></div>
+                <div className="absolute -left-[33px] top-1 w-4 h-4 rounded-full bg-background border-2 border-primary"></div>
                 <h3 className="text-sm text-muted-foreground uppercase tracking-wider mb-1">Current Location</h3>
                 <p className="font-semibold text-lg">Highway 101, Exit 24</p>
               </div>
               
               <div className="relative">
-                <div className="absolute -left-[31px] w-4 h-4 rounded-full bg-primary shadow-[0_0_10px_rgba(168,85,247,0.8)] animate-pulse border-2 border-background"></div>
+                <div className="absolute -left-[33px] top-1 w-4 h-4 rounded-full bg-primary shadow-[0_0_10px_rgba(168,85,247,0.8)] animate-pulse border-2 border-background"></div>
                 <h3 className="text-sm text-muted-foreground uppercase tracking-wider mb-1">Destination</h3>
                 <p className="font-semibold text-lg text-primary">Neon Charge Hub</p>
                 <div className="inline-flex items-center mt-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-medium">

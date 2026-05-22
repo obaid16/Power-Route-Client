@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [activeTab, setActiveTab] = useState("preferences");
 
   useEffect(() => {
     setMounted(true);
@@ -30,16 +31,32 @@ export default function SettingsPage() {
         
         {/* Settings Navigation Sidebar */}
         <div className="md:col-span-1 space-y-2">
-          <Button variant="ghost" className="w-full justify-start text-primary bg-primary/10 hover:bg-primary/20">
+          <Button 
+            variant="ghost" 
+            onClick={() => setActiveTab("preferences")}
+            className={`w-full justify-start ${activeTab === 'preferences' ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'}`}
+          >
             <Cpu className="mr-3 h-5 w-5" /> Preferences
           </Button>
-          <Button variant="ghost" className="w-full justify-start text-muted-foreground hover:bg-white/5 hover:text-foreground">
+          <Button 
+            variant="ghost" 
+            onClick={() => setActiveTab("notifications")}
+            className={`w-full justify-start ${activeTab === 'notifications' ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'}`}
+          >
             <Bell className="mr-3 h-5 w-5" /> Notifications
           </Button>
-          <Button variant="ghost" className="w-full justify-start text-muted-foreground hover:bg-white/5 hover:text-foreground">
+          <Button 
+            variant="ghost" 
+            onClick={() => setActiveTab("security")}
+            className={`w-full justify-start ${activeTab === 'security' ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'}`}
+          >
             <Shield className="mr-3 h-5 w-5" /> Security
           </Button>
-          <Button variant="ghost" className="w-full justify-start text-muted-foreground hover:bg-white/5 hover:text-foreground">
+          <Button 
+            variant="ghost" 
+            onClick={() => setActiveTab("payment")}
+            className={`w-full justify-start ${activeTab === 'payment' ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'}`}
+          >
             <CreditCard className="mr-3 h-5 w-5" /> Payment Methods
           </Button>
         </div>
@@ -47,85 +64,157 @@ export default function SettingsPage() {
         {/* Settings Content Area */}
         <div className="md:col-span-2 space-y-6">
           
-          <div className="glass-card rounded-3xl p-6 border border-white/5">
-            <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
-              <Moon className="mr-2 h-5 w-5 text-primary" /> Appearance
-            </h2>
-            
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-medium text-foreground">Theme Preference</h3>
-                <p className="text-sm text-muted-foreground">Switch between Light and Dark mode.</p>
-              </div>
-              
-              {mounted && (
-                <div className="flex bg-background/50 border border-white/10 rounded-xl p-1 backdrop-blur-sm">
-                  <button 
-                    onClick={() => setTheme("light")}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${theme === 'light' ? 'bg-primary text-white shadow-md' : 'text-muted-foreground hover:text-foreground'}`}
-                  >
-                    Light
-                  </button>
-                  <button 
-                    onClick={() => setTheme("dark")}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${theme === 'dark' ? 'bg-primary text-white shadow-md' : 'text-muted-foreground hover:text-foreground'}`}
-                  >
-                    Dark
-                  </button>
-                  <button 
-                    onClick={() => setTheme("system")}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${theme === 'system' ? 'bg-primary text-white shadow-md' : 'text-muted-foreground hover:text-foreground'}`}
-                  >
-                    System
-                  </button>
+          {activeTab === 'preferences' && (
+            <>
+              <div className="glass-card rounded-3xl p-6 border border-white/5">
+                <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
+                  <Moon className="mr-2 h-5 w-5 text-primary" /> Appearance
+                </h2>
+                
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-medium text-foreground">Theme Preference</h3>
+                    <p className="text-sm text-muted-foreground">Switch between Light and Dark mode.</p>
+                  </div>
+                  
+                  {mounted && (
+                    <div className="flex bg-background/50 border border-white/10 rounded-xl p-1 backdrop-blur-sm">
+                      <button 
+                        onClick={() => setTheme("light")}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${theme === 'light' ? 'bg-primary text-white shadow-md' : 'text-muted-foreground hover:text-foreground'}`}
+                      >
+                        Light
+                      </button>
+                      <button 
+                        onClick={() => setTheme("dark")}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${theme === 'dark' ? 'bg-primary text-white shadow-md' : 'text-muted-foreground hover:text-foreground'}`}
+                      >
+                        Dark
+                      </button>
+                      <button 
+                        onClick={() => setTheme("system")}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${theme === 'system' ? 'bg-primary text-white shadow-md' : 'text-muted-foreground hover:text-foreground'}`}
+                      >
+                        System
+                      </button>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
 
-          <div className="glass-card rounded-3xl p-6 border border-white/5">
-            <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
-              <Volume2 className="mr-2 h-5 w-5 text-primary" /> Voice Assistant
-            </h2>
-            
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-medium text-foreground">Voice Feedback</h3>
-                  <p className="text-sm text-muted-foreground">Allow AI to speak responses aloud.</p>
-                </div>
-                <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-primary transition-colors focus:outline-none cursor-pointer">
-                  <span className="inline-block h-4 w-4 translate-x-6 rounded-full bg-white transition-transform" />
+              <div className="glass-card rounded-3xl p-6 border border-white/5">
+                <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
+                  <Volume2 className="mr-2 h-5 w-5 text-primary" /> Voice Assistant
+                </h2>
+                
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-medium text-foreground">Voice Feedback</h3>
+                      <p className="text-sm text-muted-foreground">Allow AI to speak responses aloud.</p>
+                    </div>
+                    <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-primary transition-colors focus:outline-none cursor-pointer">
+                      <span className="inline-block h-4 w-4 translate-x-6 rounded-full bg-white transition-transform" />
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-medium text-foreground">Wake Word</h3>
+                      <p className="text-sm text-muted-foreground">Say "Hey Aura" to activate voice commands.</p>
+                    </div>
+                    <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-white/10 transition-colors focus:outline-none cursor-pointer">
+                      <span className="inline-block h-4 w-4 translate-x-1 rounded-full bg-white transition-transform" />
+                    </div>
+                  </div>
                 </div>
               </div>
-              
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-medium text-foreground">Wake Word</h3>
-                  <p className="text-sm text-muted-foreground">Say "Hey Aura" to activate voice commands.</p>
-                </div>
-                <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-white/10 transition-colors focus:outline-none cursor-pointer">
-                  <span className="inline-block h-4 w-4 translate-x-1 rounded-full bg-white transition-transform" />
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="glass-card rounded-3xl p-6 border border-white/5">
-            <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
-              <Globe className="mr-2 h-5 w-5 text-primary" /> Regional
-            </h2>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-muted-foreground block mb-2">Distance Unit</label>
-                <select className="h-10 w-full md:w-1/2 rounded-xl border border-white/10 bg-background/40 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary backdrop-blur-md appearance-none">
-                  <option value="km">Kilometers (km)</option>
-                  <option value="mi">Miles (mi)</option>
-                </select>
+              <div className="glass-card rounded-3xl p-6 border border-white/5">
+                <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
+                  <Globe className="mr-2 h-5 w-5 text-primary" /> Regional
+                </h2>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground block mb-2">Distance Unit</label>
+                    <select className="h-10 w-full md:w-1/2 rounded-xl border border-white/10 bg-background/40 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary backdrop-blur-md appearance-none">
+                      <option value="km">Kilometers (km)</option>
+                      <option value="mi">Miles (mi)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {activeTab === 'notifications' && (
+            <div className="glass-card rounded-3xl p-6 border border-white/5">
+              <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
+                <Bell className="mr-2 h-5 w-5 text-primary" /> Notification Preferences
+              </h2>
+              <div className="space-y-6">
+                {[
+                  { title: "Charging Complete", desc: "Get notified when your EV reaches target charge" },
+                  { title: "Booking Reminders", desc: "Reminders 15 mins before your reservation" },
+                  { title: "Price Drops", desc: "Alerts when nearby stations have lower rates" },
+                  { title: "Safety Alerts", desc: "Critical route warnings and weather updates" }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-medium text-foreground">{item.title}</h3>
+                      <p className="text-sm text-muted-foreground">{item.desc}</p>
+                    </div>
+                    <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-primary transition-colors cursor-pointer">
+                      <span className="inline-block h-4 w-4 translate-x-6 rounded-full bg-white transition-transform" />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
+          )}
+
+          {activeTab === 'security' && (
+            <div className="glass-card rounded-3xl p-6 border border-white/5">
+              <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
+                <Shield className="mr-2 h-5 w-5 text-primary" /> Security Settings
+              </h2>
+              <div className="space-y-4">
+                <Button variant="outline" className="w-full justify-start text-left bg-white/5 border-white/10 h-12 rounded-xl">
+                  Change Password
+                </Button>
+                <Button variant="outline" className="w-full justify-start text-left bg-white/5 border-white/10 h-12 rounded-xl">
+                  Two-Factor Authentication (2FA)
+                </Button>
+                <Button variant="outline" className="w-full justify-start text-left bg-white/5 border-white/10 h-12 rounded-xl">
+                  Manage Devices
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'payment' && (
+            <div className="glass-card rounded-3xl p-6 border border-white/5">
+              <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
+                <CreditCard className="mr-2 h-5 w-5 text-primary" /> Payment Methods
+              </h2>
+              <div className="space-y-4">
+                <div className="bg-background/40 p-4 rounded-xl border border-primary/30 flex justify-between items-center">
+                  <div className="flex gap-3 items-center">
+                    <div className="w-10 h-6 bg-white/10 rounded flex items-center justify-center text-xs font-bold">VISA</div>
+                    <div>
+                      <p className="font-medium">•••• •••• •••• 4242</p>
+                      <p className="text-xs text-muted-foreground">Expires 12/28</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-primary font-bold">DEFAULT</span>
+                </div>
+                <Button className="w-full h-12 rounded-xl bg-primary/20 text-primary hover:bg-primary/30 border border-primary/50 transition-colors">
+                  + Add New Payment Method
+                </Button>
+              </div>
+            </div>
+          )}
 
         </div>
       </div>

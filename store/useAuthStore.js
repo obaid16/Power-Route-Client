@@ -24,6 +24,12 @@ const useAuthStore = create((set) => ({
     }
   },
 
+  setToken: (token, user) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    set({ token, user, error: null });
+  },
+
   register: async (userData) => {
     set({ isLoading: true, error: null });
     try {
