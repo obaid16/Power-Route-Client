@@ -86,10 +86,7 @@ export function Navbar() {
             </div>
           </div>
         </div>
-          </div>
-        </div>
       </div>
-
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-16 left-0 w-full bg-background/95 backdrop-blur-xl border-b border-border/40 p-4 flex flex-col gap-2 shadow-[0_10px_40px_rgb(0,0,0,0.5)] z-40">
