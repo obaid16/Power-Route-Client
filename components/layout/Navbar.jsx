@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   const [mounted, setMounted] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();
 
   // useEffect only runs on the client, so now we can safely show the UI
@@ -19,10 +20,10 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 glass-card">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="md:hidden">
+          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             <Menu className="h-5 w-5 text-primary" />
           </Button>
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
             <Zap className="h-6 w-6 text-primary neon-glow rounded-full" />
             <span className="text-xl font-bold tracking-tighter neon-text">
               PoweRoute
@@ -85,7 +86,34 @@ export function Navbar() {
             </div>
           </div>
         </div>
+          </div>
+        </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-16 left-0 w-full bg-background/95 backdrop-blur-xl border-b border-border/40 p-4 flex flex-col gap-2 shadow-[0_10px_40px_rgb(0,0,0,0.5)] z-40">
+          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium">
+            Dashboard
+          </Link>
+          <Link href="/map" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium">
+            Find Charger
+          </Link>
+          <Link href="/booking" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium">
+            My Bookings
+          </Link>
+          <Link href="/safety" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium">
+            Safety Center
+          </Link>
+          <Link href="/tracking" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium">
+            Live Tracking
+          </Link>
+          <div className="h-px bg-white/10 my-2 mx-2" />
+          <Link href="/settings" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium">
+            Settings
+          </Link>
+        </div>
+      )}
     </header>
   );
 }
