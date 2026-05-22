@@ -6,6 +6,7 @@ import api from "@/lib/api";
 import { AnimatedPage } from "@/components/layout/AnimatedPage";
 import { Button } from "@/components/ui/button";
 import { GlassInput } from "@/components/ui/glass-input";
+import { GlassSelect } from "@/components/ui/glass-select";
 import { CalendarCheck, Clock, CreditCard, Zap, CheckCircle2, Loader2 } from "lucide-react";
 
 function BookingContent() {
@@ -117,11 +118,16 @@ function BookingContent() {
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground ml-1">Duration</label>
-                <select value={duration} onChange={(e) => setDuration(e.target.value)} className="flex h-12 w-full rounded-xl border border-white/10 bg-background/40 px-4 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary backdrop-blur-md text-foreground appearance-none">
-                  <option value="30">30 Minutes (Est. 80% charge)</option>
-                  <option value="60">1 Hour (Full charge)</option>
-                  <option value="90">1.5 Hours</option>
-                </select>
+                <GlassSelect 
+                  name="duration"
+                  value={duration} 
+                  onChange={(e) => setDuration(e.target.value)}
+                  options={[
+                    { value: "30", label: "30 Minutes (Est. 80% charge)" },
+                    { value: "60", label: "1 Hour (Full charge)" },
+                    { value: "90", label: "1.5 Hours" }
+                  ]}
+                />
               </div>
             </div>
           </div>

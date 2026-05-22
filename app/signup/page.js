@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import useAuthStore from "@/store/useAuthStore";
 import { AnimatedPage } from "@/components/layout/AnimatedPage";
 import { GlassInput } from "@/components/ui/glass-input";
+import { GlassSelect } from "@/components/ui/glass-select";
 import { Button } from "@/components/ui/button";
 import { Zap, Eye, EyeOff, CheckCircle2, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -157,22 +158,32 @@ export default function Signup() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-muted-foreground ml-1">Port Type</label>
-                  <select name="portType" value={formData.portType} onChange={handleChange} className="flex h-12 w-full rounded-xl border border-white/10 bg-background/40 px-4 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary backdrop-blur-md text-foreground appearance-none">
-                    <option value="" disabled>Select Port</option>
-                    <option value="ccs1">CCS1</option>
-                    <option value="ccs2">CCS2</option>
-                    <option value="chademo">CHAdeMO</option>
-                    <option value="tesla">NACS (Tesla)</option>
-                    <option value="type2">Type 2</option>
-                  </select>
+                  <GlassSelect 
+                    name="portType" 
+                    value={formData.portType} 
+                    onChange={handleChange} 
+                    placeholder="Select Port"
+                    options={[
+                      { value: "ccs1", label: "CCS1" },
+                      { value: "ccs2", label: "CCS2" },
+                      { value: "chademo", label: "CHAdeMO" },
+                      { value: "tesla", label: "NACS (Tesla)" },
+                      { value: "type2", label: "Type 2" },
+                    ]}
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-muted-foreground ml-1">Pref. Charging</label>
-                  <select name="preferredSpeed" value={formData.preferredSpeed} onChange={handleChange} className="flex h-12 w-full rounded-xl border border-white/10 bg-background/40 px-4 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary backdrop-blur-md text-foreground appearance-none">
-                    <option value="" disabled>Select Speed</option>
-                    <option value="fast">DC Fast</option>
-                    <option value="level2">Level 2</option>
-                  </select>
+                  <GlassSelect 
+                    name="preferredSpeed" 
+                    value={formData.preferredSpeed} 
+                    onChange={handleChange} 
+                    placeholder="Select Speed"
+                    options={[
+                      { value: "fast", label: "DC Fast" },
+                      { value: "level2", label: "Level 2" },
+                    ]}
+                  />
                 </div>
               </div>
 

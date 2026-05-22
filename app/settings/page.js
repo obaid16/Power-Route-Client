@@ -3,6 +3,7 @@
 import { AnimatedPage } from "@/components/layout/AnimatedPage";
 import { Button } from "@/components/ui/button";
 import { Settings as SettingsIcon, Bell, Shield, CreditCard, Moon, Volume2, Globe, Cpu } from "lucide-react";
+import { GlassSelect } from "@/components/ui/glass-select";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -138,10 +139,15 @@ export default function SettingsPage() {
                 <div className="space-y-4">
                   <div>
                     <label className="text-sm font-medium text-muted-foreground block mb-2">Distance Unit</label>
-                    <select className="h-10 w-full md:w-1/2 rounded-xl border border-white/10 bg-background/40 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary backdrop-blur-md appearance-none">
-                      <option value="km">Kilometers (km)</option>
-                      <option value="mi">Miles (mi)</option>
-                    </select>
+                    <GlassSelect
+                      name="distanceUnit"
+                      value="km"
+                      options={[
+                        { value: "km", label: "Kilometers (km)" },
+                        { value: "mi", label: "Miles (mi)" },
+                      ]}
+                      className="md:w-1/2"
+                    />
                   </div>
                 </div>
               </div>
