@@ -127,7 +127,7 @@ export default function TrackingPage() {
         <div className="absolute inset-0 z-0">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                 <path d="M 100,300 C 200,300 300,150 500,100" fill="transparent" stroke="rgba(168,85,247,0.3)" strokeWidth="8" strokeLinecap="round" strokeDasharray="10 15" />
-                <path d="M 100,300 C 200,300 300,150 350,180" fill="transparent" stroke="#a855f7" strokeWidth="4" strokeLinecap="round" className="animate-[dash_3s_linear_infinite]" />
+                <path d="M 100,300 C 200,300 300,150 350,180" fill="transparent" stroke="#a855f7" strokeWidth="4" strokeLinecap="round" className="animate-dash" />
             </svg>
         </div>
 

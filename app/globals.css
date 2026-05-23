@@ -46,6 +46,13 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --animate-dash: dash 2s linear infinite;
+
+  @keyframes dash {
+    to {
+      stroke-dashoffset: -40;
+    }
+  }
 }
 
 :root {
