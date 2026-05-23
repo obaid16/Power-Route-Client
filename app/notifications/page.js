@@ -55,7 +55,7 @@ export default function NotificationsPage() {
   };
 
   return (
-    <AnimatedPage className="max-w-3xl mx-auto space-y-6 pb-20">
+    <AnimatedPage className="max-w-3xl mx-auto space-y-6 pt-8 pb-20 px-4">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center neon-glow">
@@ -89,14 +89,14 @@ export default function NotificationsPage() {
               </div>
               <div className="flex-1">
                 <div className="flex justify-between items-start mb-1">
-                  <h3 className={`font-semibold text-lg ${notification.read ? "text-foreground" : "text-white"}`}>
+                  <h3 className={`font-semibold text-lg ${notification.read ? "text-foreground" : "text-foreground dark:text-white"}`}>
                     {notification.title}
                   </h3>
                   <span className="text-xs text-muted-foreground whitespace-nowrap ml-2">
                     {notification.time}
                   </span>
                 </div>
-                <p className={`text-sm ${notification.read ? "text-muted-foreground" : "text-gray-300"}`}>
+                <p className={`text-sm ${notification.read ? "text-muted-foreground" : "text-muted-foreground dark:text-gray-300"}`}>
                   {notification.message}
                 </p>
               </div>

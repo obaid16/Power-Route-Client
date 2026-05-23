@@ -20,6 +20,7 @@ const NAV_LINKS = [
 export function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef(null);
   const { theme, setTheme } = useTheme();
@@ -163,23 +164,30 @@ export function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-20 left-0 w-full bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl border-b border-border/50 p-4 flex flex-col gap-2 shadow-xl z-40">
-          {NAV_LINKS.map(link => (
-            <Link 
-              key={link.href}
-              href={link.href} 
-              onClick={() => setIsMobileMenuOpen(false)} 
-              className={cn(
-                "px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium",
-                pathname === link.href ? "text-[#6E38F7] bg-[#6E38F7]/10" : "text-[#9AA0A6]"
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      )}
+      <div className={`md:hidden absolute top-20 left-0 w-full bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl border-b border-border/50 p-4 flex flex-col gap-2 shadow-xl z-40 transition-transform duration-300 ease-in-out transform ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
+        {NAV_LINKS.map(link => (
+          <Link 
+            key={link.href}
+            href={link.href} 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className={cn(
+              "px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium",
+              pathname === link.href ? "text-[#6E38F7] bg-[#6E38F7]/10" : "text-[#9AA0A6]"
+            )}
+          >
+            {link.label}
+          </Link>
+        ))}
+      </div>
+          {/* More button */}
+          <button onClick={() => setShowMore(!showMore)} className="px-4 py-3 text-sm text-primary hover:underline">
+            {showMore ? 'Less' : 'More'}
+          </button>
+          {/* Expandable section */}
+          <div className={`mt-2 overflow-hidden transition-max-height duration-300 ease-in-out ${showMore ? 'max-h-40' : 'max-h-0'}`}>
+            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className={cn("px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium", pathname === '/about' ? "text-[#6E38F7] bg-[#6E38F7]/10" : "text-[#9AA0A6]")}>About</Link>
+            <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className={cn("px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium", pathname === '/contact' ? "text-[#6E38F7] bg-[#6E38F7]/10" : "text-[#9AA0A6]")}>Contact</Link>
+          </div>
     </header>
   );
 }
