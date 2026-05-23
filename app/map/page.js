@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 
 // Custom Road Network & Station Paths
 const STATIONS_CONFIG = {
@@ -105,6 +106,10 @@ function getPositionOnPath(points, progress) {
 }
 
 export default function MapPage() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const isDark = !mounted || resolvedTheme === 'dark';
+
   const [stations, setStations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedStation, setSelectedStation] = useState(null);
@@ -130,6 +135,7 @@ export default function MapPage() {
 
   // Fetch stations from backend on load
   useEffect(() => {
+    setMounted(true);
     const fetchStations = async () => {
       try {
         const res = await api.get('/stations');
@@ -616,16 +622,20 @@ export default function MapPage() {
       <div className="flex-1 relative rounded-3xl overflow-hidden glass-card border border-primary/20 min-h-[400px] flex flex-col">
         {/* Floating Top Bar HUD */}
         <div className="absolute top-4 left-4 right-4 z-20 flex justify-between pointer-events-none">
-          <div className="glass-card px-4 py-2 rounded-full border border-primary/30 flex items-center gap-2 backdrop-blur-xl shadow-lg pointer-events-auto">
+          <div className="glass-card px-4 py-2 rounded-full border border-primary/30 dark:border-primary/30 flex items-center gap-2 backdrop-blur-xl shadow-lg pointer-events-auto">
             <Compass className={`h-4 w-4 text-primary ${isNavigating && !isPaused ? "animate-spin" : ""}`} style={{ animationDuration: '4s' }} />
-            <span className="text-xs font-bold uppercase tracking-widest text-white">POWEROUTE MAPS</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-foreground dark:text-white">POWEROUTE MAPS</span>
           </div>
 
           <div className="flex gap-2 pointer-events-auto">
             <Button 
               size="sm" 
               variant="outline" 
-              className={`rounded-full px-3 py-1.5 h-auto text-xs border border-white/10 ${isTrafficActive ? 'bg-orange-500/20 text-orange-400 border-orange-500/30 font-bold' : 'bg-background/80 text-muted-foreground'}`}
+              className={`rounded-full px-3 py-1.5 h-auto text-xs border ${
+                isTrafficActive 
+                  ? 'bg-orange-500/20 text-orange-400 border-orange-500/30 font-bold' 
+                  : 'bg-background/80 border-border dark:border-white/10 text-muted-foreground hover:text-foreground'
+              }`}
               onClick={() => setIsTrafficActive(!isTrafficActive)}
             >
               Traffic
@@ -633,7 +643,7 @@ export default function MapPage() {
             <Button 
               size="sm" 
               variant="outline" 
-              className="rounded-full px-3 py-1.5 h-auto text-xs bg-background/80 text-muted-foreground border border-white/10 flex items-center gap-1.5"
+              className="rounded-full px-3 py-1.5 h-auto text-xs bg-background/80 border-border dark:border-white/10 text-muted-foreground hover:text-foreground flex items-center gap-1.5"
               onClick={() => setMapMode(mapMode === 'cyberpunk' ? 'satellite' : 'cyberpunk')}
             >
               <Layers className="h-3.5 w-3.5" />
@@ -643,13 +653,17 @@ export default function MapPage() {
         </div>
 
         {/* Dynamic Canvas/SVG map */}
-        <div className="flex-1 relative w-full h-full bg-[#0B0416]">
+        <div className={`flex-1 relative w-full h-full transition-colors duration-500 ${isDark ? 'bg-[#0B0416]' : 'bg-[#FAF9FD]'}`}>
           {/* Neon grid pattern */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(168,85,247,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.06)_1px,transparent_1px)] bg-[size:40px_40px] opacity-90 transition-all duration-500" />
+          <div className={`absolute inset-0 bg-[size:40px_40px] opacity-90 transition-all duration-500 ${
+            isDark 
+              ? 'bg-[linear-gradient(rgba(168,85,247,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.06)_1px,transparent_1px)]' 
+              : 'bg-[linear-gradient(rgba(110,56,247,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(110,56,247,0.07)_1px,transparent_1px)]'
+          }`} />
           
           {/* Radar Scanning Ring for Satellite Mode */}
           {mapMode === 'satellite' && (
-            <div className="absolute inset-0 z-0 bg-[#060309] bg-opacity-40">
+            <div className={`absolute inset-0 z-0 bg-opacity-40 transition-colors duration-500 ${isDark ? 'bg-[#060309]' : 'bg-[#EAE6F8]'}`}>
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-primary/20 pointer-events-none opacity-40 animate-ping" style={{ animationDuration: '6s' }} />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full border border-primary/10 pointer-events-none opacity-65" />
             </div>
@@ -670,41 +684,41 @@ export default function MapPage() {
 
             {/* City road layout */}
             {/* Horizontal Roads */}
-            <line x1={50} y1={150} x2={750} y2={150} stroke="#1D1236" strokeWidth={10} strokeLinecap="round" />
-            <line x1={50} y1={150} x2={750} y2={150} stroke="#8b5cf6" strokeWidth={1.5} opacity={mapMode === 'cyberpunk' ? 0.35 : 0.15} />
+            <line x1={50} y1={150} x2={750} y2={150} stroke={isDark ? "#1D1236" : "#E5DFF6"} strokeWidth={10} strokeLinecap="round" />
+            <line x1={50} y1={150} x2={750} y2={150} stroke={isDark ? "#8b5cf6" : "#a855f7"} strokeWidth={1.5} opacity={mapMode === 'cyberpunk' ? (isDark ? 0.35 : 0.25) : 0.1} />
 
-            <line x1={50} y1={320} x2={750} y2={320} stroke="#1D1236" strokeWidth={10} strokeLinecap="round" />
-            <line x1={50} y1={320} x2={750} y2={320} stroke="#8b5cf6" strokeWidth={1.5} opacity={mapMode === 'cyberpunk' ? 0.35 : 0.15} />
+            <line x1={50} y1={320} x2={750} y2={320} stroke={isDark ? "#1D1236" : "#E5DFF6"} strokeWidth={10} strokeLinecap="round" />
+            <line x1={50} y1={320} x2={750} y2={320} stroke={isDark ? "#8b5cf6" : "#a855f7"} strokeWidth={1.5} opacity={mapMode === 'cyberpunk' ? (isDark ? 0.35 : 0.25) : 0.1} />
 
-            <line x1={50} y1={480} x2={750} y2={480} stroke="#1D1236" strokeWidth={10} strokeLinecap="round" />
-            <line x1={50} y1={480} x2={750} y2={480} stroke="#8b5cf6" strokeWidth={1.5} opacity={mapMode === 'cyberpunk' ? 0.35 : 0.15} />
+            <line x1={50} y1={480} x2={750} y2={480} stroke={isDark ? "#1D1236" : "#E5DFF6"} strokeWidth={10} strokeLinecap="round" />
+            <line x1={50} y1={480} x2={750} y2={480} stroke={isDark ? "#8b5cf6" : "#a855f7"} strokeWidth={1.5} opacity={mapMode === 'cyberpunk' ? (isDark ? 0.35 : 0.25) : 0.1} />
 
             {/* Vertical Roads */}
-            <line x1={120} y1={50} x2={120} y2={490} stroke="#1D1236" strokeWidth={10} strokeLinecap="round" />
-            <line x1={120} y1={50} x2={120} y2={490} stroke="#8b5cf6" strokeWidth={1.5} opacity={mapMode === 'cyberpunk' ? 0.35 : 0.15} />
+            <line x1={120} y1={50} x2={120} y2={490} stroke={isDark ? "#1D1236" : "#E5DFF6"} strokeWidth={10} strokeLinecap="round" />
+            <line x1={120} y1={50} x2={120} y2={490} stroke={isDark ? "#8b5cf6" : "#a855f7"} strokeWidth={1.5} opacity={mapMode === 'cyberpunk' ? (isDark ? 0.35 : 0.25) : 0.1} />
 
-            <line x1={480} y1={50} x2={480} y2={490} stroke="#1D1236" strokeWidth={10} strokeLinecap="round" />
-            <line x1={480} y1={50} x2={480} y2={490} stroke="#8b5cf6" strokeWidth={1.5} opacity={mapMode === 'cyberpunk' ? 0.35 : 0.15} />
+            <line x1={480} y1={50} x2={480} y2={490} stroke={isDark ? "#1D1236" : "#E5DFF6"} strokeWidth={10} strokeLinecap="round" />
+            <line x1={480} y1={50} x2={480} y2={490} stroke={isDark ? "#8b5cf6" : "#a855f7"} strokeWidth={1.5} opacity={mapMode === 'cyberpunk' ? (isDark ? 0.35 : 0.25) : 0.1} />
 
-            <line x1={700} y1={50} x2={700} y2={490} stroke="#1D1236" strokeWidth={10} strokeLinecap="round" />
-            <line x1={700} y1={50} x2={700} y2={490} stroke="#8b5cf6" strokeWidth={1.5} opacity={mapMode === 'cyberpunk' ? 0.35 : 0.15} />
+            <line x1={700} y1={50} x2={700} y2={490} stroke={isDark ? "#1D1236" : "#E5DFF6"} strokeWidth={10} strokeLinecap="round" />
+            <line x1={700} y1={50} x2={700} y2={490} stroke={isDark ? "#8b5cf6" : "#a855f7"} strokeWidth={1.5} opacity={mapMode === 'cyberpunk' ? (isDark ? 0.35 : 0.25) : 0.1} />
 
             {/* Traffic Congestion Visual Overlay */}
             {isTrafficActive && (
               <>
-                <path d="M 220,150 L 420,150" stroke="#f97316" strokeWidth={4} strokeLinecap="round" strokeDasharray="6 6" className="animate-[dash_4s_linear_infinite]" />
-                <path d="M 700,180 L 700,320" stroke="#ef4444" strokeWidth={4} strokeLinecap="round" strokeDasharray="6 6" className="animate-[dash_2s_linear_infinite]" />
+                <path d="M 220,150 L 420,150" stroke={isDark ? "#f97316" : "#ea580c"} strokeWidth={4} strokeLinecap="round" strokeDasharray="6 6" className="animate-[dash_4s_linear_infinite]" />
+                <path d="M 700,180 L 700,320" stroke={isDark ? "#ef4444" : "#dc2626"} strokeWidth={4} strokeLinecap="round" strokeDasharray="6 6" className="animate-[dash_2s_linear_infinite]" />
               </>
             )}
 
             {/* Static Waypoints/Secondary streets decoration */}
-            <path d="M 120,220 C 180,220 220,180 220,150" stroke="#130D23" strokeWidth={6} fill="none" opacity={0.6} />
+            <path d="M 120,220 C 180,220 220,180 220,150" stroke={isDark ? "#130D23" : "#ECE5FA"} strokeWidth={6} fill="none" opacity={0.6} />
 
             {/* Start Location Node (Static for Demo) */}
             <g transform="translate(120, 150)">
               <circle r={10} fill="#3b82f6" fillOpacity={0.15} className="animate-ping" style={{ animationDuration: '2s' }} />
               <circle r={5} fill="#3b82f6" />
-              <text x={12} y={4} fill="#9ca3af" fontSize="9" fontWeight="bold">MY CAR</text>
+              <text x={12} y={4} fill={isDark ? "#9ca3af" : "#6E38F7"} fontSize="9" fontWeight="bold">MY CAR</text>
             </g>
 
             {/* Active Navigation Route */}
@@ -740,7 +754,7 @@ export default function MapPage() {
                 {/* Radar pulse */}
                 <circle r={22} fill="url(#carPulse)" className="animate-pulse" />
                 {/* Car frame */}
-                <rect x={-12} y={-8} width={24} height={16} rx={4} fill="#1e1b4b" stroke="#3b82f6" strokeWidth={2} className="shadow-lg" />
+                <rect x={-12} y={-8} width={24} height={16} rx={4} fill={isDark ? "#1e1b4b" : "#ffffff"} stroke="#3b82f6" strokeWidth={2} className="shadow-lg" />
                 {/* Headlights */}
                 <polygon points="12,-4 18,-6 18,-2" fill="#60a5fa" opacity={0.8} />
                 <polygon points="12,4 18,2 18,6" fill="#60a5fa" opacity={0.8} />
@@ -777,13 +791,17 @@ export default function MapPage() {
                   <div className={`h-8 w-8 rounded-full flex items-center justify-center border shadow-lg transition-transform ${
                     isSelected ? 'scale-125 border-primary bg-primary text-white neon-glow' : 
                     isTarget ? 'border-green-400 bg-green-500 text-white' : 
-                    'bg-slate-900/90 border-white/20 text-primary-foreground hover:scale-110'
+                    isDark 
+                      ? 'bg-slate-900/90 border-white/20 text-primary-foreground hover:scale-110'
+                      : 'bg-white border-black/10 text-primary hover:scale-110 hover:border-primary/45 shadow-sm'
                   }`}>
                     {parseInt(station.power) >= 150 ? <Zap className="h-4 w-4" /> : <Battery className="h-4 w-4" />}
                   </div>
 
                   {/* Little tooltip flag */}
-                  <div className="absolute top-10 left-1/2 -translate-x-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-slate-950/90 border border-white/10 px-2 py-1 rounded text-[10px] text-white whitespace-nowrap font-medium z-30">
+                  <div className={`absolute top-10 left-1/2 -translate-x-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1 rounded text-[10px] whitespace-nowrap font-medium z-30 border ${
+                    isDark ? 'bg-slate-950/90 border-white/10 text-white' : 'bg-white border-black/10 text-slate-800 shadow-sm'
+                  }`}>
                     {station.name} ({station.power})
                   </div>
                 </div>

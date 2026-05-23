@@ -109,9 +109,9 @@ export function Navbar() {
               <div className="relative flex items-center h-full ml-2" ref={profileRef}>
                 <button 
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="w-10 h-10 rounded-full border border-white/10 overflow-hidden cursor-pointer"
+                  className="w-10 h-10 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 flex items-center justify-center cursor-pointer transition-colors text-muted-foreground hover:text-foreground dark:hover:text-white"
                 >
-                  <img src="https://i.pravatar.cc/150?img=32" alt="Profile" className="w-full h-full object-cover" />
+                  <User className="h-5 w-5" />
                 </button>
                 
                 <div className={`absolute right-0 top-[70px] w-48 rounded-xl border border-border/50 bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl shadow-xl transition-all duration-300 transform origin-top-right z-50 ${isProfileOpen ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-95"}`}>
