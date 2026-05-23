@@ -47,9 +47,12 @@ export function Navbar() {
             <Menu className="h-5 w-5" />
           </Button>
           <Link href="/" className="flex items-center gap-3 group" onClick={() => setIsMobileMenuOpen(false)}>
-            <div className="w-[72px] h-[72px] flex items-center justify-center overflow-hidden rounded-[1.25rem] shadow-[0_0_20px_rgba(110,56,247,0.3)] border border-primary/20 bg-black transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_25px_rgba(110,56,247,0.5)]">
-              <img src="/logo.jpeg" alt="PoweRoute Logo" className="w-full h-full object-contain" />
+            <div className="w-12 h-12 flex items-center justify-center overflow-hidden rounded-xl shadow-[0_0_15px_rgba(110,56,247,0.3)] border border-primary/20 bg-black transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(110,56,247,0.5)]">
+              <img src="/logo.jpeg" alt="PoweRoute Logo" className="w-full h-full object-contain p-0.5" />
             </div>
+            <span className="text-xl font-bold tracking-wider transition-colors duration-300 group-hover:text-primary">
+              POWEROUTE
+            </span>
           </Link>
         </div>
 
