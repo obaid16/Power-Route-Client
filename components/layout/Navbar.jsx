@@ -85,13 +85,13 @@ export function Navbar() {
           {mounted && isInitialized && user ? (
             <>
               {/* Notifications */}
-              <Link href="/notifications" className="relative flex items-center h-full">
-                <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground hover:text-foreground dark:text-[#9AA0A6] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5">
+              <Link href="/notifications" className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 dark:hover:bg-white/5 text-muted-foreground hover:text-foreground dark:text-[#9AA0A6] dark:hover:text-white transition-colors">
+                <div className="relative flex items-center justify-center">
                   <Bell className="h-5 w-5" />
-                </Button>
-                <span className="absolute top-4 right-1 w-4 h-4 bg-[#6E38F7] text-[9px] font-bold text-white flex items-center justify-center rounded-full border-2 border-background">
-                  3
-                </span>
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-[10px] font-bold text-white flex items-center justify-center rounded-full border-2 border-background leading-none">
+                    3
+                  </span>
+                </div>
               </Link>
 
               {/* Theme Toggle */}
