@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Route, Zap, Wallet, Clock, Wrench, Settings, ChevronRight, Battery } from "lucide-react";
+import { MapPin, Route, Zap, Wallet, Clock, Wrench, Settings, ChevronRight, Battery, Truck, Phone } from "lucide-react";
 import Link from "next/link";
 
 export default function VanPage() {
@@ -23,17 +23,8 @@ export default function VanPage() {
             </div>
 
             {/* Van Image Placeholder */}
-            <div className="relative w-full h-[300px] lg:h-[380px] bg-gradient-to-r from-[#2e1065] to-[#1e1b4b] dark:from-[#3b0764] dark:to-[#0f172a] rounded-[20px] overflow-hidden mb-8 flex items-center justify-center shadow-[inset_0_0_50px_rgba(0,0,0,0.5)]">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#a855f7]/40 via-transparent to-transparent"></div>
-              <div className="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-[#6E38F7]/30 to-transparent blur-2xl"></div>
-              
-              {/* Simulated Van Image Layer */}
-              <div className="relative z-10 w-[80%] h-[80%] flex items-center justify-center">
-                {/* Generic Van SVG */}
-                <svg className="w-full h-full max-w-[300px] text-white/90 drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 8h-4V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h1v2a1 1 0 1 0 2 0v-2h8v2a1 1 0 1 0 2 0v-2h1a1 1 0 0 0 1-1v-5.68l-3.37-2.25A1 1 0 0 0 19 8zM6 18a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm12 0a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-4H4V6h9v6h2.29l2.71 1.81V14z"/>
-                </svg>
-              </div>
+            <div className="relative w-full h-[300px] lg:h-[380px] bg-gradient-to-r from-[#2e1065] to-[#1e1b4b] dark:from-[#3b0764] dark:to-[#0f172a] rounded-[20px] overflow-hidden mb-8 flex items-center justify-center shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] border border-primary/20">
+              <img src="/van_image.png" alt="PoweRoute Van" className="w-full h-full object-cover opacity-90 mix-blend-screen" />
             </div>
 
             {/* Battery & Range Info */}
@@ -145,6 +136,25 @@ export default function VanPage() {
               <ChevronRight className="w-5 h-5 text-[#6B7280] dark:text-[#9AA0A6] group-hover:text-[#6E38F7] transition-colors" />
             </Link>
 
+          </div>
+        </div>
+
+        {/* Towing Services Section */}
+        <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 dark:from-red-500/5 dark:to-orange-500/5 rounded-[24px] p-6 lg:p-8 border border-red-500/20">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center shrink-0">
+                <Truck className="w-8 h-8 text-red-500" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-foreground dark:text-white mb-1">Emergency Towing Services</h2>
+                <p className="text-[#6B7280] dark:text-[#9AA0A6] text-sm max-w-md">Stranded or out of charge? Contact our 24/7 verified EV towing partners for immediate assistance.</p>
+              </div>
+            </div>
+            <button className="w-full md:w-auto flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(239,68,68,0.3)] shrink-0" onClick={() => alert('Calling Emergency Towing Services: 1-800-EV-RESCUE')}>
+              <Phone className="w-5 h-5" />
+              Call Tow Truck Now
+            </button>
           </div>
         </div>
 

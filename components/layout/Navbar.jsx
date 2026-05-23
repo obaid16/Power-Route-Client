@@ -38,7 +38,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-white/5">
+    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5">
       <div className="container flex h-20 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
         
         {/* Logo Section */}
@@ -47,8 +47,8 @@ export function Navbar() {
             <Menu className="h-5 w-5" />
           </Button>
           <Link href="/" className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
-            <div className="w-8 h-8 rounded-full bg-[#6E38F7] flex items-center justify-center shadow-[0_0_15px_rgba(110,56,247,0.5)]">
-              <Zap className="h-4 w-4 text-white fill-white" />
+            <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden border border-primary/20 shadow-[0_0_15px_rgba(110,56,247,0.3)] bg-white dark:bg-black">
+              <img src="/logo.png" alt="PoweRoute Logo" className="w-full h-full object-cover" />
             </div>
             <span className="text-xl font-bold tracking-wider">
               POWEROUTE
@@ -66,8 +66,8 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "relative flex items-center h-full text-sm font-medium transition-colors hover:text-white",
-                    isActive ? "text-white" : "text-[#9AA0A6]"
+                    "relative flex items-center h-full text-sm font-medium transition-colors hover:text-foreground dark:hover:text-white",
+                    isActive ? "text-foreground dark:text-white" : "text-muted-foreground dark:text-[#9AA0A6]"
                   )}
                 >
                   {link.label}
@@ -86,7 +86,7 @@ export function Navbar() {
             <>
               {/* Notifications */}
               <Link href="/notifications" className="relative flex items-center h-full">
-                <Button variant="ghost" size="icon" className="rounded-full text-[#9AA0A6] hover:text-white hover:bg-white/5">
+                <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground hover:text-foreground dark:text-[#9AA0A6] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5">
                   <Bell className="h-5 w-5" />
                 </Button>
                 <span className="absolute top-4 right-1 w-4 h-4 bg-[#6E38F7] text-[9px] font-bold text-white flex items-center justify-center rounded-full border-2 border-background">
@@ -99,7 +99,7 @@ export function Navbar() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="rounded-full text-[#9AA0A6] hover:text-white hover:bg-white/5"
+                className="rounded-full text-muted-foreground hover:text-foreground dark:text-[#9AA0A6] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
               >
                 <span className="sr-only">Toggle theme</span>
                 {mounted ? (theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />) : <Moon className="h-5 w-5" />}
@@ -114,12 +114,12 @@ export function Navbar() {
                   <img src="https://i.pravatar.cc/150?img=32" alt="Profile" className="w-full h-full object-cover" />
                 </button>
                 
-                <div className={`absolute right-0 top-[70px] w-48 rounded-xl border border-white/10 bg-[#06020E]/95 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] transition-all duration-300 transform origin-top-right z-50 ${isProfileOpen ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-95"}`}>
+                <div className={`absolute right-0 top-[70px] w-48 rounded-xl border border-border/50 bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl shadow-xl transition-all duration-300 transform origin-top-right z-50 ${isProfileOpen ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-95"}`}>
                   <div className="p-2 space-y-1">
-                    <Link href="/profile" onClick={() => setIsProfileOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-white hover:bg-white/5 rounded-lg transition-colors">
+                    <Link href="/profile" onClick={() => setIsProfileOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted/50 rounded-lg transition-colors">
                       <User className="h-4 w-4" /> Profile
                     </Link>
-                    <div className="h-px bg-white/10 my-1 mx-2" />
+                    <div className="h-px bg-border/50 my-1 mx-2" />
                     <button 
                       onClick={() => {
                         setIsProfileOpen(false);
@@ -164,7 +164,7 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-20 left-0 w-full bg-[#06020E]/95 backdrop-blur-xl border-b border-white/5 p-4 flex flex-col gap-2 shadow-[0_10px_40px_rgb(0,0,0,0.5)] z-40">
+        <div className="md:hidden absolute top-20 left-0 w-full bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl border-b border-border/50 p-4 flex flex-col gap-2 shadow-xl z-40">
           {NAV_LINKS.map(link => (
             <Link 
               key={link.href}

@@ -13,25 +13,25 @@ export function Dashboard() {
       <div className="max-w-[1400px] mx-auto p-4 md:p-8 space-y-8">
         
         {/* Hero Section */}
-        <div className="relative w-full rounded-[32px] overflow-hidden bg-[#0a0518] border border-white/5 shadow-xl flex flex-col md:flex-row items-center p-8 md:p-16 min-h-[400px]">
+        <div className="relative w-full rounded-[32px] overflow-hidden bg-white dark:bg-[#0a0518] border border-black/5 dark:border-white/5 shadow-xl flex flex-col md:flex-row items-center p-8 md:p-16 min-h-[400px]">
           {/* Background effects */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-[#6E38F7]/20 via-[#0a0518] to-[#0a0518]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-[#6E38F7]/10 via-white to-white dark:from-[#6E38F7]/20 dark:via-[#0a0518] dark:to-[#0a0518]"></div>
           
           {/* Left Content */}
           <div className="relative z-10 md:w-1/2 space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-foreground dark:text-white">
               Powering Every<br/>Journey, <span className="text-[#A87BFF]">Safely.</span>
             </h1>
             <p className="text-[#9AA0A6] text-lg max-w-md">
               Smart EV management with real-time insights, safety protection, and intelligent control.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
-              <button className="flex items-center gap-2 bg-[#6E38F7] hover:bg-[#5a2ce0] text-white px-6 py-3 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(110,56,247,0.4)]">
+              <Link href="/profile" className="flex items-center gap-2 bg-[#6E38F7] hover:bg-[#5a2ce0] text-white px-6 py-3 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(110,56,247,0.4)]">
                 <CarFront className="w-5 h-5" /> My Vehicles
-              </button>
-              <button className="flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 px-6 py-3 rounded-xl font-medium transition-all">
+              </Link>
+              <Link href="/map" className="flex items-center gap-2 bg-black/5 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/10 text-foreground dark:text-white border border-black/10 dark:border-white/10 px-6 py-3 rounded-xl font-medium transition-all">
                 <MapPin className="w-5 h-5" /> Live Map
-              </button>
+              </Link>
             </div>
             <div className="flex items-center gap-6 pt-8 text-sm text-[#9AA0A6]">
               <div className="flex items-center gap-2">
@@ -269,10 +269,10 @@ export function Dashboard() {
           {/* Eco Driving Tips */}
           <div>
             <h2 className="text-lg font-bold mb-4 px-2">Eco Driving Tips</h2>
-            <div className="h-[300px] rounded-[24px] bg-gradient-to-br from-[#1C1238] to-[#0A0518] border border-[#2D1B54] p-8 flex items-center relative overflow-hidden group">
-              <div className="absolute right-0 top-0 w-1/2 h-full opacity-30 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#6E38F7] to-transparent mix-blend-screen"></div>
+            <div className="h-[300px] rounded-[24px] bg-gradient-to-br from-white to-[#F4F2FA] dark:from-[#1C1238] dark:to-[#0A0518] border border-black/5 dark:border-[#2D1B54] p-8 flex items-center relative overflow-hidden group">
+              <div className="absolute right-0 top-0 w-1/2 h-full opacity-30 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#6E38F7] to-transparent mix-blend-multiply dark:mix-blend-screen"></div>
               <div className="w-1/2 z-10">
-                <h3 className="text-2xl font-bold text-white mb-4">Maintain a <span className="text-[#A87BFF]">steady speed</span></h3>
+                <h3 className="text-2xl font-bold text-foreground dark:text-white mb-4">Maintain a <span className="text-[#6E38F7] dark:text-[#A87BFF]">steady speed</span></h3>
                 <p className="text-sm text-[#9AA0A6] leading-relaxed">
                   Driving at a constant speed can increase your range up to 15%.
                 </p>
@@ -326,27 +326,27 @@ export function Dashboard() {
         </div>
 
         {/* App Banner */}
-        <div className="relative w-full rounded-[24px] bg-gradient-to-r from-[#170B3B] to-[#0A0518] border border-[#2D1B54] p-8 md:p-12 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 mt-12">
-          <div className="absolute right-0 top-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#6E38F7]/30 to-transparent"></div>
+        <div className="relative w-full rounded-[24px] bg-gradient-to-r from-[#F3E8FF] to-white dark:from-[#170B3B] dark:to-[#0A0518] border border-[#E5E0F1] dark:border-[#2D1B54] p-8 md:p-12 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 mt-12">
+          <div className="absolute right-0 top-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#6E38F7]/10 dark:from-[#6E38F7]/30 to-transparent"></div>
           
           <div className="flex items-center gap-8 z-10">
             {/* Phone Mockup Placeholder */}
-            <div className="hidden md:block w-32 h-64 bg-[#06020E] rounded-3xl border-4 border-[#2D1B54] shadow-[0_0_30px_rgba(110,56,247,0.3)] relative overflow-hidden">
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 bg-[#2D1B54] rounded-full"></div>
+            <div className="hidden md:block w-32 h-64 bg-white dark:bg-[#06020E] rounded-3xl border-4 border-[#E5E0F1] dark:border-[#2D1B54] shadow-[0_0_30px_rgba(110,56,247,0.1)] dark:shadow-[0_0_30px_rgba(110,56,247,0.3)] relative overflow-hidden">
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 bg-[#E5E0F1] dark:bg-[#2D1B54] rounded-full"></div>
               <div className="mt-8 p-3 space-y-2">
-                <div className="h-4 w-1/2 bg-[#2D1B54] rounded-sm"></div>
-                <div className="h-24 w-full bg-[#6E38F7]/20 border border-[#6E38F7]/50 rounded-lg"></div>
+                <div className="h-4 w-1/2 bg-[#E5E0F1] dark:bg-[#2D1B54] rounded-sm"></div>
+                <div className="h-24 w-full bg-[#6E38F7]/10 dark:bg-[#6E38F7]/20 border border-[#6E38F7]/30 dark:border-[#6E38F7]/50 rounded-lg"></div>
               </div>
             </div>
             
             <div>
-              <h2 className="text-3xl font-bold text-white mb-2">Take <span className="text-[#A87BFF]">PoweRoute</span><br/>Anywhere You Go</h2>
-              <p className="text-sm text-[#9AA0A6] mb-6 max-w-xs">Download our mobile app for full control of your EV on the go.</p>
+              <h2 className="text-3xl font-bold text-foreground dark:text-white mb-2">Take <span className="text-[#6E38F7] dark:text-[#A87BFF]">PoweRoute</span><br/>Anywhere You Go</h2>
+              <p className="text-sm text-[#6B7280] dark:text-[#9AA0A6] mb-6 max-w-xs">Download our mobile app for full control of your EV on the go.</p>
               <div className="flex flex-wrap gap-3">
-                <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-4 py-2 rounded-lg transition-colors">
+                <button className="flex items-center gap-2 bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/20 border border-black/10 dark:border-white/20 text-foreground dark:text-white px-4 py-2 rounded-lg transition-colors">
                   <Smartphone className="w-5 h-5" /> App Store
                 </button>
-                <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-4 py-2 rounded-lg transition-colors">
+                <button className="flex items-center gap-2 bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/20 border border-black/10 dark:border-white/20 text-foreground dark:text-white px-4 py-2 rounded-lg transition-colors">
                   <Smartphone className="w-5 h-5" /> Google Play
                 </button>
               </div>

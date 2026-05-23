@@ -37,9 +37,9 @@ export function LandingPage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 w-full justify-center mt-8">
-              <Link href="/map" className="w-full sm:w-auto">
+              <Link href="/login" className="w-full sm:w-auto">
                 <Button size="lg" className="w-full sm:w-auto bg-primary text-white hover:bg-primary/90 neon-glow rounded-full text-lg h-14 px-8">
-                  Find Chargers Near Me <MapPin className="ml-2 h-5 w-5" />
+                  Login or Sign In <Zap className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Link href="/signup" className="w-full sm:w-auto">
