@@ -128,7 +128,7 @@ export function AIAssistant() {
                   <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-background rounded-full"></div>
                 </div>
                 <div>
-                  <h3 className="font-bold text-foreground">Aura Assistant</h3>
+                  <h3 className="font-bold text-foreground">Power AI</h3>
                   <p className="text-xs text-primary font-medium flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span> Online
                   </p>

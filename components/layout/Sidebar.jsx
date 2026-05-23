@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MapPin, CalendarCheck, ShieldAlert, Navigation, Settings, LayoutDashboard } from "lucide-react";
+import { MapPin, CalendarCheck, ShieldAlert, Navigation, Settings, LayoutDashboard, Shield, Truck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const routes = [
@@ -10,6 +10,8 @@ const routes = [
   { href: "/map", label: "Find Charger", icon: MapPin },
   { href: "/booking", label: "My Bookings", icon: CalendarCheck },
   { href: "/safety", label: "Safety Center", icon: ShieldAlert },
+  { href: "/women-safety", label: "Women Safety", icon: Shield },
+  { href: "/van", label: "My Van", icon: Truck },
   { href: "/tracking", label: "Live Tracking", icon: Navigation },
   { href: "/settings", label: "Settings", icon: Settings },
 ];

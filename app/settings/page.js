@@ -122,7 +122,7 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="font-medium text-foreground">Wake Word</h3>
-                      <p className="text-sm text-muted-foreground">Say "Hey Aura" to activate voice commands.</p>
+                      <p className="text-sm text-muted-foreground">Say "Hey Power AI" to activate voice commands.</p>
                     </div>
                     <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-white/10 transition-colors focus:outline-none cursor-pointer">
                       <span className="inline-block h-4 w-4 translate-x-1 rounded-full bg-white transition-transform" />

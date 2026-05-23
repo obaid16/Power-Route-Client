@@ -2,9 +2,20 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Zap, Menu, Bell, User } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Zap, Menu, Bell, User, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
+import useAuthStore from "@/store/useAuthStore";
+import { cn } from "@/lib/utils";
+
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/map", label: "Map" },
+  { href: "/van", label: "Vehicles" },
+  { href: "/safety", label: "Safety" },
+  { href: "/women-safety", label: "SOS" },
+];
 
 export function Navbar() {
   const [mounted, setMounted] = useState(false);
@@ -12,11 +23,11 @@ export function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef(null);
   const { theme, setTheme } = useTheme();
+  const pathname = usePathname();
+  const { user, logout, isInitialized } = useAuthStore();
 
-  // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
     setMounted(true);
-    
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
         setIsProfileOpen(false);
@@ -27,99 +38,146 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 glass-card">
-      <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-        <div className="flex items-center gap-2">
+    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-white/5">
+      <div className="container flex h-20 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
+        
+        {/* Logo Section */}
+        <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            <Menu className="h-5 w-5 text-primary" />
+            <Menu className="h-5 w-5" />
           </Button>
-          <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-            <Zap className="h-6 w-6 text-primary neon-glow rounded-full" />
-            <span className="text-xl font-bold tracking-tighter neon-text">
-              PoweRoute
+          <Link href="/" className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
+            <div className="w-8 h-8 rounded-full bg-[#6E38F7] flex items-center justify-center shadow-[0_0_15px_rgba(110,56,247,0.5)]">
+              <Zap className="h-4 w-4 text-white fill-white" />
+            </div>
+            <span className="text-xl font-bold tracking-wider">
+              POWEROUTE
             </span>
           </Link>
         </div>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-          <Link href="/map" className="transition-colors hover:text-primary">
-            Find Charger
-          </Link>
-          <Link href="/booking" className="transition-colors hover:text-primary">
-            Bookings
-          </Link>
-          <Link href="/safety" className="transition-colors hover:text-primary">
-            Safety
-          </Link>
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="rounded-full"
-          >
-            <span className="sr-only">Toggle theme</span>
-            {mounted ? (theme === "dark" ? "🌞" : "🌙") : "🌙"}
-          </Button>
-          <Link href="/notifications">
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Bell className="h-5 w-5" />
-            </Button>
-          </Link>
-          <div className="relative" ref={profileRef}>
-            <Button variant="outline" size="icon" className="rounded-full border-primary/50" onClick={() => setIsProfileOpen(!isProfileOpen)}>
-              <User className="h-5 w-5 text-primary" />
-            </Button>
-            
-            {/* Modern Glassmorphism Dropdown */}
-            <div className={`absolute right-0 mt-2 w-48 rounded-xl border border-white/10 glass-card bg-background/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] transition-all duration-300 transform origin-top-right z-50 ${isProfileOpen ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-95"}`}>
-              <div className="p-2 space-y-1">
-                <Link href="/profile" onClick={() => setIsProfileOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-white/5 rounded-lg transition-colors">
-                  <User className="h-4 w-4" /> Profile
-                </Link>
-                <div className="h-px bg-white/10 my-1 mx-2" />
-                <button 
-                  onClick={() => {
-                    setIsProfileOpen(false);
-                    import("@/store/useAuthStore").then(module => {
-                      module.default.getState().logout();
-                      window.location.href = '/login';
-                    });
-                  }}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
+        {/* Center Navigation Links (Only shown if logged in) */}
+        {mounted && isInitialized && user && (
+          <nav className="hidden md:flex items-center gap-8 h-full">
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "relative flex items-center h-full text-sm font-medium transition-colors hover:text-white",
+                    isActive ? "text-white" : "text-[#9AA0A6]"
+                  )}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-                  Sign Out
+                  {link.label}
+                  {isActive && (
+                    <div className="absolute bottom-0 left-0 right-0 h-1 rounded-t-full bg-[#6E38F7] shadow-[0_-2px_10px_rgba(110,56,247,0.5)]" />
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+        )}
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-4 h-full">
+          {mounted && isInitialized && user ? (
+            <>
+              {/* Notifications */}
+              <Link href="/notifications" className="relative flex items-center h-full">
+                <Button variant="ghost" size="icon" className="rounded-full text-[#9AA0A6] hover:text-white hover:bg-white/5">
+                  <Bell className="h-5 w-5" />
+                </Button>
+                <span className="absolute top-4 right-1 w-4 h-4 bg-[#6E38F7] text-[9px] font-bold text-white flex items-center justify-center rounded-full border-2 border-background">
+                  3
+                </span>
+              </Link>
+
+              {/* Theme Toggle */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="rounded-full text-[#9AA0A6] hover:text-white hover:bg-white/5"
+              >
+                <span className="sr-only">Toggle theme</span>
+                {mounted ? (theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />) : <Moon className="h-5 w-5" />}
+              </Button>
+
+              {/* Profile Dropdown */}
+              <div className="relative flex items-center h-full ml-2" ref={profileRef}>
+                <button 
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="w-10 h-10 rounded-full border border-white/10 overflow-hidden cursor-pointer"
+                >
+                  <img src="https://i.pravatar.cc/150?img=32" alt="Profile" className="w-full h-full object-cover" />
                 </button>
+                
+                <div className={`absolute right-0 top-[70px] w-48 rounded-xl border border-white/10 bg-[#06020E]/95 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] transition-all duration-300 transform origin-top-right z-50 ${isProfileOpen ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-95"}`}>
+                  <div className="p-2 space-y-1">
+                    <Link href="/profile" onClick={() => setIsProfileOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-white hover:bg-white/5 rounded-lg transition-colors">
+                      <User className="h-4 w-4" /> Profile
+                    </Link>
+                    <div className="h-px bg-white/10 my-1 mx-2" />
+                    <button 
+                      onClick={() => {
+                        setIsProfileOpen(false);
+                        logout();
+                        window.location.href = '/login';
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-sm text-destructive hover:bg-destructive/10 rounded-lg transition-colors cursor-pointer"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                      Sign Out
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </>
+          ) : (
+            mounted && isInitialized && !user && (
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  className="rounded-full text-[#9AA0A6] hover:text-white hover:bg-white/5"
+                >
+                  {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                </Button>
+                <Link href="/login">
+                  <Button variant="ghost" className="hidden sm:inline-flex rounded-full text-[#9AA0A6] hover:text-white hover:bg-white/5 cursor-pointer">
+                    Log in
+                  </Button>
+                </Link>
+                <Link href="/signup">
+                  <Button className="rounded-full bg-[#6E38F7] hover:bg-[#5a2ce0] text-white px-6 cursor-pointer shadow-[0_0_15px_rgba(110,56,247,0.4)]">
+                    Sign up
+                  </Button>
+                </Link>
+              </div>
+            )
+          )}
         </div>
       </div>
-      {/* Mobile Menu Overlay */}
+
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-16 left-0 w-full bg-background/95 backdrop-blur-xl border-b border-border/40 p-4 flex flex-col gap-2 shadow-[0_10px_40px_rgb(0,0,0,0.5)] z-40">
-          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium">
-            Dashboard
-          </Link>
-          <Link href="/map" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium">
-            Find Charger
-          </Link>
-          <Link href="/booking" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium">
-            My Bookings
-          </Link>
-          <Link href="/safety" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium">
-            Safety Center
-          </Link>
-          <Link href="/tracking" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium">
-            Live Tracking
-          </Link>
-          <div className="h-px bg-white/10 my-2 mx-2" />
-          <Link href="/settings" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium">
-            Settings
-          </Link>
+        <div className="md:hidden absolute top-20 left-0 w-full bg-[#06020E]/95 backdrop-blur-xl border-b border-white/5 p-4 flex flex-col gap-2 shadow-[0_10px_40px_rgb(0,0,0,0.5)] z-40">
+          {NAV_LINKS.map(link => (
+            <Link 
+              key={link.href}
+              href={link.href} 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className={cn(
+                "px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium",
+                pathname === link.href ? "text-[#6E38F7] bg-[#6E38F7]/10" : "text-[#9AA0A6]"
+              )}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
       )}
     </header>

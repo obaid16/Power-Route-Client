@@ -3,6 +3,7 @@
 import { AnimatedPage } from "@/components/layout/AnimatedPage";
 import { Button } from "@/components/ui/button";
 import { ShieldAlert, PhoneCall, MapPin, Video, Info, Lock } from "lucide-react";
+import Link from "next/link";
 
 export default function SafetyCenter() {
   return (
@@ -45,12 +46,13 @@ export default function SafetyCenter() {
           <p className="text-sm text-muted-foreground mb-4">
             Activate enhanced security protocols. Station lights will turn to maximum brightness, camera feeds are monitored live, and security personnel are placed on standby.
           </p>
-          <Button 
-            onClick={() => alert("🛡️ Women's Safety Mode Activated! Station lights maxed, security on standby.")}
-            className="w-full bg-pink-600/20 text-pink-400 hover:bg-pink-600/30 border border-pink-500/30 rounded-xl"
-          >
-            Activate Safe Mode
-          </Button>
+          <Link href="/women-safety" className="w-full">
+            <Button 
+              className="w-full bg-pink-600/20 text-pink-400 hover:bg-pink-600/30 border border-pink-500/30 rounded-xl"
+            >
+              Activate Safe Mode
+            </Button>
+          </Link>
         </div>
 
         {/* Live Station Monitoring */}
@@ -97,13 +99,14 @@ export default function SafetyCenter() {
           <p className="text-sm text-muted-foreground mb-4">
             Stranded with zero battery? Request our emergency mobile EV charging van to come to your location and provide enough charge to reach the nearest station.
           </p>
-          <Button 
-            onClick={() => alert("🚐 Dispatching emergency mobile charging van to your current GPS location...")}
-            variant="outline" 
-            className="w-full border-white/10 hover:bg-white/5 rounded-xl"
-          >
-            Request Van
-          </Button>
+          <Link href="/van" className="w-full">
+            <Button 
+              variant="outline" 
+              className="w-full border-white/10 hover:bg-white/5 rounded-xl"
+            >
+              Request Van
+            </Button>
+          </Link>
         </div>
       </div>
     </AnimatedPage>

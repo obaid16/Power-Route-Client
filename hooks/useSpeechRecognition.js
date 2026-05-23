@@ -29,11 +29,11 @@ export function useSpeechRecognition() {
           const lowerTranscript = currentTranscript.toLowerCase();
           
           // Wake Word Detection
-          if (lowerTranscript.includes("aura") || lowerTranscript.includes("hey aura")) {
+          if (lowerTranscript.includes("power ai") || lowerTranscript.includes("hey power ai")) {
             window.dispatchEvent(new CustomEvent('open-ai-assistant'));
             
             // Extract the command after the wake word if any
-            const command = lowerTranscript.split(/aura|hey aura/)[1]?.trim();
+            const command = lowerTranscript.split(/power ai|hey power ai/)[1]?.trim();
             if (command) {
               setTranscript(command);
             } else {
