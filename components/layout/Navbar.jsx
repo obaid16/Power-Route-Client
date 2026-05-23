@@ -20,7 +20,6 @@ const NAV_LINKS = [
 export function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [showMore, setShowMore] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef(null);
   const { theme, setTheme } = useTheme();
@@ -48,8 +47,8 @@ export function Navbar() {
             <Menu className="h-5 w-5" />
           </Button>
           <Link href="/" className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
-            <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden border border-primary/20 shadow-[0_0_15px_rgba(110,56,247,0.3)] bg-white dark:bg-black">
-              <img src="/logo.png" alt="PoweRoute Logo" className="w-full h-full object-cover" />
+            <div className="w-12 h-12 flex items-center justify-center overflow-hidden drop-shadow-[0_0_15px_rgba(110,56,247,0.3)]">
+              <img src="/logo.png" alt="PoweRoute Logo" className="w-full h-full object-contain" />
             </div>
             <span className="text-xl font-bold tracking-wider">
               POWEROUTE
@@ -179,15 +178,7 @@ export function Navbar() {
           </Link>
         ))}
       </div>
-          {/* More button */}
-          <button onClick={() => setShowMore(!showMore)} className="px-4 py-3 text-sm text-primary hover:underline">
-            {showMore ? 'Less' : 'More'}
-          </button>
-          {/* Expandable section */}
-          <div className={`mt-2 overflow-hidden transition-max-height duration-300 ease-in-out ${showMore ? 'max-h-40' : 'max-h-0'}`}>
-            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className={cn("px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium", pathname === '/about' ? "text-[#6E38F7] bg-[#6E38F7]/10" : "text-[#9AA0A6]")}>About</Link>
-            <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className={cn("px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium", pathname === '/contact' ? "text-[#6E38F7] bg-[#6E38F7]/10" : "text-[#9AA0A6]")}>Contact</Link>
-          </div>
+
     </header>
   );
 }
