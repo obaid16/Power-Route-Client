@@ -45,7 +45,7 @@ export default function Signup() {
         const res = await api.post('/auth/google', { token: tokenResponse.access_token });
         if (res.data.success) {
           useAuthStore.getState().setToken(res.data.token, res.data.user);
-          router.push('/map');
+          router.push('/')
         }
       } catch (err) {
         useAuthStore.setState({ error: `Backend Error: ${err.response?.data?.error || err.message}` });
