@@ -12,9 +12,9 @@ import { cn } from "@/lib/utils";
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/map", label: "Map" },
-  { href: "/van", label: "Vehicles" },
+  { href: "/van", label: "Van" },
   { href: "/safety", label: "Safety" },
-  { href: "/women-safety", label: "SOS" },
+  { href: "/women-safety", label: "Women Safety" },
 ];
 
 export function Navbar() {

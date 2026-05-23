@@ -2,7 +2,7 @@
 
 import { AnimatedPage } from "@/components/layout/AnimatedPage";
 import { Button } from "@/components/ui/button";
-import { ShieldAlert, PhoneCall, MapPin, Video, Info, Lock } from "lucide-react";
+import { ShieldAlert, PhoneCall, MapPin, Video, Info, Lock, Flame, Ambulance, Siren, Phone } from "lucide-react";
 import Link from "next/link";
 
 export default function SafetyCenter() {
@@ -55,23 +55,7 @@ export default function SafetyCenter() {
           </Link>
         </div>
 
-        {/* Live Station Monitoring */}
-        <div className="glass-card rounded-3xl p-6 border border-primary/20 hover:border-primary/40 transition-all">
-          <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mb-4">
-            <Video className="h-6 w-6 text-primary" />
-          </div>
-          <h3 className="text-xl font-bold text-primary mb-2">Live Station Feed</h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            Check the live camera feed of any charging station before you arrive. Ensure the environment is well-lit and safe before proceeding.
-          </p>
-          <Button 
-            onClick={() => alert("📹 Loading live camera feeds... (Demo Mode)")}
-            variant="outline" 
-            className="w-full border-primary/30 text-primary rounded-xl"
-          >
-            View Cameras <Video className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
+
 
         {/* Share Location */}
         <div className="glass-card rounded-3xl p-6 border border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40 transition-all">
@@ -107,6 +91,66 @@ export default function SafetyCenter() {
               Request Van
             </Button>
           </Link>
+        </div>
+      </div>
+
+      {/* Emergency Contacts Section */}
+      <div className="mt-10">
+        <h2 className="text-2xl font-bold text-foreground dark:text-white mb-6">Emergency Contacts</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <div className="glass-card rounded-2xl p-5 border border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40 transition-all text-center flex flex-col items-center">
+            <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-3">
+              <Siren className="h-6 w-6 text-blue-500" />
+            </div>
+            <h4 className="font-bold mb-1">Police</h4>
+            <p className="text-xs text-muted-foreground mb-3">Law Enforcement</p>
+            <a href="tel:100" className="w-full">
+              <Button className="w-full bg-blue-600/20 text-blue-500 hover:bg-blue-600/30 border border-blue-500/30 rounded-xl">
+                Dial 100
+              </Button>
+            </a>
+          </div>
+
+          <div className="glass-card rounded-2xl p-5 border border-red-500/20 bg-red-500/5 hover:border-red-500/40 transition-all text-center flex flex-col items-center">
+            <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center mb-3">
+              <Ambulance className="h-6 w-6 text-red-500" />
+            </div>
+            <h4 className="font-bold mb-1">Hospital / Ambulance</h4>
+            <p className="text-xs text-muted-foreground mb-3">Medical Emergency</p>
+            <a href="tel:102" className="w-full">
+              <Button className="w-full bg-red-600/20 text-red-500 hover:bg-red-600/30 border border-red-500/30 rounded-xl">
+                Dial 102
+              </Button>
+            </a>
+          </div>
+
+          <div className="glass-card rounded-2xl p-5 border border-orange-500/20 bg-orange-500/5 hover:border-orange-500/40 transition-all text-center flex flex-col items-center">
+            <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center mb-3">
+              <Flame className="h-6 w-6 text-orange-500" />
+            </div>
+            <h4 className="font-bold mb-1">Fire Brigade</h4>
+            <p className="text-xs text-muted-foreground mb-3">Fire Emergency</p>
+            <a href="tel:101" className="w-full">
+              <Button className="w-full bg-orange-600/20 text-orange-500 hover:bg-orange-600/30 border border-orange-500/30 rounded-xl">
+                Dial 101
+              </Button>
+            </a>
+          </div>
+
+          <div className="glass-card rounded-2xl p-5 border border-primary/20 bg-primary/5 hover:border-primary/40 transition-all text-center flex flex-col items-center">
+            <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mb-3">
+              <Phone className="h-6 w-6 text-primary" />
+            </div>
+            <h4 className="font-bold mb-1">National Emergency</h4>
+            <p className="text-xs text-muted-foreground mb-3">All Emergencies</p>
+            <a href="tel:112" className="w-full">
+              <Button className="w-full bg-primary/20 text-primary hover:bg-primary/30 border border-primary/30 rounded-xl">
+                Dial 112
+              </Button>
+            </a>
+          </div>
+
         </div>
       </div>
     </AnimatedPage>

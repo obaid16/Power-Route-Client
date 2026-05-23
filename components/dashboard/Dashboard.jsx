@@ -46,12 +46,12 @@ export function Dashboard() {
 
           {/* Right Content - Van Image */}
           <div className="relative z-10 md:w-1/2 flex justify-center items-center mt-12 md:mt-0">
-            <div className="absolute w-[150%] aspect-square rounded-full border border-[#6E38F7]/30 border-dashed animate-[spin_60s_linear_infinite]"></div>
-            <div className="absolute w-[120%] aspect-square rounded-full border-2 border-[#6E38F7]/50 shadow-[0_0_50px_rgba(110,56,247,0.3)]"></div>
+            <div className="absolute w-[120%] aspect-square rounded-full border border-[#6E38F7]/30 border-dashed animate-[spin_60s_linear_infinite]"></div>
+            <div className="absolute w-[100%] aspect-square rounded-full border-2 border-[#6E38F7]/50 shadow-[0_0_50px_rgba(110,56,247,0.3)]"></div>
             <img 
               src="/electra_van_hero.png" 
               alt="PoweRoute Van" 
-              className="relative z-20 w-[90%] max-w-[500px] object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]"
+              className="relative z-20 w-[85%] aspect-square object-cover rounded-full shadow-[0_20px_50px_rgba(110,56,247,0.5)] border-4 border-white/10 dark:border-[#6E38F7]/30"
             />
           </div>
         </div>
@@ -136,7 +136,7 @@ export function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {[
               { icon: MapPin, title: "Location Tracking", sub: "Track your van in real time", href: "/tracking" },
-              { icon: Clock, title: "Trip History", sub: "View past journeys", href: "/van" },
+              { icon: Clock, title: "Trip History", sub: "View past journeys", href: "/trip-history" },
               { icon: Zap, title: "Schedule Charging", sub: "Plan your charging", href: "/booking" },
               { icon: Wrench, title: "Maintenance", sub: "Check & book service", href: "/maintenance" },
               { icon: Settings, title: "Settings", sub: "Manage preferences", href: "/settings" }
@@ -237,7 +237,7 @@ export function Dashboard() {
           <div className="bg-white dark:bg-[#110822] rounded-[24px] p-6 shadow-sm border border-[#E5E0F1] dark:border-[#2D1B54]">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-lg font-bold">Recent Trips</h2>
-              <Link href="/van" className="text-sm text-[#6E38F7] hover:underline font-medium">View all</Link>
+              <Link href="/trip-history" className="text-sm text-[#6E38F7] hover:underline font-medium">View all</Link>
             </div>
             <div className="space-y-4">
               {[
@@ -325,40 +325,6 @@ export function Dashboard() {
           </div>
         </div>
 
-        {/* App Banner */}
-        <div className="relative w-full rounded-[24px] bg-gradient-to-r from-[#F3E8FF] to-white dark:from-[#170B3B] dark:to-[#0A0518] border border-[#E5E0F1] dark:border-[#2D1B54] p-8 md:p-12 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 mt-12">
-          <div className="absolute right-0 top-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#6E38F7]/10 dark:from-[#6E38F7]/30 to-transparent"></div>
-          
-          <div className="flex items-center gap-8 z-10">
-            {/* Phone Mockup Placeholder */}
-            <div className="hidden md:block w-32 h-64 bg-white dark:bg-[#06020E] rounded-3xl border-4 border-[#E5E0F1] dark:border-[#2D1B54] shadow-[0_0_30px_rgba(110,56,247,0.1)] dark:shadow-[0_0_30px_rgba(110,56,247,0.3)] relative overflow-hidden">
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 bg-[#E5E0F1] dark:bg-[#2D1B54] rounded-full"></div>
-              <div className="mt-8 p-3 space-y-2">
-                <div className="h-4 w-1/2 bg-[#E5E0F1] dark:bg-[#2D1B54] rounded-sm"></div>
-                <div className="h-24 w-full bg-[#6E38F7]/10 dark:bg-[#6E38F7]/20 border border-[#6E38F7]/30 dark:border-[#6E38F7]/50 rounded-lg"></div>
-              </div>
-            </div>
-            
-            <div>
-              <h2 className="text-3xl font-bold text-foreground dark:text-white mb-2">Take <span className="text-[#6E38F7] dark:text-[#A87BFF]">PoweRoute</span><br/>Anywhere You Go</h2>
-              <p className="text-sm text-[#6B7280] dark:text-[#9AA0A6] mb-6 max-w-xs">Download our mobile app for full control of your EV on the go.</p>
-              <div className="flex flex-wrap gap-3">
-                <button className="flex items-center gap-2 bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/20 border border-black/10 dark:border-white/20 text-foreground dark:text-white px-4 py-2 rounded-lg transition-colors">
-                  <Smartphone className="w-5 h-5" /> App Store
-                </button>
-                <button className="flex items-center gap-2 bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/20 border border-black/10 dark:border-white/20 text-foreground dark:text-white px-4 py-2 rounded-lg transition-colors">
-                  <Smartphone className="w-5 h-5" /> Google Play
-                </button>
-              </div>
-            </div>
-          </div>
-          
-          {/* QR Code */}
-          <div className="z-10 bg-white p-2 rounded-xl hidden sm:block">
-            {/* Fake QR */}
-            <div className="w-20 h-20 bg-[url('https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg')] bg-cover opacity-80"></div>
-          </div>
-        </div>
 
       </div>
 
