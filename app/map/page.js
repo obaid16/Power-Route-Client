@@ -15,6 +15,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 
+const stationImages = [
+  "https://images.unsplash.com/photo-1593941707882-a5bba14938cb?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1660655455858-a83cb90e3ab3?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1620803407954-159828236207?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1663606994770-07a51d9d9491?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1681282200388-c7ea8de7ebce?auto=format&fit=crop&w=400&q=80"
+];
+
 // Custom Road Network & Station Paths
 const STATIONS_CONFIG = {
   "1": { // Downtown Superhub
@@ -364,12 +372,20 @@ export default function MapPage() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setSelectedStation(station)}
-                        className={`p-5 rounded-3xl cursor-pointer transition-all ${
+                        className={`p-5 rounded-3xl cursor-pointer transition-all overflow-hidden ${
                           selectedStation?.id === station.id
                             ? "glass-card border-primary/50 neon-glow"
                             : "bg-background/40 border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 backdrop-blur-sm"
                         }`}
                       >
+                        <div className="w-full h-32 -mt-5 -mx-5 mb-4 relative bg-muted overflow-hidden">
+                          <img 
+                            src={stationImages[parseInt(station.id.slice(-2), 16) % stationImages.length || 0]} 
+                            alt={station.name}
+                            className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+                        </div>
                         <div className="flex justify-between items-start mb-3">
                           <h3 className="font-bold text-lg leading-tight tracking-wide">{station.name}</h3>
                           <div className="flex items-center text-xs font-bold text-yellow-500 bg-yellow-500/10 px-2.5 py-1 rounded-full shrink-0 ml-2 border border-yellow-500/20">
