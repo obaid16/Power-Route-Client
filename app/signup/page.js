@@ -82,7 +82,7 @@ export default function Signup() {
 
     const success = await register(payload);
     if (success) {
-      router.push('/map');
+      router.push('/');
     }
   };
 
