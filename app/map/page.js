@@ -750,7 +750,10 @@ export default function MapPage() {
         {/* Dynamic Canvas/SVG map */}
         <div className={`flex-1 relative w-full h-full transition-colors duration-500 ${isDark ? 'bg-[#0B0416]' : 'bg-[#FAF9FD]'}`}>
           <iframe 
-            src={`https://maps.google.com/maps?q=${selectedStation?.lat || 37.7749},${selectedStation?.lng || -122.4194}&t=${mapMode === 'satellite' ? 'k' : 'm'}&z=14&ie=UTF8&iwloc=&output=embed`}
+            src={userLocation 
+              ? `https://maps.google.com/maps?saddr=${userLocation.lat},${userLocation.lng}&daddr=${selectedStation?.lat},${selectedStation?.lng}&t=${mapMode === 'satellite' ? 'k' : 'm'}&output=embed`
+              : `https://maps.google.com/maps?q=${selectedStation?.lat || 37.7749},${selectedStation?.lng || -122.4194}&t=${mapMode === 'satellite' ? 'k' : 'm'}&z=14&ie=UTF8&iwloc=&output=embed`
+            }
             width="100%" 
             height="100%" 
             style={{ border: 0, filter: isDark ? 'invert(90%) hue-rotate(180deg) contrast(80%)' : 'none' }} 
