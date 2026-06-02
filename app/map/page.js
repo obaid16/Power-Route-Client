@@ -335,7 +335,7 @@ export default function MapPage() {
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto space-y-4 scrollbar-hide pr-2 pb-20 md:pb-0">
+              <div className="flex-1 overflow-y-auto space-y-4 scrollbar-hide pr-2 pb-24 md:pb-6">
                 {isLoading ? (
                   <div className="flex justify-center items-center h-40">
                     <Loader2 className="h-8 w-8 text-primary animate-spin" />
@@ -399,7 +399,7 @@ export default function MapPage() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              className="flex flex-col gap-4 h-full overflow-y-auto scrollbar-hide pb-20 md:pb-0"
+              className="flex flex-col gap-4 h-full overflow-y-auto scrollbar-hide pb-24 md:pb-6"
             >
               {/* Header with Exit & Speaker wave */}
               <div className="flex justify-between items-center bg-background/25 border border-black/5 dark:border-white/5 rounded-2xl p-3">
