@@ -287,7 +287,7 @@ export default function MapPage() {
   };
 
   return (
-    <AnimatedPage className="h-[calc(100vh-8rem)] flex flex-col md:flex-row gap-6">
+    <AnimatedPage className="min-h-[calc(100vh-8rem)] md:h-[calc(100vh-8rem)] flex flex-col md:flex-row gap-6">
       
       {/* Left Column Sidebar */}
       <div className="w-full md:w-[350px] lg:w-[400px] flex flex-col gap-4 h-full shrink-0">
@@ -324,6 +324,14 @@ export default function MapPage() {
                   >
                     <Battery className="mr-1 h-3 w-3" /> Level 2
                   </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className={`rounded-full transition-colors ${filter === 'More' ? 'bg-primary/20 border-primary/50 text-primary neon-glow' : 'bg-white/5 border-white/10'}`}
+                    onClick={() => setFilter(filter === 'More' ? 'All' : 'More')}
+                  >
+                    <Filter className="mr-1 h-3 w-3" /> More
+                  </Button>
                 </div>
               </div>
 
@@ -334,6 +342,14 @@ export default function MapPage() {
                   </div>
                 ) : stations.length === 0 ? (
                   <div className="text-center text-muted-foreground pt-10">No stations found nearby.</div>
+                ) : filter === 'More' ? (
+                  <div className="text-center text-muted-foreground pt-10">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                      <Filter className="w-6 h-6 text-primary" />
+                    </div>
+                    <p className="font-medium text-foreground">Advanced Filters</p>
+                    <p className="text-sm">Coming soon in the next update!</p>
+                  </div>
                 ) : (
                   stations
                     .filter(st => {
@@ -830,7 +846,7 @@ export default function MapPage() {
                       <span className="text-[9px] font-extrabold bg-primary/25 border border-primary/30 px-2 py-0.5 rounded text-primary uppercase tracking-widest">
                         {parseInt(selectedStation.power) >= 150 ? "Ultra DC Fast" : "Level 2 Charge"}
                       </span>
-                      <h3 className="font-extrabold text-lg text-white mt-1.5 leading-snug">{selectedStation.name}</h3>
+                      <h3 className="font-extrabold text-lg text-foreground dark:text-white mt-1.5 leading-snug">{selectedStation.name}</h3>
                       <p className="text-xs text-muted-foreground mt-0.5">{selectedStation.distance} away • {selectedStation.slots} plugs available</p>
                     </div>
 

@@ -142,12 +142,12 @@ export function Navbar() {
                   variant="ghost"
                   size="icon"
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="rounded-full text-[#9AA0A6] hover:text-white hover:bg-white/5"
+                  className="rounded-full text-[#9AA0A6] hover:text-foreground dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
                 >
                   {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                 </Button>
                 <Link href="/login">
-                  <Button variant="ghost" className="hidden sm:inline-flex rounded-full text-[#9AA0A6] hover:text-white hover:bg-white/5 cursor-pointer">
+                  <Button variant="ghost" className="hidden sm:inline-flex rounded-full text-[#9AA0A6] hover:text-foreground dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer">
                     Log in
                   </Button>
                 </Link>

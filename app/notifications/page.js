@@ -68,7 +68,7 @@ export default function NotificationsPage() {
         </div>
         <button 
           onClick={markAllAsRead}
-          className="text-sm font-medium text-primary hover:text-white transition-colors"
+          className="text-sm font-medium text-primary hover:text-primary/80 dark:hover:text-white transition-colors"
         >
           Mark all as read
         </button>
@@ -89,14 +89,14 @@ export default function NotificationsPage() {
               </div>
               <div className="flex-1">
                 <div className="flex justify-between items-start mb-1">
-                  <h3 className={`font-semibold text-lg ${notification.read ? "text-foreground" : "text-foreground dark:text-white"}`}>
+                  <h3 className={`font-semibold text-lg ${notification.read ? "text-muted-foreground" : "text-foreground dark:text-white"}`}>
                     {notification.title}
                   </h3>
                   <span className="text-xs text-muted-foreground whitespace-nowrap ml-2">
                     {notification.time}
                   </span>
                 </div>
-                <p className={`text-sm ${notification.read ? "text-muted-foreground" : "text-muted-foreground dark:text-gray-300"}`}>
+                <p className={`text-sm ${notification.read ? "text-muted-foreground/70" : "text-muted-foreground dark:text-gray-300"}`}>
                   {notification.message}
                 </p>
               </div>

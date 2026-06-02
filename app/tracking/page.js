@@ -79,13 +79,13 @@ export default function TrackingPage() {
                 <span className="text-xs text-muted-foreground uppercase flex items-center">
                   <Clock className="h-3 w-3 mr-1" /> ETA
                 </span>
-                <p className="text-2xl font-bold text-white">{eta} mins</p>
+                <p className="text-2xl font-bold text-foreground dark:text-white">{eta} mins</p>
               </div>
               <div className="space-y-1">
                 <span className="text-xs text-muted-foreground uppercase flex items-center">
                   <MapPin className="h-3 w-3 mr-1" /> Distance
                 </span>
-                <p className="text-2xl font-bold text-white">{distance} km</p>
+                <p className="text-2xl font-bold text-foreground dark:text-white">{distance} km</p>
               </div>
             </div>
           </div>
