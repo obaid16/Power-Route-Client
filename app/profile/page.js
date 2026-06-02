@@ -8,6 +8,7 @@ import { useState } from "react";
 import useAuthStore from "@/store/useAuthStore";
 
 export default function ProfilePage() {
+  const { user } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
 
@@ -36,8 +37,8 @@ export default function ProfilePage() {
               {profileImage ? (
                 <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-primary/40 to-purple-800/40 flex items-center justify-center text-4xl font-bold text-white">
-                  JD
+                <div className="w-full h-full bg-gradient-to-br from-primary/40 to-purple-800/40 flex items-center justify-center text-4xl font-bold text-white uppercase">
+                  {user?.name ? user.name.charAt(0) : "U"}
                 </div>
               )}
             </div>
@@ -53,7 +54,7 @@ export default function ProfilePage() {
           </div>
           
           <div className="flex-1">
-            <h1 className="text-3xl font-bold neon-text">John Doe</h1>
+            <h1 className="text-3xl font-bold neon-text">{user?.name || "User"}</h1>
             <p className="text-muted-foreground flex items-center gap-1 mt-1">
               <MapPin className="h-4 w-4" /> New York, NY
             </p>
@@ -90,19 +91,19 @@ export default function ProfilePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground ml-1">Full Name</label>
-                <GlassInput defaultValue="John Doe" disabled={!isEditing} />
+                <GlassInput defaultValue={user?.name || ""} disabled={!isEditing} placeholder="Enter your full name" />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground ml-1">Email Address</label>
-                <GlassInput defaultValue="john.doe@example.com" disabled={!isEditing} />
+                <GlassInput defaultValue={user?.email || ""} disabled={!isEditing} placeholder="Enter your email" />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground ml-1">Phone Number</label>
-                <GlassInput defaultValue="+1 (555) 123-4567" disabled={!isEditing} />
+                <GlassInput defaultValue={user?.phone || ""} disabled={!isEditing} placeholder="Add a phone number" />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground ml-1">Emergency Contact</label>
-                <GlassInput defaultValue="Jane Doe - +1 (555) 987-6543" disabled={!isEditing} />
+                <GlassInput defaultValue={user?.emergencyContact || ""} disabled={!isEditing} placeholder="Add an emergency contact" />
               </div>
             </div>
           </div>
@@ -190,10 +191,18 @@ export default function ProfilePage() {
           <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5">
             <h2 className="text-lg font-bold mb-4">Quick Actions</h2>
             <div className="space-y-3">
-              <Button variant="outline" className="w-full justify-start text-left bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-colors h-12 rounded-xl">
+              <Button 
+                variant="outline" 
+                onClick={() => window.location.href = '/settings'}
+                className="w-full justify-start text-left bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-colors h-12 rounded-xl"
+              >
                 Payment Methods
               </Button>
-              <Button variant="outline" className="w-full justify-start text-left bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-colors h-12 rounded-xl">
+              <Button 
+                variant="outline" 
+                onClick={() => window.location.href = '/settings'}
+                className="w-full justify-start text-left bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-colors h-12 rounded-xl"
+              >
                 Notification Preferences
               </Button>
               <Button 

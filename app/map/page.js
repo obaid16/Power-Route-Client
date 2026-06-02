@@ -16,11 +16,11 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 
 const stationImages = [
-  "https://images.unsplash.com/photo-1593941707882-a5bba14938cb?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1660655455858-a83cb90e3ab3?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1620803407954-159828236207?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1663606994770-07a51d9d9491?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1681282200388-c7ea8de7ebce?auto=format&fit=crop&w=400&q=80"
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Electric_car_charging_station_in_Amsterdam.jpg/800px-Electric_car_charging_station_in_Amsterdam.jpg",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Tesla_Supercharger_at_Kettleman_City.jpg/800px-Tesla_Supercharger_at_Kettleman_City.jpg",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Nissan_Leaf_charging_at_a_public_station.jpg/800px-Nissan_Leaf_charging_at_a_public_station.jpg",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/BMW_i3_charging_at_a_ChargePoint_station.jpg/800px-BMW_i3_charging_at_a_ChargePoint_station.jpg",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Electric_vehicle_charging_station_in_Toronto.jpg/800px-Electric_vehicle_charging_station_in_Toronto.jpg"
 ];
 
 // Custom Road Network & Station Paths
@@ -159,43 +159,43 @@ export default function MapPage() {
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [showNavSetup, setShowNavSetup] = useState(false);
 
+  // Helper function to calculate distance in miles
+  const getDistanceFromLatLonInMiles = (lat1, lon1, lat2, lon2) => {
+    const R = 3958.8; // Radius of the earth in miles
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  };
+
   // Fetch stations and location on load
   useEffect(() => {
     setMounted(true);
     
     const fetchStations = async (userLat, userLng) => {
       try {
-        const res = await api.get('/stations');
-        const data = res.data?.data || [];
-        
-        // Use user location or fallback to a default city (e.g. SF)
         const baseLat = userLat || 37.7749;
         const baseLng = userLng || -122.4194;
         
+        const res = await api.get(`/stations?lat=${baseLat}&lng=${baseLng}`);
+        const data = res.data?.data || [];
+        
         let formattedData = data.map((st, i) => {
-          // Generate realistic mock coordinates slightly offset from the user's location
-          // Offset between -0.05 and +0.05 degrees (roughly within 3 miles)
-          const randomLatOffset = ((i + 1) * 0.015) * (i % 2 === 0 ? 1 : -1);
-          const randomLngOffset = ((i + 1) * 0.02) * (i % 3 === 0 ? -1 : 1);
+          // Use actual coordinates returned by the API
+          // Mongoose GeoJSON coordinates are [longitude, latitude]
+          const lng = st.location?.coordinates?.[0] || baseLng;
+          const lat = st.location?.coordinates?.[1] || baseLat;
           
-          const lat = baseLat + randomLatOffset;
-          const lng = baseLng + randomLngOffset;
+          const distVal = getDistanceFromLatLonInMiles(baseLat, baseLng, lat, lng);
+          const distStr = distVal.toFixed(1) + " mi";
           
-          let distStr = "";
-          let distVal = 999;
-          
-          if (userLat && userLng) {
-            distVal = getDistanceFromLatLonInMiles(userLat, userLng, lat, lng);
-            distStr = distVal.toFixed(1) + " mi";
-          } else {
-            // Mock distances if no geolocation
-            distStr = st._id === "1" ? "1.8 mi" : st._id === "2" ? "2.4 mi" : "4.5 mi";
-            distVal = parseFloat(distStr);
-          }
-
           return {
-            id: st._id,
-            name: st.name,
+            id: st._id || i.toString(),
+            name: st.name || "Unknown Station",
             distance: distStr,
             distVal, // keep for sorting
             slots: st.chargers?.filter(c => c.status === 'available').length || 2,
@@ -543,8 +543,17 @@ export default function MapPage() {
                                   setSelectedStation(station);
                                   setShowNavSetup(false);
                                 }}
-                                className="min-w-[180px] shrink-0 p-3 rounded-2xl cursor-pointer glass-card border border-black/5 dark:border-white/5 hover:border-primary/50 transition-all"
+                                className="min-w-[180px] shrink-0 p-3 rounded-2xl cursor-pointer glass-card border border-black/5 dark:border-white/5 hover:border-primary/50 transition-all overflow-hidden flex flex-col"
                               >
+                                <div className="w-full h-20 -mt-3 -mx-3 mb-2 relative bg-gradient-to-br from-primary/20 to-purple-500/20 overflow-hidden flex items-center justify-center">
+                                  <img 
+                                    src={stationImages[parseInt(station.id.slice(-2), 16) % stationImages.length || 0]} 
+                                    alt={station.name}
+                                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                                    className="absolute inset-0 object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+                                  />
+                                  <Zap className="h-6 w-6 text-primary/40 -z-10" />
+                                </div>
                                 <div className="flex justify-between items-start mb-1">
                                   <h5 className="font-bold text-sm truncate">{station.name}</h5>
                                 </div>
@@ -892,18 +901,7 @@ export default function MapPage() {
           </div>
 
           <div className="flex gap-2 pointer-events-auto">
-            <Button 
-              size="sm" 
-              variant="outline" 
-              className={`rounded-full px-3 py-1.5 h-auto text-xs border bg-background/90 backdrop-blur-xl ${
-                isTrafficActive 
-                  ? 'text-orange-500 border-orange-500/30 font-bold' 
-                  : 'border-black/10 dark:border-white/10 text-foreground hover:bg-background'
-              }`}
-              onClick={() => setIsTrafficActive(!isTrafficActive)}
-            >
-              Traffic
-            </Button>
+
             <Button 
               size="sm" 
               variant="outline" 
