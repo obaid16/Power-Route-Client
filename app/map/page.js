@@ -134,6 +134,7 @@ export default function MapPage() {
   const [stations, setStations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedStation, setSelectedStation] = useState(null);
+  const [isViewingDetails, setIsViewingDetails] = useState(false);
   const [filter, setFilter] = useState('All');
   
   // Geolocation states
@@ -411,6 +412,115 @@ export default function MapPage() {
                   <div className="flex justify-center items-center h-40">
                     <Loader2 className="h-8 w-8 text-primary animate-spin" />
                   </div>
+                ) : isViewingDetails && selectedStation ? (
+                  <div className="space-y-4">
+                    <Button variant="ghost" onClick={() => setIsViewingDetails(false)} className="text-muted-foreground hover:text-foreground pl-0 h-8 mb-2">
+                      <ArrowLeft className="h-4 w-4 mr-2" /> Back to list
+                    </Button>
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="glass-card p-5 rounded-3xl border-primary/30 shadow-lg relative overflow-hidden"
+                    >
+                      {/* Backside details background glow */}
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
+
+                      {!showNavSetup ? (
+                        // Standard details card
+                        <div className="space-y-4">
+                          <div className="flex justify-between items-start gap-4">
+                            <div>
+                              <span className="text-[9px] font-extrabold bg-primary/25 border border-primary/30 px-2 py-0.5 rounded text-primary uppercase tracking-widest">
+                                {parseInt(selectedStation.power) >= 150 ? "Ultra DC Fast" : "Level 2 Charge"}
+                              </span>
+                              <h3 className="font-extrabold text-lg text-foreground dark:text-white mt-1.5 leading-snug">{selectedStation.name}</h3>
+                              <p className="text-xs text-muted-foreground mt-0.5">{selectedStation.distance} away • {selectedStation.slots} plugs available</p>
+                            </div>
+
+                            <div className="flex items-center text-xs font-bold text-yellow-500 bg-yellow-500/10 px-2 py-0.5 rounded-full border border-yellow-500/10">
+                              <Star className="h-3 w-3 mr-1 fill-current" /> {selectedStation.rating}
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col gap-2.5">
+                            {isNavigating ? (
+                              <Button onClick={stopNavigation} variant="outline" className="w-full border-red-500/30 text-red-500 bg-red-500/5 hover:bg-red-500/15 rounded-xl">
+                                Cancel Navigation
+                              </Button>
+                            ) : (
+                              <>
+                                <Button 
+                                  onClick={() => setShowNavSetup(true)}
+                                  className="w-full bg-primary text-white hover:bg-primary/95 neon-glow rounded-xl flex items-center justify-center gap-1.5 font-semibold py-5"
+                                >
+                                  <Navigation className="h-4 w-4" /> Navigate
+                                </Button>
+                                <Link href={`/booking?station=${selectedStation.id}`} className="w-full">
+                                  <Button variant="outline" className="w-full py-5 border-black/10 dark:border-white/10 bg-background/50 hover:bg-black/5 dark:hover:bg-white/10 rounded-xl">
+                                    Book Plugs
+                                  </Button>
+                                </Link>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        // Navigation settings panel
+                        <motion.div 
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="space-y-4"
+                        >
+                          <div className="flex justify-between items-center pb-2 border-b border-black/5 dark:border-white/5">
+                            <h4 className="font-bold text-sm text-foreground dark:text-white">JOURNEY PRESETS</h4>
+                            <Button variant="ghost" size="xs" className="h-6 text-xs text-muted-foreground p-0 hover:bg-transparent" onClick={() => setShowNavSetup(false)}>
+                              Back
+                            </Button>
+                          </div>
+
+                          {/* Battery customizer slider */}
+                          <div className="space-y-2">
+                            <div className="flex justify-between text-xs font-semibold">
+                              <span className="text-muted-foreground flex items-center gap-1">
+                                <Battery className="h-3.5 w-3.5 text-green-500 dark:text-green-400" /> Starting Battery (SoC)
+                              </span>
+                              <span className={`font-bold ${startBattery < 15 ? 'text-red-500' : startBattery < 25 ? 'text-amber-500' : 'text-green-500'}`}>
+                                {startBattery}%
+                              </span>
+                            </div>
+                            <input 
+                              type="range" 
+                              min="5" 
+                              max="100" 
+                              value={startBattery}
+                              onChange={(e) => setStartBattery(parseInt(e.target.value))}
+                              className="w-full h-1 bg-black/10 dark:bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary" 
+                            />
+                            <div className="flex justify-between text-[9px] text-muted-foreground font-semibold">
+                              <span>Low (5%)</span>
+                              <span>Mid (50%)</span>
+                              <span>Full (100%)</span>
+                            </div>
+                          </div>
+
+                          {/* Info helper */}
+                          <div className="p-2 rounded-xl bg-primary/5 border border-primary/20 text-[10px] text-muted-foreground flex gap-2">
+                            <ShieldCheck className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                            <p>
+                              Simulating route along local highway. Lower starting battery to trigger real-time low power alarms.
+                            </p>
+                          </div>
+
+                          <Button 
+                            onClick={startNavigation}
+                            className="w-full bg-primary text-white hover:bg-primary/95 neon-glow rounded-xl font-bold py-5 text-sm"
+                          >
+                            Start Simulated Journey
+                          </Button>
+                        </motion.div>
+                      )}
+                    </motion.div>
+                  </div>
                 ) : stations.length === 0 ? (
                   <div className="text-center text-muted-foreground pt-10">No stations found nearby.</div>
                 ) : filter === 'More' ? (
@@ -434,7 +544,10 @@ export default function MapPage() {
                         key={station.id}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={() => setSelectedStation(station)}
+                        onClick={() => {
+                          setSelectedStation(station);
+                          setIsViewingDetails(true);
+                        }}
                         className={`p-5 rounded-3xl cursor-pointer transition-all overflow-hidden ${
                           selectedStation?.id === station.id
                             ? "glass-card border-primary/50 neon-glow"
@@ -717,7 +830,7 @@ export default function MapPage() {
       <div className="flex-1 relative rounded-3xl overflow-hidden glass-card border border-primary/20 min-h-[400px] flex flex-col">
         {/* Floating Top Bar HUD */}
         <div className="absolute top-4 left-4 right-4 z-20 flex justify-between pointer-events-none">
-          <div className="glass-card px-4 py-2 rounded-full border border-primary/30 dark:border-primary/30 flex items-center gap-2 backdrop-blur-xl shadow-lg pointer-events-auto">
+          <div className="bg-background/90 dark:glass-card px-4 py-2 rounded-full border border-black/10 dark:border-primary/30 flex items-center gap-2 backdrop-blur-xl shadow-lg pointer-events-auto">
             <Compass className={`h-4 w-4 text-primary ${isNavigating && !isPaused ? "animate-spin" : ""}`} style={{ animationDuration: '4s' }} />
             <span className="text-xs font-bold uppercase tracking-widest text-foreground dark:text-white">POWEROUTE MAPS</span>
           </div>
@@ -726,10 +839,10 @@ export default function MapPage() {
             <Button 
               size="sm" 
               variant="outline" 
-              className={`rounded-full px-3 py-1.5 h-auto text-xs border ${
+              className={`rounded-full px-3 py-1.5 h-auto text-xs border bg-background/90 backdrop-blur-xl ${
                 isTrafficActive 
-                  ? 'bg-orange-500/20 text-orange-400 border-orange-500/30 font-bold' 
-                  : 'bg-background/80 border-border dark:border-black/10 dark:dark:border-white/10 text-muted-foreground hover:text-foreground'
+                  ? 'text-orange-500 border-orange-500/30 font-bold' 
+                  : 'border-black/10 dark:border-white/10 text-foreground hover:bg-background'
               }`}
               onClick={() => setIsTrafficActive(!isTrafficActive)}
             >
@@ -738,7 +851,7 @@ export default function MapPage() {
             <Button 
               size="sm" 
               variant="outline" 
-              className="rounded-full px-3 py-1.5 h-auto text-xs bg-background/80 border-border dark:border-black/10 dark:dark:border-white/10 text-muted-foreground hover:text-foreground flex items-center gap-1.5"
+              className="rounded-full px-3 py-1.5 h-auto text-xs bg-background/90 backdrop-blur-xl border-black/10 dark:border-white/10 text-foreground hover:bg-background flex items-center gap-1.5"
               onClick={() => setMapMode(mapMode === 'cyberpunk' ? 'satellite' : 'cyberpunk')}
             >
               <Layers className="h-3.5 w-3.5" />
@@ -763,115 +876,6 @@ export default function MapPage() {
           ></iframe>
         </div>
 
-        {/* Bottom Station Details / Navigation Config Panel Overlay */}
-        <AnimatePresence>
-          {selectedStation && (
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 30 }}
-              className="absolute bottom-28 md:bottom-6 left-6 right-6 md:left-auto md:right-28 md:w-85 glass-card p-5 rounded-3xl border-primary/30 shadow-[0_15px_40px_rgba(0,0,0,0.6)] backdrop-blur-2xl z-20 overflow-hidden"
-            >
-              {/* Backside details background glow */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
-
-              {!showNavSetup ? (
-                // Standard details card
-                <div className="space-y-4">
-                  <div className="flex justify-between items-start gap-4">
-                    <div>
-                      <span className="text-[9px] font-extrabold bg-primary/25 border border-primary/30 px-2 py-0.5 rounded text-primary uppercase tracking-widest">
-                        {parseInt(selectedStation.power) >= 150 ? "Ultra DC Fast" : "Level 2 Charge"}
-                      </span>
-                      <h3 className="font-extrabold text-lg text-foreground dark:text-white mt-1.5 leading-snug">{selectedStation.name}</h3>
-                      <p className="text-xs text-muted-foreground mt-0.5">{selectedStation.distance} away • {selectedStation.slots} plugs available</p>
-                    </div>
-
-                    <div className="flex items-center text-xs font-bold text-yellow-500 bg-yellow-500/10 px-2 py-0.5 rounded-full border border-yellow-500/10">
-                      <Star className="h-3 w-3 mr-1 fill-current" /> {selectedStation.rating}
-                    </div>
-                  </div>
-
-                  <div className="flex gap-2.5">
-                    {isNavigating ? (
-                      <Button onClick={stopNavigation} variant="outline" className="flex-1 border-red-500/30 text-red-400 bg-red-500/5 hover:bg-red-500/15 rounded-xl">
-                        Cancel Navigation
-                      </Button>
-                    ) : (
-                      <>
-                        <Button 
-                          onClick={() => setShowNavSetup(true)}
-                          className="flex-1 bg-primary text-white hover:bg-primary/95 neon-glow rounded-xl flex items-center justify-center gap-1.5 font-semibold"
-                        >
-                          <Navigation className="h-4 w-4" /> Navigate
-                        </Button>
-                        <Link href={`/booking?station=${selectedStation.id}`}>
-                          <Button variant="outline" className="px-4 border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl">
-                            Book Plugs
-                          </Button>
-                        </Link>
-                      </>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                // Navigation settings panel
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="space-y-4"
-                >
-                  <div className="flex justify-between items-center pb-2 border-b border-black/5 dark:border-white/5">
-                    <h4 className="font-bold text-sm text-foreground dark:text-white">JOURNEY PRESETS</h4>
-                    <Button variant="ghost" size="xs" className="h-6 text-xs text-muted-foreground p-0" onClick={() => setShowNavSetup(false)}>
-                      Back
-                    </Button>
-                  </div>
-
-                  {/* Battery customizer slider */}
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs font-semibold">
-                      <span className="text-muted-foreground flex items-center gap-1">
-                        <Battery className="h-3.5 w-3.5 text-green-400" /> Starting Battery (SoC)
-                      </span>
-                      <span className={`font-bold ${startBattery < 15 ? 'text-red-400' : startBattery < 25 ? 'text-amber-400' : 'text-green-400'}`}>
-                        {startBattery}%
-                      </span>
-                    </div>
-                    <input 
-                      type="range" 
-                      min="5" 
-                      max="100" 
-                      value={startBattery}
-                      onChange={(e) => setStartBattery(parseInt(e.target.value))}
-                      className="w-full h-1 bg-black/10 dark:bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary" 
-                    />
-                    <div className="flex justify-between text-[9px] text-muted-foreground font-semibold">
-                      <span>Low (5%)</span>
-                      <span>Mid (50%)</span>
-                      <span>Full (100%)</span>
-                    </div>
-                  </div>
-
-                  {/* Info helper */}
-                  <div className="p-2 rounded-xl bg-primary/10 border border-primary/20 text-[10px] text-primary-foreground/90 flex gap-2">
-                    <ShieldCheck className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                    <p>
-                      Simulating route along local highway. Lower starting battery to trigger real-time low power alarms.
-                    </p>
-                  </div>
-
-                  <Button 
-                    onClick={startNavigation}
-                    className="w-full bg-primary text-white hover:bg-primary/95 neon-glow rounded-xl font-bold py-2 h-auto text-sm"
-                  >
-                    Start Simulated Journey
-                  </Button>
-                </motion.div>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
 
     </AnimatedPage>
