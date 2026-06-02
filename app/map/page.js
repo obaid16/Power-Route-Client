@@ -403,7 +403,7 @@ export default function MapPage() {
             >
               {/* Header with Exit & Speaker wave */}
               <div className="flex justify-between items-center bg-background/25 border border-black/5 dark:border-white/5 rounded-2xl p-3">
-                <Button onClick={stopNavigation} variant="ghost" size="sm" className="text-muted-foreground hover:text-white gap-1.5 rounded-xl">
+                <Button onClick={stopNavigation} variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground dark:hover:text-white gap-1.5 rounded-xl">
                   <ArrowLeft className="h-4 w-4" /> Cancel
                 </Button>
                 <div className="flex items-center gap-3">
@@ -615,7 +615,7 @@ export default function MapPage() {
                   <Button 
                     onClick={() => setIsPaused(!isPaused)} 
                     variant="outline" 
-                    className="flex-1 bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-white rounded-xl py-2 h-auto"
+                    className="flex-1 bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-foreground dark:text-white rounded-xl py-2 h-auto"
                   >
                     {isPaused ? <Play className="h-4 w-4 mr-2 text-green-400" /> : <Pause className="h-4 w-4 mr-2 text-amber-400" />}
                     {isPaused ? "Resume" : "Pause"}
@@ -623,7 +623,7 @@ export default function MapPage() {
                   <Button 
                     onClick={() => setProgress(0)} 
                     variant="outline" 
-                    className="bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-white rounded-xl py-2 h-auto"
+                    className="bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-foreground dark:text-white rounded-xl py-2 h-auto"
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
@@ -833,7 +833,7 @@ export default function MapPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 30 }}
-              className="absolute bottom-6 left-6 right-6 md:left-auto md:right-6 md:w-85 glass-card p-5 rounded-3xl border-primary/30 shadow-[0_15px_40px_rgba(0,0,0,0.6)] backdrop-blur-2xl z-20 overflow-hidden"
+              className="absolute bottom-28 md:bottom-6 left-6 right-6 md:left-auto md:right-28 md:w-85 glass-card p-5 rounded-3xl border-primary/30 shadow-[0_15px_40px_rgba(0,0,0,0.6)] backdrop-blur-2xl z-20 overflow-hidden"
             >
               {/* Backside details background glow */}
               <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
