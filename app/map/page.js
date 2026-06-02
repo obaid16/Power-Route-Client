@@ -203,7 +203,10 @@ export default function MapPage() {
             rating: st.rating || 4.5,
             power: st.chargers?.[0]?.power || '150kW',
             lat,
-            lng
+            lng,
+            address: st.location?.formattedAddress || st.location?.city || "123 EV Avenue, Tech District",
+            price: st.pricing?.ratePerKwh ? `$${st.pricing.ratePerKwh}/kWh` : "$0.45/kWh",
+            portType: st.chargers?.[0]?.portType || "CCS1"
           };
         });
         
@@ -359,10 +362,10 @@ export default function MapPage() {
   };
 
   return (
-    <AnimatedPage className="min-h-[calc(100vh-8rem)] md:h-[calc(100vh-8rem)] flex flex-col md:flex-row gap-6">
+    <AnimatedPage className="min-h-[calc(100vh-8rem)] md:h-[calc(100vh-8rem)] flex flex-col-reverse md:flex-row gap-6">
       
       {/* Left Column Sidebar */}
-      <div className="w-full md:w-[350px] lg:w-[400px] flex flex-col gap-4 max-h-[50vh] md:max-h-none md:h-full shrink-0">
+      <div className="w-full md:w-[350px] lg:w-[400px] flex flex-col gap-4 h-[50vh] md:h-full shrink-0">
         
         <AnimatePresence mode="wait">
           {!isNavigating ? (
@@ -520,6 +523,43 @@ export default function MapPage() {
                         </motion.div>
                       )}
                     </motion.div>
+
+                    {/* NEW SECTION: Other nearby stations */}
+                    {!showNavSetup && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-6 space-y-3 pb-6"
+                      >
+                        <h4 className="text-sm font-bold text-foreground">More Nearby Stations</h4>
+                        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                          {stations
+                            .filter(s => s.id !== selectedStation.id)
+                            .slice(0, 3)
+                            .map(station => (
+                              <div 
+                                key={station.id}
+                                onClick={() => {
+                                  setSelectedStation(station);
+                                  setShowNavSetup(false);
+                                }}
+                                className="min-w-[180px] shrink-0 p-3 rounded-2xl cursor-pointer glass-card border border-black/5 dark:border-white/5 hover:border-primary/50 transition-all"
+                              >
+                                <div className="flex justify-between items-start mb-1">
+                                  <h5 className="font-bold text-sm truncate">{station.name}</h5>
+                                </div>
+                                <p className="text-[11px] text-muted-foreground mt-0.5">{station.distance} • {station.slots} slots</p>
+                                <div className="mt-2 flex items-center gap-2">
+                                  <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-md border border-primary/20">
+                                    {station.power}
+                                  </span>
+                                </div>
+                              </div>
+                            ))
+                          }
+                        </div>
+                      </motion.div>
+                    )}
                   </div>
                 ) : stations.length === 0 ? (
                   <div className="text-center text-muted-foreground pt-10">No stations found nearby.</div>
@@ -548,36 +588,52 @@ export default function MapPage() {
                           setSelectedStation(station);
                           setIsViewingDetails(true);
                         }}
-                        className={`p-5 rounded-3xl cursor-pointer transition-all overflow-hidden ${
+                        className={`p-5 rounded-3xl cursor-pointer transition-all overflow-hidden flex flex-col ${
                           selectedStation?.id === station.id
                             ? "glass-card border-primary/50 neon-glow"
                             : "bg-background/40 border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 backdrop-blur-sm"
                         }`}
                       >
-                        <div className="w-full h-32 -mt-5 -mx-5 mb-4 relative bg-muted overflow-hidden">
+                        <div className="w-full h-32 -mt-5 -mx-5 mb-4 relative bg-gradient-to-br from-primary/20 to-purple-500/20 overflow-hidden flex items-center justify-center">
                           <img 
                             src={stationImages[parseInt(station.id.slice(-2), 16) % stationImages.length || 0]} 
                             alt={station.name}
-                            className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+                            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                            className="absolute inset-0 object-cover w-full h-full hover:scale-105 transition-transform duration-500"
                           />
+                          <Zap className="h-10 w-10 text-primary/40 -z-10" />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
                         </div>
-                        <div className="flex justify-between items-start mb-3">
+                        <div className="flex justify-between items-start mb-2">
                           <h3 className="font-bold text-lg leading-tight tracking-wide">{station.name}</h3>
                           <div className="flex items-center text-xs font-bold text-yellow-500 bg-yellow-500/10 px-2.5 py-1 rounded-full shrink-0 ml-2 border border-yellow-500/20">
                             <Star className="h-3.5 w-3.5 mr-1 fill-current" /> {station.rating}
                           </div>
                         </div>
-                        <div className="flex items-center text-sm text-muted-foreground mb-4 font-medium">
-                          <MapPin className="h-4 w-4 mr-1.5 text-primary" /> {station.distance} away
+                        
+                        <div className="flex flex-col gap-1.5 mb-4">
+                          <div className="flex items-center text-[11px] text-muted-foreground font-medium">
+                            <MapPin className="h-3.5 w-3.5 mr-1.5 text-primary shrink-0" /> 
+                            <span className="truncate">{station.distance} • {station.address}</span>
+                          </div>
+                          <div className="flex items-center text-[11px] text-muted-foreground font-medium">
+                            <Zap className="h-3.5 w-3.5 mr-1.5 text-primary shrink-0" /> 
+                            {station.portType} • {station.price}
+                          </div>
                         </div>
-                        <div className="flex items-center gap-3 mt-4">
-                          <span className="text-xs font-bold bg-primary/20 text-primary px-3 py-1.5 rounded-xl border border-primary/30 shadow-[0_0_10px_rgba(168,85,247,0.15)]">
-                            {station.power}
-                          </span>
-                          <span className="text-xs font-bold bg-green-500/20 text-green-400 px-3 py-1.5 rounded-xl border border-green-500/20 shadow-[0_0_10px_rgba(34,197,94,0.1)]">
-                            {station.slots} available
-                          </span>
+                        
+                        <div className="flex items-center justify-between mt-auto pt-3 border-t border-black/5 dark:border-white/5">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-1 rounded-lg border border-primary/20 shadow-[0_0_10px_rgba(168,85,247,0.05)]">
+                              {station.power}
+                            </span>
+                            <span className="text-[10px] font-bold bg-green-500/10 text-green-500 px-2 py-1 rounded-lg border border-green-500/20 shadow-[0_0_10px_rgba(34,197,94,0.05)]">
+                              {station.slots} available
+                            </span>
+                          </div>
+                          <Button size="sm" className="h-7 px-3 text-[11px] rounded-lg bg-primary hover:bg-primary/90 text-white font-bold shadow-md hover:shadow-primary/30 transition-all">
+                            Select
+                          </Button>
                         </div>
                       </motion.div>
                     ))
