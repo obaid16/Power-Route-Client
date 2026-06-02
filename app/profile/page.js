@@ -78,7 +78,7 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column - User Info */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="glass-card rounded-3xl p-6 md:p-8 border border-white/5 relative overflow-hidden">
+          <div className="glass-card rounded-3xl p-6 md:p-8 border border-black/5 dark:border-white/5 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-[40px] pointer-events-none" />
             <h2 className="text-xl font-bold mb-6 flex items-center">
               <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-3">
@@ -107,7 +107,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="glass-card rounded-3xl p-6 md:p-8 border border-white/5 relative overflow-hidden">
+          <div className="glass-card rounded-3xl p-6 md:p-8 border border-black/5 dark:border-white/5 relative overflow-hidden">
             <h2 className="text-xl font-bold mb-6 flex items-center">
               <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center mr-3">
                 <Zap className="h-4 w-4 text-purple-400" />
@@ -116,7 +116,7 @@ export default function ProfilePage() {
             </h2>
             <div className="flex flex-col md:flex-row gap-8 items-center">
               {/* Mock EV Image */}
-              <div className="w-full md:w-1/3 h-40 rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 flex items-center justify-center relative overflow-hidden shadow-inner">
+              <div className="w-full md:w-1/3 h-40 rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-black/10 dark:border-white/10 flex items-center justify-center relative overflow-hidden shadow-inner">
                 <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=2071&auto=format&fit=crop')] bg-cover bg-center opacity-70"></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
                 <span className="relative z-10 font-bold text-xl text-white/90 drop-shadow-md tracking-widest">TESLA</span>
@@ -155,7 +155,7 @@ export default function ProfilePage() {
             </h2>
             
             <div className="space-y-4">
-              <div className="bg-background/40 rounded-2xl p-4 border border-white/5 flex items-center justify-between">
+              <div className="bg-background/40 rounded-2xl p-4 border border-black/5 dark:border-white/5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-xl bg-blue-500/20 text-blue-400">
                     <Battery className="h-5 w-5" />
@@ -165,7 +165,7 @@ export default function ProfilePage() {
                 <span className="font-bold text-lg text-white">1,245 kWh</span>
               </div>
               
-              <div className="bg-background/40 rounded-2xl p-4 border border-white/5 flex items-center justify-between">
+              <div className="bg-background/40 rounded-2xl p-4 border border-black/5 dark:border-white/5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-xl bg-green-500/20 text-green-400">
                     <Award className="h-5 w-5" />
@@ -175,7 +175,7 @@ export default function ProfilePage() {
                 <span className="font-bold text-lg text-white">850 kg</span>
               </div>
 
-              <div className="bg-background/40 rounded-2xl p-4 border border-white/5 flex items-center justify-between">
+              <div className="bg-background/40 rounded-2xl p-4 border border-black/5 dark:border-white/5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-xl bg-purple-500/20 text-purple-400">
                     <Zap className="h-5 w-5" />
@@ -187,13 +187,13 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="glass-card rounded-3xl p-6 border border-white/5">
+          <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5">
             <h2 className="text-lg font-bold mb-4">Quick Actions</h2>
             <div className="space-y-3">
-              <Button variant="outline" className="w-full justify-start text-left bg-white/5 border-white/10 hover:bg-white/10 transition-colors h-12 rounded-xl">
+              <Button variant="outline" className="w-full justify-start text-left bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-colors h-12 rounded-xl">
                 Payment Methods
               </Button>
-              <Button variant="outline" className="w-full justify-start text-left bg-white/5 border-white/10 hover:bg-white/10 transition-colors h-12 rounded-xl">
+              <Button variant="outline" className="w-full justify-start text-left bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-colors h-12 rounded-xl">
                 Notification Preferences
               </Button>
               <Button 

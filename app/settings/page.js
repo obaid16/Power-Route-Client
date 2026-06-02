@@ -35,28 +35,28 @@ export default function SettingsPage() {
           <Button 
             variant="ghost" 
             onClick={() => setActiveTab("preferences")}
-            className={`w-full justify-start ${activeTab === 'preferences' ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'}`}
+            className={`w-full justify-start ${activeTab === 'preferences' ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-muted-foreground hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground'}`}
           >
             <Cpu className="mr-3 h-5 w-5" /> Preferences
           </Button>
           <Button 
             variant="ghost" 
             onClick={() => setActiveTab("notifications")}
-            className={`w-full justify-start ${activeTab === 'notifications' ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'}`}
+            className={`w-full justify-start ${activeTab === 'notifications' ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-muted-foreground hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground'}`}
           >
             <Bell className="mr-3 h-5 w-5" /> Notifications
           </Button>
           <Button 
             variant="ghost" 
             onClick={() => setActiveTab("security")}
-            className={`w-full justify-start ${activeTab === 'security' ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'}`}
+            className={`w-full justify-start ${activeTab === 'security' ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-muted-foreground hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground'}`}
           >
             <Shield className="mr-3 h-5 w-5" /> Security
           </Button>
           <Button 
             variant="ghost" 
             onClick={() => setActiveTab("payment")}
-            className={`w-full justify-start ${activeTab === 'payment' ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'}`}
+            className={`w-full justify-start ${activeTab === 'payment' ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-muted-foreground hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground'}`}
           >
             <CreditCard className="mr-3 h-5 w-5" /> Payment Methods
           </Button>
@@ -67,8 +67,8 @@ export default function SettingsPage() {
           
           {activeTab === 'preferences' && (
             <>
-              <div className="glass-card rounded-3xl p-6 border border-white/5">
-                <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
+              <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5">
+                <h2 className="text-xl font-bold mb-6 flex items-center border-b border-black/10 dark:border-white/10 pb-4">
                   <Moon className="mr-2 h-5 w-5 text-primary" /> Appearance
                 </h2>
                 
@@ -79,7 +79,7 @@ export default function SettingsPage() {
                   </div>
                   
                   {mounted && (
-                    <div className="flex bg-background/50 border border-white/10 rounded-xl p-1 backdrop-blur-sm">
+                    <div className="flex bg-background/50 border border-black/10 dark:border-white/10 rounded-xl p-1 backdrop-blur-sm">
                       <button 
                         onClick={() => setTheme("light")}
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${theme === 'light' ? 'bg-primary text-white shadow-md' : 'text-muted-foreground hover:text-foreground'}`}
@@ -103,8 +103,8 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-              <div className="glass-card rounded-3xl p-6 border border-white/5">
-                <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
+              <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5">
+                <h2 className="text-xl font-bold mb-6 flex items-center border-b border-black/10 dark:border-white/10 pb-4">
                   <Volume2 className="mr-2 h-5 w-5 text-primary" /> Voice Assistant
                 </h2>
                 
@@ -124,15 +124,15 @@ export default function SettingsPage() {
                       <h3 className="font-medium text-foreground">Wake Word</h3>
                       <p className="text-sm text-muted-foreground">Say "Hey Power AI" to activate voice commands.</p>
                     </div>
-                    <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-white/10 transition-colors focus:outline-none cursor-pointer">
+                    <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-black/10 dark:bg-white/10 transition-colors focus:outline-none cursor-pointer">
                       <span className="inline-block h-4 w-4 translate-x-1 rounded-full bg-white transition-transform" />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="glass-card rounded-3xl p-6 border border-white/5">
-                <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
+              <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5">
+                <h2 className="text-xl font-bold mb-6 flex items-center border-b border-black/10 dark:border-white/10 pb-4">
                   <Globe className="mr-2 h-5 w-5 text-primary" /> Regional
                 </h2>
                 
@@ -155,8 +155,8 @@ export default function SettingsPage() {
           )}
 
           {activeTab === 'notifications' && (
-            <div className="glass-card rounded-3xl p-6 border border-white/5">
-              <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
+            <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5">
+              <h2 className="text-xl font-bold mb-6 flex items-center border-b border-black/10 dark:border-white/10 pb-4">
                 <Bell className="mr-2 h-5 w-5 text-primary" /> Notification Preferences
               </h2>
               <div className="space-y-6">
@@ -181,18 +181,18 @@ export default function SettingsPage() {
           )}
 
           {activeTab === 'security' && (
-            <div className="glass-card rounded-3xl p-6 border border-white/5">
-              <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
+            <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5">
+              <h2 className="text-xl font-bold mb-6 flex items-center border-b border-black/10 dark:border-white/10 pb-4">
                 <Shield className="mr-2 h-5 w-5 text-primary" /> Security Settings
               </h2>
               <div className="space-y-4">
-                <Button variant="outline" className="w-full justify-start text-left bg-white/5 border-white/10 h-12 rounded-xl">
+                <Button variant="outline" className="w-full justify-start text-left bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 h-12 rounded-xl">
                   Change Password
                 </Button>
-                <Button variant="outline" className="w-full justify-start text-left bg-white/5 border-white/10 h-12 rounded-xl">
+                <Button variant="outline" className="w-full justify-start text-left bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 h-12 rounded-xl">
                   Two-Factor Authentication (2FA)
                 </Button>
-                <Button variant="outline" className="w-full justify-start text-left bg-white/5 border-white/10 h-12 rounded-xl">
+                <Button variant="outline" className="w-full justify-start text-left bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 h-12 rounded-xl">
                   Manage Devices
                 </Button>
               </div>
@@ -200,14 +200,14 @@ export default function SettingsPage() {
           )}
 
           {activeTab === 'payment' && (
-            <div className="glass-card rounded-3xl p-6 border border-white/5">
-              <h2 className="text-xl font-bold mb-6 flex items-center border-b border-white/10 pb-4">
+            <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5">
+              <h2 className="text-xl font-bold mb-6 flex items-center border-b border-black/10 dark:border-white/10 pb-4">
                 <CreditCard className="mr-2 h-5 w-5 text-primary" /> Payment Methods
               </h2>
               <div className="space-y-4">
                 <div className="bg-background/40 p-4 rounded-xl border border-primary/30 flex justify-between items-center">
                   <div className="flex gap-3 items-center">
-                    <div className="w-10 h-6 bg-white/10 rounded flex items-center justify-center text-xs font-bold">VISA</div>
+                    <div className="w-10 h-6 bg-black/10 dark:bg-white/10 rounded flex items-center justify-center text-xs font-bold">VISA</div>
                     <div>
                       <p className="font-medium">•••• •••• •••• 4242</p>
                       <p className="text-xs text-muted-foreground">Expires 12/28</p>

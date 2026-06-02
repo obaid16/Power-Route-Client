@@ -13,7 +13,7 @@ export function Dashboard() {
       <div className="max-w-[1400px] mx-auto p-4 md:p-8 space-y-8">
         
         {/* Hero Section */}
-        <div className="relative w-full rounded-[32px] overflow-hidden bg-white dark:bg-[#0a0518] border border-black/5 dark:border-white/5 shadow-xl flex flex-col md:flex-row items-center p-8 md:p-16 min-h-[400px]">
+        <div className="relative w-full rounded-[32px] overflow-hidden bg-white dark:bg-[#0a0518] border border-black/5 dark:border-black/5 dark:dark:border-white/5 shadow-xl flex flex-col md:flex-row items-center p-8 md:p-16 min-h-[400px]">
           {/* Background effects */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-[#6E38F7]/10 via-white to-white dark:from-[#6E38F7]/20 dark:via-[#0a0518] dark:to-[#0a0518]"></div>
           
@@ -29,7 +29,7 @@ export function Dashboard() {
               <Link href="/profile" className="flex items-center gap-2 bg-[#6E38F7] hover:bg-[#5a2ce0] text-white px-6 py-3 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(110,56,247,0.4)]">
                 <CarFront className="w-5 h-5" /> My Vehicles
               </Link>
-              <Link href="/map" className="flex items-center gap-2 bg-black/5 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/10 text-foreground dark:text-white border border-black/10 dark:border-white/10 px-6 py-3 rounded-xl font-medium transition-all">
+              <Link href="/map" className="flex items-center gap-2 bg-black/5 hover:bg-black/10 dark:bg-black/5 dark:dark:bg-white/5 dark:hover:bg-white/10 text-foreground dark:text-white border border-black/10 dark:border-black/10 dark:dark:border-white/10 px-6 py-3 rounded-xl font-medium transition-all">
                 <MapPin className="w-5 h-5" /> Live Map
               </Link>
             </div>
@@ -51,7 +51,7 @@ export function Dashboard() {
             <img 
               src="/electra_van_hero.png" 
               alt="PoweRoute Van" 
-              className="relative z-20 w-[85%] aspect-square object-cover rounded-full shadow-[0_20px_50px_rgba(110,56,247,0.5)] border-4 border-white/10 dark:border-[#6E38F7]/30"
+              className="relative z-20 w-[85%] aspect-square object-cover rounded-full shadow-[0_20px_50px_rgba(110,56,247,0.5)] border-4 border-black/10 dark:border-white/10 dark:border-[#6E38F7]/30"
             />
           </div>
         </div>
@@ -278,9 +278,9 @@ export function Dashboard() {
                 </p>
                 <div className="flex gap-2 mt-8">
                   <div className="w-2 h-2 rounded-full bg-[#6E38F7]"></div>
-                  <div className="w-2 h-2 rounded-full bg-white/20"></div>
-                  <div className="w-2 h-2 rounded-full bg-white/20"></div>
-                  <div className="w-2 h-2 rounded-full bg-white/20"></div>
+                  <div className="w-2 h-2 rounded-full bg-black/20 dark:bg-white/20"></div>
+                  <div className="w-2 h-2 rounded-full bg-black/20 dark:bg-white/20"></div>
+                  <div className="w-2 h-2 rounded-full bg-black/20 dark:bg-white/20"></div>
                 </div>
               </div>
               <div className="w-1/2 flex justify-end z-10">

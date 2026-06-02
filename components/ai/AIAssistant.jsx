@@ -101,7 +101,7 @@ export function AIAssistant() {
               onClick={() => setIsOpen(true)}
               className="h-16 w-16 rounded-full bg-primary hover:bg-primary/90 text-white shadow-[0_0_20px_rgba(168,85,247,0.6)] neon-glow relative flex items-center justify-center overflow-hidden group"
             >
-              <div className="absolute inset-0 bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-full" />
+              <div className="absolute inset-0 bg-black/20 dark:bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-full" />
               <Bot className="h-8 w-8 relative z-10 animate-pulse" />
             </Button>
           </motion.div>
@@ -118,7 +118,7 @@ export function AIAssistant() {
             className="fixed bottom-6 right-6 z-50 w-[90vw] max-w-[400px] h-[600px] max-h-[85vh] flex flex-col rounded-3xl glass-card border border-primary/30 shadow-[0_10px_40px_rgba(0,0,0,0.5)] overflow-hidden bg-background/80 backdrop-blur-3xl"
           >
             {/* Header */}
-            <div className="p-4 border-b border-white/10 bg-gradient-to-r from-primary/20 to-transparent flex justify-between items-center relative">
+            <div className="p-4 border-b border-black/10 dark:border-white/10 bg-gradient-to-r from-primary/20 to-transparent flex justify-between items-center relative">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none"></div>
               <div className="flex items-center gap-3 relative z-10">
                 <div className="relative">
@@ -153,7 +153,7 @@ export function AIAssistant() {
                       "max-w-[80%] rounded-2xl p-3 text-sm shadow-md",
                       msg.sender === "user" 
                         ? "bg-primary text-primary-foreground rounded-tr-sm" 
-                        : "bg-white/10 text-foreground border border-white/5 rounded-tl-sm backdrop-blur-md"
+                        : "bg-black/10 dark:bg-white/10 text-foreground border border-black/5 dark:border-white/5 rounded-tl-sm backdrop-blur-md"
                     )}
                   >
                     {msg.text}
@@ -162,7 +162,7 @@ export function AIAssistant() {
               ))}
               {isListening && (
                 <div className="flex justify-start">
-                   <div className="bg-white/5 border border-primary/30 rounded-2xl p-3 rounded-tl-sm w-16 flex items-center justify-center gap-1">
+                   <div className="bg-black/5 dark:bg-white/5 border border-primary/30 rounded-2xl p-3 rounded-tl-sm w-16 flex items-center justify-center gap-1">
                       <motion.div animate={{ height: [8, 16, 8] }} transition={{ repeat: Infinity, duration: 1 }} className="w-1.5 bg-primary rounded-full"></motion.div>
                       <motion.div animate={{ height: [8, 20, 8] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-1.5 bg-primary rounded-full"></motion.div>
                       <motion.div animate={{ height: [8, 12, 8] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-1.5 bg-primary rounded-full"></motion.div>
@@ -173,7 +173,7 @@ export function AIAssistant() {
             </div>
 
             {/* Input Area */}
-            <div className="p-4 border-t border-white/10 bg-background/50 relative">
+            <div className="p-4 border-t border-black/10 dark:border-white/10 bg-background/50 relative">
               {isListening && (
                 <div className="absolute -top-8 left-0 w-full text-center text-xs text-primary animate-pulse font-medium">
                   Listening... Speak now
@@ -188,7 +188,7 @@ export function AIAssistant() {
                     "h-12 w-12 shrink-0 rounded-full transition-all border-none",
                     isListening 
                       ? "bg-red-500/20 text-red-400 hover:bg-red-500/30 animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.3)]" 
-                      : "bg-white/5 text-muted-foreground hover:bg-white/10 hover:text-primary"
+                      : "bg-black/5 dark:bg-white/5 text-muted-foreground hover:bg-black/10 dark:hover:bg-white/10 hover:text-primary"
                   )}
                 >
                   {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
@@ -200,7 +200,7 @@ export function AIAssistant() {
                     onChange={(e) => setInputText(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Ask AI anything..."
-                    className="w-full h-12 bg-white/5 border border-white/10 rounded-full pl-4 pr-12 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary/50 text-foreground placeholder:text-muted-foreground"
+                    className="w-full h-12 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-full pl-4 pr-12 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary/50 text-foreground placeholder:text-muted-foreground"
                   />
                   <Button 
                     size="icon" 

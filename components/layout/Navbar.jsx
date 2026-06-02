@@ -38,7 +38,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5">
+    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-black/5 dark:border-black/5 dark:dark:border-white/5">
       <div className="container flex h-20 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
         
         {/* Logo Section */}
@@ -109,7 +109,7 @@ export function Navbar() {
               <div className="relative flex items-center h-full ml-2" ref={profileRef}>
                 <button 
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="w-10 h-10 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 flex items-center justify-center cursor-pointer transition-colors text-muted-foreground hover:text-foreground dark:hover:text-white"
+                  className="w-10 h-10 rounded-full border border-black/10 dark:border-black/10 dark:dark:border-white/10 bg-black/5 dark:bg-black/5 dark:dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 flex items-center justify-center cursor-pointer transition-colors text-muted-foreground hover:text-foreground dark:hover:text-white"
                 >
                   <User className="h-5 w-5" />
                 </button>
@@ -170,7 +170,7 @@ export function Navbar() {
             href={link.href} 
             onClick={() => setIsMobileMenuOpen(false)} 
             className={cn(
-              "px-4 py-3 rounded-lg hover:bg-white/5 transition-colors font-medium",
+              "px-4 py-3 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors font-medium",
               pathname === link.href ? "text-[#6E38F7] bg-[#6E38F7]/10" : "text-[#9AA0A6]"
             )}
           >

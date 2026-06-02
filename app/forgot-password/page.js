@@ -38,7 +38,7 @@ export default function ForgotPasswordPage() {
           </p>
         </div>
 
-        <div className="glass-card p-8 rounded-3xl border border-white/10 shadow-xl relative overflow-hidden">
+        <div className="glass-card p-8 rounded-3xl border border-black/10 dark:border-white/10 shadow-xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full -z-10 blur-xl" />
           
           {isSuccess ? (

@@ -75,8 +75,8 @@ export default function SafetyCenter() {
         </div>
 
         {/* Roadside Assistance */}
-        <div className="glass-card rounded-3xl p-6 border border-white/5 hover:border-white/20 transition-all">
-          <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-4">
+        <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all">
+          <div className="w-12 h-12 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center mb-4">
             <Info className="h-6 w-6 text-white" />
           </div>
           <h3 className="text-xl font-bold text-white mb-2">Mobile Charging Van</h3>
@@ -86,7 +86,7 @@ export default function SafetyCenter() {
           <Link href="/van" className="w-full">
             <Button 
               variant="outline" 
-              className="w-full border-white/10 hover:bg-white/5 rounded-xl"
+              className="w-full border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 rounded-xl"
             >
               Request Van
             </Button>

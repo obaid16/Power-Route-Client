@@ -80,8 +80,8 @@ export default function NotificationsPage() {
           return (
             <div 
               key={notification.id}
-              className={`glass-card rounded-2xl p-4 flex gap-4 transition-all hover:bg-white/5 border ${
-                notification.read ? "border-white/5" : "border-primary/40 bg-primary/5"
+              className={`glass-card rounded-2xl p-4 flex gap-4 transition-all hover:bg-black/5 dark:hover:bg-white/5 border ${
+                notification.read ? "border-black/5 dark:border-white/5" : "border-primary/40 bg-primary/5"
               }`}
             >
               <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${notification.bgColor}`}>

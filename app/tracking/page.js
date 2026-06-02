@@ -74,7 +74,7 @@ export default function TrackingPage() {
               </div>
             </div>
             
-            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
+            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-black/10 dark:border-white/10">
               <div className="space-y-1">
                 <span className="text-xs text-muted-foreground uppercase flex items-center">
                   <Clock className="h-3 w-3 mr-1" /> ETA
@@ -91,7 +91,7 @@ export default function TrackingPage() {
           </div>
         </div>
 
-        <div className="glass-card rounded-3xl p-6 border border-white/5">
+        <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5">
           <h3 className="font-bold mb-4 flex items-center text-lg">
             <Battery className="h-5 w-5 mr-2 text-green-400" /> Vehicle Status
           </h3>
@@ -148,7 +148,7 @@ export default function TrackingPage() {
         <div className="absolute top-[80px] left-[480px] z-10">
           <div className="relative">
             <div className="absolute -inset-4 bg-primary/30 rounded-full blur-md animate-pulse" />
-            <div className="relative h-12 w-12 bg-primary rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.8)] border-2 border-white">
+            <div className="relative h-12 w-12 bg-primary rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.8)] border-2 border-black/20 dark:border-white">
               <Zap className="h-6 w-6 text-white" />
             </div>
           </div>

@@ -36,7 +36,7 @@ export function Sidebar() {
                 "flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200",
                 isActive
                   ? "bg-primary/10 text-primary font-medium neon-glow"
-                  : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
+                  : "text-muted-foreground hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground"
               )}
             >
               <Icon className={cn("h-5 w-5", isActive ? "text-primary" : "")} />

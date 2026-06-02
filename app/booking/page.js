@@ -75,7 +75,7 @@ function BookingContent() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Left Column - Details */}
         <div className="space-y-6">
-          <div className="glass-card rounded-3xl p-6 border border-white/5">
+          <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5">
             <h2 className="text-xl font-bold mb-4 flex items-center">
               <Zap className="mr-2 h-5 w-5 text-primary" /> Station Details
             </h2>
@@ -101,7 +101,7 @@ function BookingContent() {
             )}
           </div>
 
-          <div className="glass-card rounded-3xl p-6 border border-white/5">
+          <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5">
             <h2 className="text-xl font-bold mb-4 flex items-center">
               <Clock className="mr-2 h-5 w-5 text-primary" /> Select Time
             </h2>
@@ -142,7 +142,7 @@ function BookingContent() {
             </h2>
             
             <div className="space-y-4 relative z-10">
-              <div className="bg-background/40 rounded-2xl p-4 border border-white/5 space-y-2">
+              <div className="bg-background/40 rounded-2xl p-4 border border-black/5 dark:border-white/5 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Estimated Energy</span>
                   <span>~45 kWh</span>
@@ -155,7 +155,7 @@ function BookingContent() {
                   <span className="text-muted-foreground">Booking Fee</span>
                   <span>$1.50</span>
                 </div>
-                <div className="border-t border-white/10 pt-2 mt-2 flex justify-between font-bold text-lg">
+                <div className="border-t border-black/10 dark:border-white/10 pt-2 mt-2 flex justify-between font-bold text-lg">
                   <span>Total Estimated</span>
                   <span className="text-primary neon-text">$21.75</span>
                 </div>

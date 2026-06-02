@@ -312,7 +312,7 @@ export default function MapPage() {
                     onClick={() => setFilter(filter === 'DC Fast' ? 'All' : 'DC Fast')}
                     variant="outline" 
                     size="sm" 
-                    className={`rounded-full transition-colors ${filter === 'DC Fast' ? 'bg-primary/20 border-primary/50 text-primary neon-glow' : 'bg-white/5 border-white/10'}`}
+                    className={`rounded-full transition-colors ${filter === 'DC Fast' ? 'bg-primary/20 border-primary/50 text-primary neon-glow' : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10'}`}
                   >
                     <Zap className="mr-1 h-3 w-3" /> DC Fast (150kW+)
                   </Button>
@@ -320,14 +320,14 @@ export default function MapPage() {
                     onClick={() => setFilter(filter === 'Level 2' ? 'All' : 'Level 2')}
                     variant="outline" 
                     size="sm" 
-                    className={`rounded-full transition-colors ${filter === 'Level 2' ? 'bg-primary/20 border-primary/50 text-primary neon-glow' : 'bg-white/5 border-white/10'}`}
+                    className={`rounded-full transition-colors ${filter === 'Level 2' ? 'bg-primary/20 border-primary/50 text-primary neon-glow' : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10'}`}
                   >
                     <Battery className="mr-1 h-3 w-3" /> Level 2
                   </Button>
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className={`rounded-full transition-colors ${filter === 'More' ? 'bg-primary/20 border-primary/50 text-primary neon-glow' : 'bg-white/5 border-white/10'}`}
+                    className={`rounded-full transition-colors ${filter === 'More' ? 'bg-primary/20 border-primary/50 text-primary neon-glow' : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10'}`}
                     onClick={() => setFilter(filter === 'More' ? 'All' : 'More')}
                   >
                     <Filter className="mr-1 h-3 w-3" /> More
@@ -367,7 +367,7 @@ export default function MapPage() {
                         className={`p-5 rounded-3xl cursor-pointer transition-all ${
                           selectedStation?.id === station.id
                             ? "glass-card border-primary/50 neon-glow"
-                            : "bg-background/40 border border-white/5 hover:border-white/20 backdrop-blur-sm"
+                            : "bg-background/40 border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 backdrop-blur-sm"
                         }`}
                       >
                         <div className="flex justify-between items-start mb-3">
@@ -402,7 +402,7 @@ export default function MapPage() {
               className="flex flex-col gap-4 h-full overflow-y-auto scrollbar-hide pb-20 md:pb-0"
             >
               {/* Header with Exit & Speaker wave */}
-              <div className="flex justify-between items-center bg-background/25 border border-white/5 rounded-2xl p-3">
+              <div className="flex justify-between items-center bg-background/25 border border-black/5 dark:border-white/5 rounded-2xl p-3">
                 <Button onClick={stopNavigation} variant="ghost" size="sm" className="text-muted-foreground hover:text-white gap-1.5 rounded-xl">
                   <ArrowLeft className="h-4 w-4" /> Cancel
                 </Button>
@@ -421,7 +421,7 @@ export default function MapPage() {
                   <Button 
                     size="icon" 
                     variant="ghost" 
-                    className="h-8 w-8 rounded-full bg-white/5 border border-white/10" 
+                    className="h-8 w-8 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10" 
                     onClick={() => setAudioEnabled(!audioEnabled)}
                   >
                     {audioEnabled ? <Volume2 className="h-4 w-4 text-primary" /> : <VolumeX className="h-4 w-4 text-muted-foreground" />}
@@ -442,7 +442,7 @@ export default function MapPage() {
 
               {/* Trip ETA Status */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="glass-card p-4 rounded-2xl border-white/5 flex flex-col justify-center">
+                <div className="glass-card p-4 rounded-2xl border-black/5 dark:border-white/5 flex flex-col justify-center">
                   <span className="text-xs text-muted-foreground uppercase flex items-center mb-1">
                     <Clock className="h-3.5 w-3.5 mr-1 text-primary" /> ETA
                   </span>
@@ -450,7 +450,7 @@ export default function MapPage() {
                     {progress >= 100 ? "0" : Math.ceil(9 * (1 - progress / 100) * (isTrafficActive ? 1.5 : 1))} mins
                   </p>
                 </div>
-                <div className="glass-card p-4 rounded-2xl border-white/5 flex flex-col justify-center">
+                <div className="glass-card p-4 rounded-2xl border-black/5 dark:border-white/5 flex flex-col justify-center">
                   <span className="text-xs text-muted-foreground uppercase flex items-center mb-1">
                     <MapPin className="h-3.5 w-3.5 mr-1 text-primary" /> Distance
                   </span>
@@ -461,7 +461,7 @@ export default function MapPage() {
               </div>
 
               {/* EV Battery State HUD */}
-              <div className="glass-card p-5 rounded-3xl border-white/5 relative overflow-hidden space-y-4">
+              <div className="glass-card p-5 rounded-3xl border-black/5 dark:border-white/5 relative overflow-hidden space-y-4">
                 <div className="flex justify-between items-center">
                   <h3 className="font-bold flex items-center text-sm tracking-wide">
                     <Battery className="h-4 w-4 mr-2 text-green-400" /> BATTERY TELEMETRY
@@ -504,7 +504,7 @@ export default function MapPage() {
                         <span className="text-muted-foreground">Range Est</span>
                         <span className="text-foreground dark:text-white font-bold">{Math.round(currentBattery * 2.6)} miles</span>
                       </div>
-                      <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-1.5 w-full bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
                         <div 
                           className={`h-full rounded-full transition-all duration-300 ${
                             currentBattery < 15 ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" : 
@@ -541,7 +541,7 @@ export default function MapPage() {
               </div>
 
               {/* Driving Telemetry HUD (Speed + Power Draw) */}
-              <div className="glass-card p-5 rounded-3xl border-white/5 space-y-4">
+              <div className="glass-card p-5 rounded-3xl border-black/5 dark:border-white/5 space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <span className="text-[10px] font-bold text-muted-foreground uppercase flex items-center mb-1">
@@ -566,9 +566,9 @@ export default function MapPage() {
                 </div>
 
                 {/* Powertrain Flow Bar */}
-                <div className="relative h-4 w-full bg-white/5 rounded-xl border border-white/10 overflow-hidden flex">
+                <div className="relative h-4 w-full bg-black/5 dark:bg-white/5 rounded-xl border border-black/10 dark:border-white/10 overflow-hidden flex">
                   {/* Regen side (left half) */}
-                  <div className="w-1/2 h-full flex justify-end items-center pr-0.5 border-r border-white/20">
+                  <div className="w-1/2 h-full flex justify-end items-center pr-0.5 border-r border-black/20 dark:border-white/20">
                     <div 
                       className="h-2.5 bg-green-500 rounded-l shadow-[0_0_8px_rgba(34,197,94,0.5)] transition-all duration-300"
                       style={{ width: isRegenActive ? `${Math.min(100, (Math.abs(powerFlow) / 25) * 100)}%` : '0%' }}
@@ -593,7 +593,7 @@ export default function MapPage() {
               </div>
 
               {/* Simulation Controls Overlay */}
-              <div className="glass-card p-4 rounded-2xl border-white/5 space-y-4">
+              <div className="glass-card p-4 rounded-2xl border-black/5 dark:border-white/5 space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-xs font-semibold text-muted-foreground uppercase">SIM SPEED</span>
                   <div className="flex gap-1.5">
@@ -602,7 +602,7 @@ export default function MapPage() {
                         key={mult}
                         size="xs"
                         variant={speedMultiplier === mult ? "default" : "outline"}
-                        className={`text-xs px-2.5 py-1 h-auto rounded-lg ${speedMultiplier === mult ? 'bg-primary text-white neon-glow' : 'bg-white/5 text-muted-foreground'}`}
+                        className={`text-xs px-2.5 py-1 h-auto rounded-lg ${speedMultiplier === mult ? 'bg-primary text-white neon-glow' : 'bg-black/5 dark:bg-white/5 text-muted-foreground'}`}
                         onClick={() => setSpeedMultiplier(mult)}
                       >
                         {mult}x
@@ -615,7 +615,7 @@ export default function MapPage() {
                   <Button 
                     onClick={() => setIsPaused(!isPaused)} 
                     variant="outline" 
-                    className="flex-1 bg-white/5 border-white/10 text-white rounded-xl py-2 h-auto"
+                    className="flex-1 bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-white rounded-xl py-2 h-auto"
                   >
                     {isPaused ? <Play className="h-4 w-4 mr-2 text-green-400" /> : <Pause className="h-4 w-4 mr-2 text-amber-400" />}
                     {isPaused ? "Resume" : "Pause"}
@@ -623,7 +623,7 @@ export default function MapPage() {
                   <Button 
                     onClick={() => setProgress(0)} 
                     variant="outline" 
-                    className="bg-white/5 border-white/10 text-white rounded-xl py-2 h-auto"
+                    className="bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-white rounded-xl py-2 h-auto"
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
@@ -650,7 +650,7 @@ export default function MapPage() {
               className={`rounded-full px-3 py-1.5 h-auto text-xs border ${
                 isTrafficActive 
                   ? 'bg-orange-500/20 text-orange-400 border-orange-500/30 font-bold' 
-                  : 'bg-background/80 border-border dark:border-white/10 text-muted-foreground hover:text-foreground'
+                  : 'bg-background/80 border-border dark:border-black/10 dark:dark:border-white/10 text-muted-foreground hover:text-foreground'
               }`}
               onClick={() => setIsTrafficActive(!isTrafficActive)}
             >
@@ -659,7 +659,7 @@ export default function MapPage() {
             <Button 
               size="sm" 
               variant="outline" 
-              className="rounded-full px-3 py-1.5 h-auto text-xs bg-background/80 border-border dark:border-white/10 text-muted-foreground hover:text-foreground flex items-center gap-1.5"
+              className="rounded-full px-3 py-1.5 h-auto text-xs bg-background/80 border-border dark:border-black/10 dark:dark:border-white/10 text-muted-foreground hover:text-foreground flex items-center gap-1.5"
               onClick={() => setMapMode(mapMode === 'cyberpunk' ? 'satellite' : 'cyberpunk')}
             >
               <Layers className="h-3.5 w-3.5" />
@@ -808,7 +808,7 @@ export default function MapPage() {
                     isSelected ? 'scale-125 border-primary bg-primary text-white neon-glow' : 
                     isTarget ? 'border-green-400 bg-green-500 text-white' : 
                     isDark 
-                      ? 'bg-slate-900/90 border-white/20 text-primary-foreground hover:scale-110'
+                      ? 'bg-slate-900/90 border-black/20 dark:border-white/20 text-primary-foreground hover:scale-110'
                       : 'bg-white border-black/10 text-primary hover:scale-110 hover:border-primary/45 shadow-sm'
                   }`}>
                     {parseInt(station.power) >= 150 ? <Zap className="h-4 w-4" /> : <Battery className="h-4 w-4" />}
@@ -816,7 +816,7 @@ export default function MapPage() {
 
                   {/* Little tooltip flag */}
                   <div className={`absolute top-10 left-1/2 -translate-x-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1 rounded text-[10px] whitespace-nowrap font-medium z-30 border ${
-                    isDark ? 'bg-slate-950/90 border-white/10 text-white' : 'bg-white border-black/10 text-slate-800 shadow-sm'
+                    isDark ? 'bg-slate-950/90 border-black/10 dark:border-white/10 text-white' : 'bg-white border-black/10 text-slate-800 shadow-sm'
                   }`}>
                     {station.name} ({station.power})
                   </div>
@@ -869,7 +869,7 @@ export default function MapPage() {
                           <Navigation className="h-4 w-4" /> Navigate
                         </Button>
                         <Link href={`/booking?station=${selectedStation.id}`}>
-                          <Button variant="outline" className="px-4 border-white/10 bg-white/5 hover:bg-white/10 rounded-xl">
+                          <Button variant="outline" className="px-4 border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl">
                             Book Plugs
                           </Button>
                         </Link>
@@ -884,7 +884,7 @@ export default function MapPage() {
                   animate={{ opacity: 1 }}
                   className="space-y-4"
                 >
-                  <div className="flex justify-between items-center pb-2 border-b border-white/5">
+                  <div className="flex justify-between items-center pb-2 border-b border-black/5 dark:border-white/5">
                     <h4 className="font-bold text-sm text-foreground dark:text-white">JOURNEY PRESETS</h4>
                     <Button variant="ghost" size="xs" className="h-6 text-xs text-muted-foreground p-0" onClick={() => setShowNavSetup(false)}>
                       Back
@@ -907,7 +907,7 @@ export default function MapPage() {
                       max="100" 
                       value={startBattery}
                       onChange={(e) => setStartBattery(parseInt(e.target.value))}
-                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary" 
+                      className="w-full h-1 bg-black/10 dark:bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary" 
                     />
                     <div className="flex justify-between text-[9px] text-muted-foreground font-semibold">
                       <span>Low (5%)</span>
