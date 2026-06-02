@@ -290,7 +290,7 @@ export default function MapPage() {
     <AnimatedPage className="min-h-[calc(100vh-8rem)] md:h-[calc(100vh-8rem)] flex flex-col md:flex-row gap-6">
       
       {/* Left Column Sidebar */}
-      <div className="w-full md:w-[350px] lg:w-[400px] flex flex-col gap-4 h-full shrink-0">
+      <div className="w-full md:w-[350px] lg:w-[400px] flex flex-col gap-4 max-h-[50vh] md:max-h-none md:h-full shrink-0">
         
         <AnimatePresence mode="wait">
           {!isNavigating ? (
@@ -436,7 +436,7 @@ export default function MapPage() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">NAV ROUTE ACTIVE</p>
-                  <p className="text-sm font-semibold text-white leading-snug">{navigationMessage}</p>
+                  <p className="text-sm font-semibold text-foreground dark:text-white leading-snug">{navigationMessage}</p>
                 </div>
               </div>
 
@@ -446,7 +446,7 @@ export default function MapPage() {
                   <span className="text-xs text-muted-foreground uppercase flex items-center mb-1">
                     <Clock className="h-3.5 w-3.5 mr-1 text-primary" /> ETA
                   </span>
-                  <p className="text-2xl font-bold text-white">
+                  <p className="text-2xl font-bold text-foreground dark:text-white">
                     {progress >= 100 ? "0" : Math.ceil(9 * (1 - progress / 100) * (isTrafficActive ? 1.5 : 1))} mins
                   </p>
                 </div>
@@ -454,7 +454,7 @@ export default function MapPage() {
                   <span className="text-xs text-muted-foreground uppercase flex items-center mb-1">
                     <MapPin className="h-3.5 w-3.5 mr-1 text-primary" /> Distance
                   </span>
-                  <p className="text-2xl font-bold text-white">
+                  <p className="text-2xl font-bold text-foreground dark:text-white">
                     {progress >= 100 ? "0.0" : (4.2 * (1 - progress / 100)).toFixed(1)} mi
                   </p>
                 </div>
@@ -493,7 +493,7 @@ export default function MapPage() {
                       />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-lg font-black tracking-tighter text-white">{Math.round(currentBattery)}%</span>
+                      <span className="text-lg font-black tracking-tighter text-foreground dark:text-white">{Math.round(currentBattery)}%</span>
                       <span className="text-[8px] text-muted-foreground uppercase font-bold">SOC</span>
                     </div>
                   </div>
@@ -502,7 +502,7 @@ export default function MapPage() {
                     <div>
                       <div className="flex justify-between text-xs font-semibold mb-1">
                         <span className="text-muted-foreground">Range Est</span>
-                        <span className="text-white font-bold">{Math.round(currentBattery * 2.6)} miles</span>
+                        <span className="text-foreground dark:text-white font-bold">{Math.round(currentBattery * 2.6)} miles</span>
                       </div>
                       <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                         <div 
@@ -517,7 +517,7 @@ export default function MapPage() {
                     </div>
                     
                     <p className="text-[11px] text-muted-foreground">
-                      Target arrival charge: <span className="font-semibold text-white">~{Math.max(2, Math.round(startBattery - 7.5))}% SoC</span>
+                      Target arrival charge: <span className="font-semibold text-foreground dark:text-white">~{Math.max(2, Math.round(startBattery - 7.5))}% SoC</span>
                     </p>
                   </div>
                 </div>
@@ -548,7 +548,7 @@ export default function MapPage() {
                       <Gauge className="h-3 w-3 mr-1 text-primary" /> VELOCITY
                     </span>
                     <div className="flex items-baseline">
-                      <span className="text-3xl font-black text-white font-mono">{speed}</span>
+                      <span className="text-3xl font-black text-foreground dark:text-white font-mono">{speed}</span>
                       <span className="text-xs text-muted-foreground ml-1 font-bold">mph</span>
                     </div>
                   </div>
@@ -557,7 +557,7 @@ export default function MapPage() {
                       <Zap className="h-3 w-3 mr-1 text-primary" /> ENERGY FLOW
                     </span>
                     <div className="flex items-baseline">
-                      <span className={`text-3xl font-black font-mono ${isRegenActive ? "text-green-400 animate-pulse" : "text-white"}`}>
+                      <span className={`text-3xl font-black font-mono ${isRegenActive ? "text-green-400 animate-pulse" : "text-foreground dark:text-white"}`}>
                         {isRegenActive ? `+${Math.abs(powerFlow)}` : powerFlow}
                       </span>
                       <span className="text-xs text-muted-foreground ml-1 font-bold">kW</span>
@@ -885,7 +885,7 @@ export default function MapPage() {
                   className="space-y-4"
                 >
                   <div className="flex justify-between items-center pb-2 border-b border-white/5">
-                    <h4 className="font-bold text-sm text-white">JOURNEY PRESETS</h4>
+                    <h4 className="font-bold text-sm text-foreground dark:text-white">JOURNEY PRESETS</h4>
                     <Button variant="ghost" size="xs" className="h-6 text-xs text-muted-foreground p-0" onClick={() => setShowNavSetup(false)}>
                       Back
                     </Button>
