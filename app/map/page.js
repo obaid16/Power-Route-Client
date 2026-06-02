@@ -113,6 +113,19 @@ function getPositionOnPath(points, progress) {
   return { x: last.x, y: last.y, angle: 0 };
 }
 
+// Haversine distance in miles
+function getDistanceFromLatLonInMiles(lat1, lon1, lat2, lon2) {
+  const R = 3958.8; // Radius of the earth in miles
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  return R * c; 
+}
+
 export default function MapPage() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -122,6 +135,10 @@ export default function MapPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedStation, setSelectedStation] = useState(null);
   const [filter, setFilter] = useState('All');
+  
+  // Geolocation states
+  const [userLocation, setUserLocation] = useState(null);
+  const [locatingText, setLocatingText] = useState("Detecting Location...");
 
   // Navigation simulation states
   const [isNavigating, setIsNavigating] = useState(false);
@@ -141,28 +158,57 @@ export default function MapPage() {
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [showNavSetup, setShowNavSetup] = useState(false);
 
-  // Fetch stations from backend on load
+  // Fetch stations and location on load
   useEffect(() => {
     setMounted(true);
-    const fetchStations = async () => {
+    
+    const fetchStations = async (userLat, userLng) => {
       try {
         const res = await api.get('/stations');
         const data = res.data?.data || [];
-        const formattedData = data.map(st => {
-          // Sync with preset locations if configured, else randomize
-          const config = STATIONS_CONFIG[st._id] || { x: 300 + Math.random() * 400, y: 150 + Math.random() * 300 };
+        
+        // Use user location or fallback to a default city (e.g. SF)
+        const baseLat = userLat || 37.7749;
+        const baseLng = userLng || -122.4194;
+        
+        let formattedData = data.map((st, i) => {
+          // Generate realistic mock coordinates slightly offset from the user's location
+          // Offset between -0.05 and +0.05 degrees (roughly within 3 miles)
+          const randomLatOffset = ((i + 1) * 0.015) * (i % 2 === 0 ? 1 : -1);
+          const randomLngOffset = ((i + 1) * 0.02) * (i % 3 === 0 ? -1 : 1);
+          
+          const lat = baseLat + randomLatOffset;
+          const lng = baseLng + randomLngOffset;
+          
+          let distStr = "";
+          let distVal = 999;
+          
+          if (userLat && userLng) {
+            distVal = getDistanceFromLatLonInMiles(userLat, userLng, lat, lng);
+            distStr = distVal.toFixed(1) + " mi";
+          } else {
+            // Mock distances if no geolocation
+            distStr = st._id === "1" ? "1.8 mi" : st._id === "2" ? "2.4 mi" : "4.5 mi";
+            distVal = parseFloat(distStr);
+          }
+
           return {
             id: st._id,
             name: st.name,
-            distance: st._id === "1" ? "1.8 mi" : st._id === "2" ? "2.4 mi" : "4.5 mi",
+            distance: distStr,
+            distVal, // keep for sorting
             slots: st.chargers?.filter(c => c.status === 'available').length || 2,
             type: st.chargers?.[0]?.type || 'Standard CCS',
             rating: st.rating || 4.5,
             power: st.chargers?.[0]?.power || '150kW',
-            x: config.x,
-            y: config.y
+            lat,
+            lng
           };
         });
+        
+        // Sort stations by true nearest physical distance
+        formattedData.sort((a, b) => a.distVal - b.distVal);
+        
         setStations(formattedData);
         if (formattedData.length > 0) setSelectedStation(formattedData[0]);
       } catch (error) {
@@ -171,7 +217,24 @@ export default function MapPage() {
         setIsLoading(false);
       }
     };
-    fetchStations();
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ lat: latitude, lng: longitude });
+          fetchStations(latitude, longitude);
+        },
+        (error) => {
+          console.warn("Geolocation denied or failed, falling back to mock:", error.message);
+          setLocatingText("Location not found");
+          fetchStations(null, null);
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    } else {
+      fetchStations(null, null);
+    }
   }, []);
 
   // Update battery states when customizable battery sliders move
@@ -687,7 +750,7 @@ export default function MapPage() {
         {/* Dynamic Canvas/SVG map */}
         <div className={`flex-1 relative w-full h-full transition-colors duration-500 ${isDark ? 'bg-[#0B0416]' : 'bg-[#FAF9FD]'}`}>
           <iframe 
-            src={`https://maps.google.com/maps?q=${encodeURIComponent(selectedStation?.name || 'EV Charging Station')}&t=${mapMode === 'satellite' ? 'k' : 'm'}&z=13&ie=UTF8&iwloc=&output=embed`}
+            src={`https://maps.google.com/maps?q=${selectedStation?.lat || 37.7749},${selectedStation?.lng || -122.4194}&t=${mapMode === 'satellite' ? 'k' : 'm'}&z=14&ie=UTF8&iwloc=&output=embed`}
             width="100%" 
             height="100%" 
             style={{ border: 0, filter: isDark ? 'invert(90%) hue-rotate(180deg) contrast(80%)' : 'none' }} 
