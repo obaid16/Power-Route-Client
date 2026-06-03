@@ -1,13 +1,64 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
+import api from "@/lib/api";
 import { 
   MapPin, Route, Zap, Wallet, Clock, Wrench, Settings, ChevronRight, 
-  Battery, Activity, ShieldAlert, CarFront, Leaf, ShieldCheck, Banknote, Smartphone 
+  Battery, Activity, ShieldAlert, CarFront, Leaf, ShieldCheck, Banknote, Smartphone, Loader2 
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export function Dashboard() {
+  const [stations, setStations] = useState([]);
+  const [loadingStations, setLoadingStations] = useState(true);
+  const [activeTipIndex, setActiveTipIndex] = useState(0);
+  const stationsScrollRef = useRef(null);
+
+  const ecoTips = [
+    { title: "Maintain a", highlight: "steady speed", desc: "Driving at a constant speed can increase your range up to 15%.", icon: Leaf, offset: 180 },
+    { title: "Use", highlight: "regenerative braking", desc: "Maximize your regen braking to recover up to 20% of kinetic energy.", icon: Battery, offset: 120 },
+    { title: "Pre-condition", highlight: "your cabin", desc: "Heat or cool the cabin while plugged in to save battery range.", icon: Zap, offset: 150 },
+    { title: "Check your", highlight: "tire pressure", desc: "Properly inflated tires reduce rolling resistance and boost efficiency.", icon: Activity, offset: 200 },
+  ];
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          try {
+            const { latitude, longitude } = position.coords;
+            const res = await api.get(`/stations?lat=${latitude}&lng=${longitude}`);
+            
+            // Format stations to match UI structure and take top 8 for carousel
+            const formattedData = (res.data?.data || []).slice(0, 8).map(st => {
+              const mainCharger = st.chargers?.[0] || { type: "Standard", power: "50kW" };
+              return {
+                id: st._id,
+                name: st.name || "Unknown Station",
+                type: `${mainCharger.portType || "Standard"} - ${mainCharger.power}`,
+                dist: "Local", // Real distance calculation requires Haversine or backend
+                price: `₹${st.pricing?.ratePerKwh || 15}/kWh`,
+                rating: st.rating || "4.5",
+                crowd: "Unknown crowd",
+                avail: mainCharger.status !== "occupied"
+              };
+            });
+            setStations(formattedData.length ? formattedData : []);
+          } catch (error) {
+            console.error("Failed to fetch stations", error);
+          } finally {
+            setLoadingStations(false);
+          }
+        },
+        () => {
+          setLoadingStations(false);
+        }
+      );
+    } else {
+      setLoadingStations(false);
+    }
+  }, []);
   return (
     <div className="w-full bg-[#F4F2FA] dark:bg-[#06020E] text-[#1A0E38] dark:text-[#F8F9FA] transition-colors duration-300 min-h-screen">
       <div className="max-w-[1400px] mx-auto p-4 md:p-8 space-y-8">
@@ -194,41 +245,76 @@ export function Dashboard() {
             <h2 className="text-lg font-bold">Nearby Charging Stations</h2>
             <Link href="/map" className="text-sm text-[#6E38F7] hover:underline font-medium">View all</Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 relative">
-            {[
-              { name: "PoweRoute Fast Charge", type: "CCS - 150 kW", dist: "0.8 km", price: "₹18/kWh", rating: "4.8", crowd: "Low crowd", avail: true },
-              { name: "GreenPlug Station", type: "CCS - 120 kW", dist: "1.2 km", price: "₹16/kWh", rating: "4.5", crowd: "Moderate crowd", avail: true },
-              { name: "PowerHub Express", type: "CCS - 150 kW", dist: "1.8 km", price: "₹17/kWh", rating: "4.5", crowd: "Low crowd", avail: true },
-              { name: "VoltPoint Hub", type: "CCS - 120 kW", dist: "2.3 km", price: "₹15/kWh", rating: "4.3", crowd: "High crowd", avail: true }
-            ].map((station, i) => (
-              <div key={i} className="bg-white dark:bg-[#110822] rounded-[20px] overflow-hidden shadow-sm border border-[#E5E0F1] dark:border-[#2D1B54] transition-colors duration-300 group cursor-pointer hover:border-[#6E38F7]">
-                <div className="h-32 bg-gray-200 dark:bg-[#1A0E38] relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#110822]/80 z-10"></div>
-                  {/* Mock image patterns */}
-                  <div className="w-full h-full opacity-40 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
-                  <div className="absolute top-2 left-2 z-20 bg-background/80 backdrop-blur-md rounded-md px-2 py-1 flex items-center gap-1 text-[10px] font-bold">
-                    <MapPin className="w-3 h-3 text-[#6E38F7]" /> {station.dist}
-                  </div>
-                  <div className="absolute top-2 right-2 z-20 bg-green-500/20 text-green-500 border border-green-500/30 rounded-md px-2 py-1 text-[10px] font-bold flex items-center gap-1">
-                    <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div> Available
-                  </div>
+          <div className="relative group">
+            {/* Left Scroll Button */}
+            {stations.length > 0 && (
+              <button 
+                onClick={() => {
+                  if (stationsScrollRef.current) {
+                    stationsScrollRef.current.scrollBy({ left: -320, behavior: 'smooth' });
+                  }
+                }}
+                className="absolute -left-4 top-1/2 -translate-y-1/2 hidden lg:flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-[#1A0E38] text-foreground dark:text-white border border-[#E5E0F1] dark:border-[#2D1B54] shadow-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-[#2D1B54] z-20 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <ChevronRight className="w-5 h-5 rotate-180" />
+              </button>
+            )}
+
+            <div 
+              ref={stationsScrollRef}
+              className="flex overflow-x-auto snap-x snap-mandatory gap-4 lg:gap-6 relative min-h-[150px] pb-4 hide-scrollbar"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {loadingStations ? (
+                <div className="absolute inset-0 flex justify-center items-center h-32 w-full">
+                  <Loader2 className="h-8 w-8 text-primary animate-spin" />
                 </div>
-                <div className="p-4">
-                  <h3 className="font-bold text-sm mb-1">{station.name}</h3>
-                  <p className="text-xs text-[#9AA0A6] mb-4">{station.type}</p>
-                  <div className="flex items-center justify-between text-xs font-medium">
-                    <div className="flex gap-3">
-                      <span>{station.price}</span>
-                      <span className="text-yellow-500 flex items-center gap-0.5">{station.rating} <span className="text-lg leading-none">★</span></span>
+              ) : stations.length > 0 ? (
+                stations.map((station, i) => (
+                  <div key={i} className="min-w-[280px] max-w-[300px] flex-1 snap-start bg-white dark:bg-[#110822] rounded-[20px] overflow-hidden shadow-sm border border-[#E5E0F1] dark:border-[#2D1B54] transition-colors duration-300 cursor-pointer hover:border-[#6E38F7]">
+                    <div className="h-32 bg-gray-200 dark:bg-[#1A0E38] relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#110822]/80 z-10"></div>
+                      <div className="w-full h-full opacity-40 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+                      <div className="absolute top-2 left-2 z-20 bg-background/80 backdrop-blur-md rounded-md px-2 py-1 flex items-center gap-1 text-[10px] font-bold">
+                        <MapPin className="w-3 h-3 text-[#6E38F7]" /> {station.dist}
+                      </div>
+                      <div className={`absolute top-2 right-2 z-20 ${station.avail ? 'bg-green-500/20 text-green-500 border-green-500/30' : 'bg-red-500/20 text-red-500 border-red-500/30'} border rounded-md px-2 py-1 text-[10px] font-bold flex items-center gap-1`}>
+                        <div className={`w-1.5 h-1.5 rounded-full ${station.avail ? 'bg-green-500' : 'bg-red-500'}`}></div> {station.avail ? 'Available' : 'Occupied'}
+                      </div>
                     </div>
-                    <span className="text-[#9AA0A6]">{station.crowd}</span>
+                    <div className="p-4">
+                      <h3 className="font-bold text-sm mb-1 truncate">{station.name}</h3>
+                      <p className="text-xs text-[#9AA0A6] mb-4">{station.type}</p>
+                      <div className="flex items-center justify-between text-xs font-medium">
+                        <div className="flex gap-3">
+                          <span>{station.price}</span>
+                          <span className="text-yellow-500 flex items-center gap-0.5">{station.rating} <span className="text-lg leading-none">★</span></span>
+                        </div>
+                        <Link href={`/booking?station=${station.id}`} className="text-[#6E38F7] hover:underline font-bold text-[11px] uppercase tracking-wider">Book Now</Link>
+                      </div>
+                    </div>
                   </div>
+                ))
+              ) : (
+                <div className="w-full flex justify-center items-center h-32 text-muted-foreground text-sm">
+                  No nearby charging stations found.
                 </div>
-              </div>
-            ))}
-            <div className="absolute -right-4 top-1/2 -translate-y-1/2 hidden lg:flex items-center justify-center w-10 h-10 rounded-full bg-[#6E38F7] text-white shadow-lg cursor-pointer hover:bg-[#5a2ce0] z-10">
-              <ChevronRight className="w-5 h-5" />
+              )}
             </div>
+            
+            {/* Right Scroll Button */}
+            {stations.length > 0 && (
+              <button 
+                onClick={() => {
+                  if (stationsScrollRef.current) {
+                    stationsScrollRef.current.scrollBy({ left: 320, behavior: 'smooth' });
+                  }
+                }}
+                className="absolute -right-4 top-1/2 -translate-y-1/2 hidden lg:flex items-center justify-center w-10 h-10 rounded-full bg-[#6E38F7] text-white shadow-lg cursor-pointer hover:bg-[#5a2ce0] z-20 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            )}
           </div>
         </div>
 
@@ -269,33 +355,48 @@ export function Dashboard() {
           {/* Eco Driving Tips */}
           <div>
             <h2 className="text-lg font-bold mb-4 px-2">Eco Driving Tips</h2>
-            <div className="h-[300px] rounded-[24px] bg-gradient-to-br from-white to-[#F4F2FA] dark:from-[#1C1238] dark:to-[#0A0518] border border-black/5 dark:border-[#2D1B54] p-8 flex items-center relative overflow-hidden group">
-              <div className="absolute right-0 top-0 w-1/2 h-full opacity-30 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#6E38F7] to-transparent mix-blend-multiply dark:mix-blend-screen"></div>
-              <div className="w-1/2 z-10">
-                <h3 className="text-2xl font-bold text-foreground dark:text-white mb-4">Maintain a <span className="text-[#6E38F7] dark:text-[#A87BFF]">steady speed</span></h3>
-                <p className="text-sm text-[#9AA0A6] leading-relaxed">
-                  Driving at a constant speed can increase your range up to 15%.
+            <div className="h-[300px] rounded-[24px] bg-gradient-to-br from-white to-[#F4F2FA] dark:from-[#1C1238] dark:to-[#0A0518] border border-black/5 dark:border-[#2D1B54] p-8 flex items-center relative overflow-hidden group transition-all duration-500">
+              <div className="absolute right-0 top-0 w-1/2 h-full opacity-30 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#6E38F7] to-transparent mix-blend-multiply dark:mix-blend-screen transition-opacity"></div>
+              <div className="w-1/2 z-10 transition-all duration-300">
+                <h3 className="text-2xl font-bold text-foreground dark:text-white mb-4">
+                  {ecoTips[activeTipIndex].title} <span className="text-[#6E38F7] dark:text-[#A87BFF]">{ecoTips[activeTipIndex].highlight}</span>
+                </h3>
+                <p className="text-sm text-[#9AA0A6] leading-relaxed h-12">
+                  {ecoTips[activeTipIndex].desc}
                 </p>
                 <div className="flex gap-2 mt-8">
-                  <div className="w-2 h-2 rounded-full bg-[#6E38F7]"></div>
-                  <div className="w-2 h-2 rounded-full bg-black/20 dark:bg-white/20"></div>
-                  <div className="w-2 h-2 rounded-full bg-black/20 dark:bg-white/20"></div>
-                  <div className="w-2 h-2 rounded-full bg-black/20 dark:bg-white/20"></div>
+                  {ecoTips.map((_, i) => (
+                    <div 
+                      key={i} 
+                      onClick={() => setActiveTipIndex(i)}
+                      className={`h-2 rounded-full cursor-pointer transition-all duration-300 ${activeTipIndex === i ? 'w-4 bg-[#6E38F7]' : 'w-2 bg-black/20 dark:bg-white/20'}`}
+                    ></div>
+                  ))}
                 </div>
               </div>
               <div className="w-1/2 flex justify-end z-10">
-                {/* Mock Gauge */}
+                {/* Dynamic Gauge */}
                 <div className="relative w-40 h-40">
                   <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
                     <circle cx="50" cy="50" r="40" fill="none" stroke="#2D1B54" strokeWidth="8" strokeDasharray="251" strokeDashoffset="100" />
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="#6E38F7" strokeWidth="8" strokeDasharray="251" strokeDashoffset="180" className="animate-pulse" />
+                    <circle 
+                      cx="50" cy="50" r="40" fill="none" stroke="#6E38F7" strokeWidth="8" 
+                      strokeDasharray="251" strokeDashoffset={ecoTips[activeTipIndex].offset} 
+                      className="transition-all duration-1000 ease-in-out" 
+                    />
                   </svg>
-                  <div className="absolute inset-0 flex items-center justify-center text-[#A87BFF]">
-                    <Leaf className="w-8 h-8" />
+                  <div className="absolute inset-0 flex items-center justify-center text-[#A87BFF] transition-all duration-300">
+                    {(() => {
+                      const ActiveIcon = ecoTips[activeTipIndex].icon;
+                      return <ActiveIcon className="w-8 h-8" />;
+                    })()}
                   </div>
                 </div>
               </div>
-              <div className="absolute right-4 bottom-4 w-8 h-8 rounded-full bg-[#6E38F7] flex items-center justify-center text-white cursor-pointer shadow-lg hover:scale-110 transition-transform">
+              <div 
+                onClick={() => setActiveTipIndex((prev) => (prev + 1) % ecoTips.length)}
+                className="absolute right-4 bottom-4 w-8 h-8 rounded-full bg-[#6E38F7] flex items-center justify-center text-white cursor-pointer shadow-lg hover:scale-110 transition-transform z-20"
+              >
                 <ChevronRight className="w-4 h-4" />
               </div>
             </div>
