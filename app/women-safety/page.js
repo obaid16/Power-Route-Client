@@ -70,7 +70,7 @@ export default function WomenSafetyPage() {
             </div>
 
             <div className="mt-6 flex justify-center lg:justify-start">
-              <Link href="/safety">
+              <Link href="/women-safety/contacts">
                 <button className="text-primary text-sm font-semibold flex items-center gap-1 hover:underline">
                   View All Emergency Contacts <ChevronRight className="w-4 h-4" />
                 </button>
@@ -246,18 +246,20 @@ export default function WomenSafetyPage() {
                   <p className="text-xs text-muted-foreground">{place.type}</p>
                 </div>
               </div>
-              <div className="sm:w-1/5 text-sm text-muted-foreground">
-                {place.distance}
-              </div>
-              <div className="sm:w-1/5 text-sm text-green-500 font-medium">
-                {place.status}
-              </div>
-              <div className="sm:w-1/5 flex sm:justify-end">
-                <Link href="/map">
-                  <button className="flex items-center gap-1 text-sm font-medium text-foreground dark:text-white group-hover:text-primary transition-colors">
-                    Directions <ChevronRight className="w-4 h-4" />
-                  </button>
-                </Link>
+              <div className="flex items-center justify-between sm:w-3/5 mt-2 sm:mt-0">
+                <div className="text-sm text-muted-foreground">
+                  {place.distance}
+                </div>
+                <div className="text-sm text-green-500 font-medium">
+                  {place.status}
+                </div>
+                <div className="flex">
+                  <Link href="/map">
+                    <button className="flex items-center gap-1 text-sm font-medium text-foreground dark:text-white group-hover:text-primary transition-colors">
+                      Directions <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
           ))}

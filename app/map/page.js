@@ -452,12 +452,18 @@ export default function MapPage() {
                               </Button>
                             ) : (
                               <>
-                                <Button
-                                  onClick={() => setShowNavSetup(true)}
-                                  className="w-full bg-primary text-white hover:bg-primary/95 neon-glow rounded-xl flex items-center justify-center gap-1.5 font-semibold py-5"
+                                <a 
+                                  href={`https://www.google.com/maps/dir/?api=1&destination=${selectedStation?.lat},${selectedStation?.lng}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="w-full"
                                 >
-                                  <Navigation className="h-4 w-4" /> Navigate
-                                </Button>
+                                  <Button
+                                    className="w-full bg-primary text-white hover:bg-primary/95 neon-glow rounded-xl flex items-center justify-center gap-1.5 font-semibold py-5"
+                                  >
+                                    <Navigation className="h-4 w-4" /> Navigate
+                                  </Button>
+                                </a>
                                 <Link href={`/booking?station=${selectedStation.id}`} className="w-full">
                                   <Button variant="outline" className="w-full py-5 border-black/10 dark:border-white/10 bg-background/50 hover:bg-black/5 dark:hover:bg-white/10 rounded-xl">
                                     Book Plugs
@@ -895,13 +901,7 @@ export default function MapPage() {
 
       {/* Right Column - Map Container */}
       <div className="flex-1 relative rounded-3xl overflow-hidden glass-card border border-primary/20 min-h-[400px] flex flex-col">
-        {/* Floating Top Bar HUD */}
-        <div className="absolute bottom-4 left-4 right-4 z-20 flex justify-between pointer-events-none">
-          <div className="bg-background/90 dark:glass-card px-4 py-2 rounded-full border border-black/10 dark:border-primary/30 flex items-center gap-2 backdrop-blur-xl shadow-lg pointer-events-auto">
-            <Compass className={`h-4 w-4 text-primary ${isNavigating && !isPaused ? "animate-spin" : ""}`} style={{ animationDuration: '4s' }} />
-            <span className="text-xs font-bold uppercase tracking-widest text-foreground dark:text-white">POWEROUTE MAPS</span>
-          </div>
-
+        <div className="absolute bottom-4 left-4 right-4 z-20 flex justify-end pointer-events-none">
           <div className="flex gap-2 pointer-events-auto">
 
             <Button
@@ -919,9 +919,9 @@ export default function MapPage() {
         {/* Dynamic Canvas/SVG map */}
         <div className={`flex-1 relative w-full h-full transition-colors duration-500 ${isDark ? 'bg-[#0B0416]' : 'bg-[#FAF9FD]'}`}>
           <iframe
-            src={userLocation
-              ? `https://maps.google.com/maps?saddr=${userLocation.lat},${userLocation.lng}&daddr=${selectedStation?.lat},${selectedStation?.lng}&t=${mapMode === 'satellite' ? 'k' : 'm'}&output=embed`
-              : `https://maps.google.com/maps?q=${selectedStation?.lat || 37.7749},${selectedStation?.lng || -122.4194}&t=${mapMode === 'satellite' ? 'k' : 'm'}&z=14&ie=UTF8&iwloc=&output=embed`
+            src={(isViewingDetails || isNavigating) && userLocation && selectedStation
+              ? `https://maps.google.com/maps?saddr=${userLocation.lat},${userLocation.lng}&daddr=${selectedStation.lat},${selectedStation.lng}&t=${mapMode === 'satellite' ? 'k' : 'm'}&output=embed`
+              : `https://maps.google.com/maps?q=${selectedStation?.lat || userLocation?.lat || 37.7749},${selectedStation?.lng || userLocation?.lng || -122.4194}&t=${mapMode === 'satellite' ? 'k' : 'm'}&z=13&ie=UTF8&iwloc=&output=embed`
             }
             width="100%"
             height="100%"
