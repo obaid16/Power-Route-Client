@@ -5,7 +5,7 @@ import api from "@/lib/api";
 import { AnimatedPage } from "@/components/layout/AnimatedPage";
 import { GlassInput } from "@/components/ui/glass-input";
 import { Button } from "@/components/ui/button";
-import { 
+import {
   Search, MapPin, Zap, Navigation, Star, Battery, Filter, Loader2,
   Play, Pause, RotateCcw, FastForward, Sliders, Volume2, VolumeX,
   Compass, ShieldAlert, ArrowLeft, CheckCircle2, RefreshCw, Layers,
@@ -82,20 +82,20 @@ const STATIONS_CONFIG = {
 function getPositionOnPath(points, progress) {
   if (!points || points.length === 0) return { x: 120, y: 150, angle: 0 };
   if (points.length === 1) return { x: points[0].x, y: points[0].y, angle: 0 };
-  
+
   let totalLength = 0;
   const segments = [];
   for (let i = 0; i < points.length - 1; i++) {
-    const dx = points[i+1].x - points[i].x;
-    const dy = points[i+1].y - points[i].y;
+    const dx = points[i + 1].x - points[i].x;
+    const dy = points[i + 1].y - points[i].y;
     const len = Math.sqrt(dx * dx + dy * dy);
-    segments.push({ from: points[i], to: points[i+1], length: len, dx, dy });
+    segments.push({ from: points[i], to: points[i + 1], length: len, dx, dy });
     totalLength += len;
   }
-  
+
   const targetLen = (progress / 100) * totalLength;
   let currentLen = 0;
-  
+
   for (let i = 0; i < segments.length; i++) {
     const seg = segments[i];
     if (currentLen + seg.length >= targetLen || i === segments.length - 1) {
@@ -108,7 +108,7 @@ function getPositionOnPath(points, progress) {
     }
     currentLen += seg.length;
   }
-  
+
   const last = points[points.length - 1];
   return { x: last.x, y: last.y, angle: 0 };
 }
@@ -118,12 +118,12 @@ function getDistanceFromLatLonInMiles(lat1, lon1, lat2, lon2) {
   const R = 3958.8; // Radius of the earth in miles
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
-  const a = 
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
-    Math.sin(dLon/2) * Math.sin(dLon/2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  return R * c; 
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
 export default function MapPage() {
@@ -136,7 +136,7 @@ export default function MapPage() {
   const [selectedStation, setSelectedStation] = useState(null);
   const [isViewingDetails, setIsViewingDetails] = useState(false);
   const [filter, setFilter] = useState('All');
-  
+
   // Geolocation states
   const [userLocation, setUserLocation] = useState(null);
   const [locatingText, setLocatingText] = useState("Detecting Location...");
@@ -175,24 +175,24 @@ export default function MapPage() {
   // Fetch stations and location on load
   useEffect(() => {
     setMounted(true);
-    
+
     const fetchStations = async (userLat, userLng) => {
       try {
         const baseLat = userLat || 37.7749;
         const baseLng = userLng || -122.4194;
-        
+
         const res = await api.get(`/stations?lat=${baseLat}&lng=${baseLng}`);
         const data = res.data?.data || [];
-        
+
         let formattedData = data.map((st, i) => {
           // Use actual coordinates returned by the API
           // Mongoose GeoJSON coordinates are [longitude, latitude]
           const lng = st.location?.coordinates?.[0] || baseLng;
           const lat = st.location?.coordinates?.[1] || baseLat;
-          
+
           const distVal = getDistanceFromLatLonInMiles(baseLat, baseLng, lat, lng);
           const distStr = distVal.toFixed(1) + " mi";
-          
+
           return {
             id: st._id || i.toString(),
             name: st.name || "Unknown Station",
@@ -209,10 +209,10 @@ export default function MapPage() {
             portType: st.chargers?.[0]?.portType || "CCS1"
           };
         });
-        
+
         // Sort stations by true nearest physical distance
         formattedData.sort((a, b) => a.distVal - b.distVal);
-        
+
         setStations(formattedData);
         if (formattedData.length > 0) setSelectedStation(formattedData[0]);
       } catch (error) {
@@ -362,11 +362,11 @@ export default function MapPage() {
   };
 
   return (
-    <AnimatedPage className="min-h-[calc(100vh-8rem)] md:h-[calc(100vh-8rem)] flex flex-col-reverse md:flex-row gap-6">
-      
+    <AnimatedPage className="mt-8 md:mt-10 max-w-7xl mx-auto w-full min-h-[calc(100vh-8rem)] md:h-[calc(100vh-8rem)] flex flex-col-reverse md:flex-row gap-10 lg:gap-14">
+
       {/* Left Column Sidebar */}
-      <div className="w-full md:w-[350px] lg:w-[400px] flex flex-col gap-4 h-[50vh] md:h-full shrink-0">
-        
+      <div className="w-full md:w-[300px] lg:w-[320px] flex flex-col gap-4 h-[50vh] md:h-full shrink-0">
+
         <AnimatePresence mode="wait">
           {!isNavigating ? (
             // Search / Filter and Station List Panel
@@ -383,25 +383,25 @@ export default function MapPage() {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 </div>
                 <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                  <Button 
+                  <Button
                     onClick={() => setFilter(filter === 'DC Fast' ? 'All' : 'DC Fast')}
-                    variant="outline" 
-                    size="sm" 
+                    variant="outline"
+                    size="sm"
                     className={`rounded-full transition-colors ${filter === 'DC Fast' ? 'bg-primary/20 border-primary/50 text-primary neon-glow' : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10'}`}
                   >
                     <Zap className="mr-1 h-3 w-3" /> DC Fast (150kW+)
                   </Button>
-                  <Button 
+                  <Button
                     onClick={() => setFilter(filter === 'Level 2' ? 'All' : 'Level 2')}
-                    variant="outline" 
-                    size="sm" 
+                    variant="outline"
+                    size="sm"
                     className={`rounded-full transition-colors ${filter === 'Level 2' ? 'bg-primary/20 border-primary/50 text-primary neon-glow' : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10'}`}
                   >
                     <Battery className="mr-1 h-3 w-3" /> Level 2
                   </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     className={`rounded-full transition-colors ${filter === 'More' ? 'bg-primary/20 border-primary/50 text-primary neon-glow' : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10'}`}
                     onClick={() => setFilter(filter === 'More' ? 'All' : 'More')}
                   >
@@ -452,7 +452,7 @@ export default function MapPage() {
                               </Button>
                             ) : (
                               <>
-                                <Button 
+                                <Button
                                   onClick={() => setShowNavSetup(true)}
                                   className="w-full bg-primary text-white hover:bg-primary/95 neon-glow rounded-xl flex items-center justify-center gap-1.5 font-semibold py-5"
                                 >
@@ -469,7 +469,7 @@ export default function MapPage() {
                         </div>
                       ) : (
                         // Navigation settings panel
-                        <motion.div 
+                        <motion.div
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           className="space-y-4"
@@ -491,13 +491,13 @@ export default function MapPage() {
                                 {startBattery}%
                               </span>
                             </div>
-                            <input 
-                              type="range" 
-                              min="5" 
-                              max="100" 
+                            <input
+                              type="range"
+                              min="5"
+                              max="100"
                               value={startBattery}
                               onChange={(e) => setStartBattery(parseInt(e.target.value))}
-                              className="w-full h-1 bg-black/10 dark:bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary" 
+                              className="w-full h-1 bg-black/10 dark:bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary"
                             />
                             <div className="flex justify-between text-[9px] text-muted-foreground font-semibold">
                               <span>Low (5%)</span>
@@ -514,7 +514,7 @@ export default function MapPage() {
                             </p>
                           </div>
 
-                          <Button 
+                          <Button
                             onClick={startNavigation}
                             className="w-full bg-primary text-white hover:bg-primary/95 neon-glow rounded-xl font-bold py-5 text-sm"
                           >
@@ -537,31 +537,33 @@ export default function MapPage() {
                             .filter(s => s.id !== selectedStation.id)
                             .slice(0, 3)
                             .map(station => (
-                              <div 
+                              <div
                                 key={station.id}
                                 onClick={() => {
                                   setSelectedStation(station);
                                   setShowNavSetup(false);
                                 }}
-                                className="min-w-[180px] shrink-0 p-3 rounded-2xl cursor-pointer glass-card border border-black/5 dark:border-white/5 hover:border-primary/50 transition-all overflow-hidden flex flex-col"
+                                className="min-w-[180px] shrink-0 rounded-2xl cursor-pointer glass-card border border-black/5 dark:border-white/5 hover:border-primary/50 transition-all overflow-hidden flex flex-col"
                               >
-                                <div className="w-full h-20 -mt-3 -mx-3 mb-2 relative bg-gradient-to-br from-primary/20 to-purple-500/20 overflow-hidden flex items-center justify-center">
-                                  <img 
-                                    src={stationImages[parseInt(station.id.slice(-2), 16) % stationImages.length || 0]} 
+                                <div className="w-full h-20 relative bg-gradient-to-br from-primary/20 to-purple-500/20 overflow-hidden flex items-center justify-center">
+                                  <img
+                                    src={stationImages[parseInt(station.id.slice(-2), 16) % stationImages.length || 0]}
                                     alt={station.name}
                                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
                                     className="absolute inset-0 object-cover w-full h-full hover:scale-105 transition-transform duration-500"
                                   />
                                   <Zap className="h-6 w-6 text-primary/40 -z-10" />
                                 </div>
-                                <div className="flex justify-between items-start mb-1">
-                                  <h5 className="font-bold text-sm truncate">{station.name}</h5>
-                                </div>
-                                <p className="text-[11px] text-muted-foreground mt-0.5">{station.distance} • {station.slots} slots</p>
-                                <div className="mt-2 flex items-center gap-2">
-                                  <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-md border border-primary/20">
-                                    {station.power}
-                                  </span>
+                                <div className="p-3">
+                                  <div className="flex justify-between items-start mb-1">
+                                    <h5 className="font-bold text-sm truncate">{station.name}</h5>
+                                  </div>
+                                  <p className="text-[11px] text-muted-foreground mt-0.5">{station.distance} • {station.slots} slots</p>
+                                  <div className="mt-2 flex items-center gap-2">
+                                    <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-md border border-primary/20">
+                                      {station.power}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             ))
@@ -597,52 +599,53 @@ export default function MapPage() {
                           setSelectedStation(station);
                           setIsViewingDetails(true);
                         }}
-                        className={`p-5 rounded-3xl cursor-pointer transition-all overflow-hidden flex flex-col ${
-                          selectedStation?.id === station.id
+                        className={`rounded-3xl cursor-pointer transition-all overflow-hidden flex flex-col ${selectedStation?.id === station.id
                             ? "glass-card border-primary/50 neon-glow"
                             : "bg-background/40 border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 backdrop-blur-sm"
-                        }`}
+                          }`}
                       >
-                        <div className="w-full h-32 -mt-5 -mx-5 mb-4 relative bg-gradient-to-br from-primary/20 to-purple-500/20 overflow-hidden flex items-center justify-center">
-                          <img 
-                            src={stationImages[parseInt(station.id.slice(-2), 16) % stationImages.length || 0]} 
+                        <div className="w-full h-32 relative bg-gradient-to-br from-primary/20 to-purple-500/20 overflow-hidden flex items-center justify-center">
+                          <img
+                            src={stationImages[parseInt(station.id.slice(-2), 16) % stationImages.length || 0]}
                             alt={station.name}
                             onError={(e) => { e.currentTarget.style.display = 'none'; }}
                             className="absolute inset-0 object-cover w-full h-full hover:scale-105 transition-transform duration-500"
                           />
                           <Zap className="h-10 w-10 text-primary/40 -z-10" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
-                        </div>
-                        <div className="flex justify-between items-start mb-2">
-                          <h3 className="font-bold text-lg leading-tight tracking-wide">{station.name}</h3>
-                          <div className="flex items-center text-xs font-bold text-yellow-500 bg-yellow-500/10 px-2.5 py-1 rounded-full shrink-0 ml-2 border border-yellow-500/20">
-                            <Star className="h-3.5 w-3.5 mr-1 fill-current" /> {station.rating}
-                          </div>
                         </div>
                         
-                        <div className="flex flex-col gap-1.5 mb-4">
-                          <div className="flex items-center text-[11px] text-muted-foreground font-medium">
-                            <MapPin className="h-3.5 w-3.5 mr-1.5 text-primary shrink-0" /> 
-                            <span className="truncate">{station.distance} • {station.address}</span>
+                        <div className="p-5 flex flex-col flex-1">
+                          <div className="flex justify-between items-start mb-2">
+                            <h3 className="font-bold text-lg leading-tight tracking-wide">{station.name}</h3>
+                            <div className="flex items-center text-xs font-bold text-yellow-500 bg-yellow-500/10 px-2.5 py-1 rounded-full shrink-0 ml-2 border border-yellow-500/20">
+                              <Star className="h-3.5 w-3.5 mr-1 fill-current" /> {station.rating}
+                            </div>
                           </div>
-                          <div className="flex items-center text-[11px] text-muted-foreground font-medium">
-                            <Zap className="h-3.5 w-3.5 mr-1.5 text-primary shrink-0" /> 
-                            {station.portType} • {station.price}
+
+                          <div className="flex flex-col gap-1.5 mb-4">
+                            <div className="flex items-center text-[11px] text-muted-foreground font-medium">
+                              <MapPin className="h-3.5 w-3.5 mr-1.5 text-primary shrink-0" />
+                              <span className="truncate">{station.distance} • {station.address}</span>
+                            </div>
+                            <div className="flex items-center text-[11px] text-muted-foreground font-medium">
+                              <Zap className="h-3.5 w-3.5 mr-1.5 text-primary shrink-0" />
+                              {station.portType} • {station.price}
+                            </div>
                           </div>
-                        </div>
-                        
-                        <div className="flex items-center justify-between mt-auto pt-3 border-t border-black/5 dark:border-white/5">
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-1 rounded-lg border border-primary/20 shadow-[0_0_10px_rgba(168,85,247,0.05)]">
-                              {station.power}
-                            </span>
-                            <span className="text-[10px] font-bold bg-green-500/10 text-green-500 px-2 py-1 rounded-lg border border-green-500/20 shadow-[0_0_10px_rgba(34,197,94,0.05)]">
-                              {station.slots} available
-                            </span>
+
+                          <div className="flex items-center justify-between mt-auto pt-3 border-t border-black/5 dark:border-white/5">
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-1 rounded-lg border border-primary/20 shadow-[0_0_10px_rgba(168,85,247,0.05)]">
+                                {station.power}
+                              </span>
+                              <span className="text-[10px] font-bold bg-green-500/10 text-green-500 px-2 py-1 rounded-lg border border-green-500/20 shadow-[0_0_10px_rgba(34,197,94,0.05)]">
+                                {station.slots} available
+                              </span>
+                            </div>
+                            <Button size="sm" className="h-7 px-3 text-[11px] rounded-lg bg-primary hover:bg-primary/90 text-white font-bold shadow-md hover:shadow-primary/30 transition-all">
+                              Select
+                            </Button>
                           </div>
-                          <Button size="sm" className="h-7 px-3 text-[11px] rounded-lg bg-primary hover:bg-primary/90 text-white font-bold shadow-md hover:shadow-primary/30 transition-all">
-                            Select
-                          </Button>
                         </div>
                       </motion.div>
                     ))
@@ -675,10 +678,10 @@ export default function MapPage() {
                       />
                     ))}
                   </div>
-                  <Button 
-                    size="icon" 
-                    variant="ghost" 
-                    className="h-8 w-8 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10" 
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-8 w-8 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10"
                     onClick={() => setAudioEnabled(!audioEnabled)}
                   >
                     {audioEnabled ? <Volume2 className="h-4 w-4 text-primary" /> : <VolumeX className="h-4 w-4 text-muted-foreground" />}
@@ -762,17 +765,16 @@ export default function MapPage() {
                         <span className="text-foreground dark:text-white font-bold">{Math.round(currentBattery * 2.6)} miles</span>
                       </div>
                       <div className="h-1.5 w-full bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
-                        <div 
-                          className={`h-full rounded-full transition-all duration-300 ${
-                            currentBattery < 15 ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" : 
-                            currentBattery < 25 ? "bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]" : 
-                            "bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.5)]"
-                          }`}
+                        <div
+                          className={`h-full rounded-full transition-all duration-300 ${currentBattery < 15 ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" :
+                              currentBattery < 25 ? "bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]" :
+                                "bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.5)]"
+                            }`}
                           style={{ width: `${currentBattery}%` }}
                         />
                       </div>
                     </div>
-                    
+
                     <p className="text-[11px] text-muted-foreground">
                       Target arrival charge: <span className="font-semibold text-foreground dark:text-white">~{Math.max(2, Math.round(startBattery - 7.5))}% SoC</span>
                     </p>
@@ -781,7 +783,7 @@ export default function MapPage() {
 
                 {/* Low Battery and Warning Alerts */}
                 {currentBattery < 15 && (
-                  <motion.div 
+                  <motion.div
                     initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     className="p-3.5 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-start gap-2.5 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
@@ -826,19 +828,19 @@ export default function MapPage() {
                 <div className="relative h-4 w-full bg-black/5 dark:bg-white/5 rounded-xl border border-black/10 dark:border-white/10 overflow-hidden flex">
                   {/* Regen side (left half) */}
                   <div className="w-1/2 h-full flex justify-end items-center pr-0.5 border-r border-black/20 dark:border-white/20">
-                    <div 
+                    <div
                       className="h-2.5 bg-green-500 rounded-l shadow-[0_0_8px_rgba(34,197,94,0.5)] transition-all duration-300"
                       style={{ width: isRegenActive ? `${Math.min(100, (Math.abs(powerFlow) / 25) * 100)}%` : '0%' }}
                     />
                   </div>
                   {/* Consumption side (right half) */}
                   <div className="w-1/2 h-full flex justify-start items-center pl-0.5">
-                    <div 
+                    <div
                       className="h-2.5 bg-red-500 rounded-r shadow-[0_0_8px_rgba(239,68,68,0.5)] transition-all duration-300"
                       style={{ width: !isRegenActive && speed > 0 ? `${Math.min(100, (powerFlow / 60) * 100)}%` : '0%' }}
                     />
                   </div>
-                  
+
                   {/* Center line */}
                   <div className="absolute top-1/2 left-1/2 -translate-y-1/2 w-0.5 h-full bg-white" />
                 </div>
@@ -869,17 +871,17 @@ export default function MapPage() {
                 </div>
 
                 <div className="flex gap-2">
-                  <Button 
-                    onClick={() => setIsPaused(!isPaused)} 
-                    variant="outline" 
+                  <Button
+                    onClick={() => setIsPaused(!isPaused)}
+                    variant="outline"
                     className="flex-1 bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-foreground dark:text-white rounded-xl py-2 h-auto"
                   >
                     {isPaused ? <Play className="h-4 w-4 mr-2 text-green-400" /> : <Pause className="h-4 w-4 mr-2 text-amber-400" />}
                     {isPaused ? "Resume" : "Pause"}
                   </Button>
-                  <Button 
-                    onClick={() => setProgress(0)} 
-                    variant="outline" 
+                  <Button
+                    onClick={() => setProgress(0)}
+                    variant="outline"
                     className="bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-foreground dark:text-white rounded-xl py-2 h-auto"
                   >
                     <RotateCcw className="h-4 w-4" />
@@ -894,7 +896,7 @@ export default function MapPage() {
       {/* Right Column - Map Container */}
       <div className="flex-1 relative rounded-3xl overflow-hidden glass-card border border-primary/20 min-h-[400px] flex flex-col">
         {/* Floating Top Bar HUD */}
-        <div className="absolute top-4 left-4 right-4 z-20 flex justify-between pointer-events-none">
+        <div className="absolute bottom-4 left-4 right-4 z-20 flex justify-between pointer-events-none">
           <div className="bg-background/90 dark:glass-card px-4 py-2 rounded-full border border-black/10 dark:border-primary/30 flex items-center gap-2 backdrop-blur-xl shadow-lg pointer-events-auto">
             <Compass className={`h-4 w-4 text-primary ${isNavigating && !isPaused ? "animate-spin" : ""}`} style={{ animationDuration: '4s' }} />
             <span className="text-xs font-bold uppercase tracking-widest text-foreground dark:text-white">POWEROUTE MAPS</span>
@@ -902,9 +904,9 @@ export default function MapPage() {
 
           <div className="flex gap-2 pointer-events-auto">
 
-            <Button 
-              size="sm" 
-              variant="outline" 
+            <Button
+              size="sm"
+              variant="outline"
               className="rounded-full px-3 py-1.5 h-auto text-xs bg-background/90 backdrop-blur-xl border-black/10 dark:border-white/10 text-foreground hover:bg-background flex items-center gap-1.5"
               onClick={() => setMapMode(mapMode === 'cyberpunk' ? 'satellite' : 'cyberpunk')}
             >
@@ -916,16 +918,16 @@ export default function MapPage() {
 
         {/* Dynamic Canvas/SVG map */}
         <div className={`flex-1 relative w-full h-full transition-colors duration-500 ${isDark ? 'bg-[#0B0416]' : 'bg-[#FAF9FD]'}`}>
-          <iframe 
-            src={userLocation 
+          <iframe
+            src={userLocation
               ? `https://maps.google.com/maps?saddr=${userLocation.lat},${userLocation.lng}&daddr=${selectedStation?.lat},${selectedStation?.lng}&t=${mapMode === 'satellite' ? 'k' : 'm'}&output=embed`
               : `https://maps.google.com/maps?q=${selectedStation?.lat || 37.7749},${selectedStation?.lng || -122.4194}&t=${mapMode === 'satellite' ? 'k' : 'm'}&z=14&ie=UTF8&iwloc=&output=embed`
             }
-            width="100%" 
-            height="100%" 
-            style={{ border: 0, filter: isDark ? 'invert(90%) hue-rotate(180deg) contrast(80%)' : 'none' }} 
-            allowFullScreen="" 
-            loading="lazy" 
+            width="100%"
+            height="100%"
+            style={{ border: 0, filter: isDark ? 'invert(90%) hue-rotate(180deg) contrast(80%)' : 'none' }}
+            allowFullScreen=""
+            loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
         </div>
