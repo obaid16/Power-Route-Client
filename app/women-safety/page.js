@@ -2,6 +2,7 @@
 
 import { AnimatedPage } from "@/components/layout/AnimatedPage";
 import { Shield, Phone, MapPin, Navigation, Map, Hotel, Hospital, Flame, Info, CheckCircle, BellRing, PhoneCall, MessageCircle, MoreVertical, Plus, ChevronRight, AlertTriangle, BatteryCharging, Zap } from "lucide-react";
+import Link from "next/link";
 
 export default function WomenSafetyPage() {
   const handleSOS = () => {
@@ -22,8 +23,8 @@ export default function WomenSafetyPage() {
       </div>
 
       {/* Emergency Section */}
-      <div className="bg-gradient-to-br from-white to-[#F3E8FF]/30 dark:from-[#110822] dark:to-[#1A0E38] rounded-3xl p-6 lg:p-8 border border-[#E5E0F1] dark:border-[#2D1B54] relative overflow-hidden shadow-sm">
-        <div className="absolute right-0 top-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#6E38F7]/10 dark:from-[#6E38F7]/20 to-transparent pointer-events-none"></div>
+      <div className="glass-card rounded-3xl p-6 lg:p-8 border border-primary/20 relative overflow-hidden bg-primary/5">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
         
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 relative z-10">
           <div>
@@ -31,17 +32,17 @@ export default function WomenSafetyPage() {
             <p className="text-muted-foreground text-sm mb-6">Quick access to essential emergency services.</p>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-white dark:bg-[#06020E] rounded-2xl p-4 border border-[#E5E0F1] dark:border-[#2D1B54] hover:border-[#6E38F7] transition-all cursor-pointer shadow-sm">
-                <div className="w-10 h-10 rounded-full bg-[#6E38F7]/10 flex items-center justify-center mb-3">
-                  <Shield className="w-5 h-5 text-[#6E38F7]" />
+              <div className="glass-card rounded-2xl p-4 border border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40 transition-all cursor-pointer shadow-sm text-center">
+                <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-3">
+                  <Shield className="w-5 h-5 text-blue-500" />
                 </div>
                 <h3 className="font-bold text-sm">Police</h3>
                 <p className="text-xl font-bold text-foreground dark:text-white my-1">100</p>
                 <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Emergency</p>
               </div>
 
-              <div className="bg-white dark:bg-[#06020E] rounded-2xl p-4 border border-[#E5E0F1] dark:border-[#2D1B54] hover:border-red-500 transition-all cursor-pointer shadow-sm">
-                <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center mb-3">
+              <div className="glass-card rounded-2xl p-4 border border-red-500/20 bg-red-500/5 hover:border-red-500/40 transition-all cursor-pointer shadow-sm text-center">
+                <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center mx-auto mb-3">
                   <Hospital className="w-5 h-5 text-red-500" />
                 </div>
                 <h3 className="font-bold text-sm">Ambulance</h3>
@@ -49,17 +50,17 @@ export default function WomenSafetyPage() {
                 <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Emergency</p>
               </div>
 
-              <div className="bg-white dark:bg-[#06020E] rounded-2xl p-4 border border-[#E5E0F1] dark:border-[#2D1B54] hover:border-pink-500 transition-all cursor-pointer shadow-sm">
-                <div className="w-10 h-10 rounded-full bg-pink-500/10 flex items-center justify-center mb-3">
+              <div className="glass-card rounded-2xl p-4 border border-pink-500/20 bg-pink-500/5 hover:border-pink-500/40 transition-all cursor-pointer shadow-sm text-center">
+                <div className="w-10 h-10 rounded-full bg-pink-500/20 flex items-center justify-center mx-auto mb-3">
                   <Phone className="w-5 h-5 text-pink-500" />
                 </div>
-                <h3 className="font-bold text-sm">Women Helpline</h3>
+                <h3 className="font-bold text-sm">Helpline</h3>
                 <p className="text-xl font-bold text-foreground dark:text-white my-1">1091</p>
                 <p className="text-[10px] text-muted-foreground uppercase tracking-wider">24/7 Support</p>
               </div>
 
-              <div className="bg-white dark:bg-[#06020E] rounded-2xl p-4 border border-[#E5E0F1] dark:border-[#2D1B54] hover:border-orange-500 transition-all cursor-pointer shadow-sm">
-                <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center mb-3">
+              <div className="glass-card rounded-2xl p-4 border border-orange-500/20 bg-orange-500/5 hover:border-orange-500/40 transition-all cursor-pointer shadow-sm text-center">
+                <div className="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center mx-auto mb-3">
                   <Flame className="w-5 h-5 text-orange-500" />
                 </div>
                 <h3 className="font-bold text-sm">Fire Service</h3>
@@ -69,9 +70,11 @@ export default function WomenSafetyPage() {
             </div>
 
             <div className="mt-6 flex justify-center lg:justify-start">
-              <button className="text-[#6E38F7] text-sm font-semibold flex items-center gap-1 hover:underline">
-                View All Emergency Contacts <ChevronRight className="w-4 h-4" />
-              </button>
+              <Link href="/safety">
+                <button className="text-primary text-sm font-semibold flex items-center gap-1 hover:underline">
+                  View All Emergency Contacts <ChevronRight className="w-4 h-4" />
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -99,19 +102,21 @@ export default function WomenSafetyPage() {
             <h2 className="text-xl font-bold">My Emergency Contacts</h2>
             <p className="text-sm text-muted-foreground">Add and manage your trusted contacts for quick reach.</p>
           </div>
-          <button className="flex items-center gap-2 text-sm font-semibold text-[#6E38F7] bg-[#6E38F7]/10 px-4 py-2 rounded-lg hover:bg-[#6E38F7]/20 transition-colors">
-            <Plus className="w-4 h-4" /> Add New Contact
-          </button>
+          <Link href="/women-safety/contacts/add">
+            <button className="flex items-center gap-2 text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors">
+              <Plus className="w-4 h-4" /> Add New Contact
+            </button>
+          </Link>
         </div>
 
-        <div className="bg-white dark:bg-[#110822] rounded-2xl border border-[#E5E0F1] dark:border-[#2D1B54] divide-y divide-[#E5E0F1] dark:divide-[#2D1B54]">
+        <div className="glass-card rounded-3xl border border-black/5 dark:border-white/5 divide-y divide-black/5 dark:divide-white/5 overflow-hidden shadow-sm">
           {[
             { name: "Priya Sharma", rel: "Sister", phone: "+91 98765 43210", initials: "PS", color: "bg-pink-500" },
             { name: "Rahul Sharma", rel: "Brother", phone: "+91 91234 56789", initials: "RS", color: "bg-blue-500" },
-            { name: "Aarav Singh", rel: "Close Friend", phone: "+91 99887 66554", initials: "AS", color: "bg-[#6E38F7]" },
+            { name: "Aarav Singh", rel: "Close Friend", phone: "+91 99887 66554", initials: "AS", color: "bg-primary" },
           ].map((contact, i) => (
-            <div key={i} className="flex items-center justify-between p-4 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-              <div className="flex items-center gap-4 w-1/3">
+            <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 hover:bg-black/5 dark:hover:bg-white/5 transition-colors gap-4">
+              <div className="flex items-center gap-4 sm:w-1/3">
                 <div className={`w-10 h-10 rounded-full ${contact.color} flex items-center justify-center text-white font-bold shadow-sm`}>
                   {contact.initials}
                 </div>
@@ -120,33 +125,35 @@ export default function WomenSafetyPage() {
                   <p className="text-xs text-[#6E38F7] font-medium">{contact.rel}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground w-1/3">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground sm:w-1/3">
                 <PhoneCall className="w-4 h-4" /> {contact.phone}
               </div>
-              <div className="flex items-center justify-end gap-3 w-1/3">
-                <button className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-[#6E38F7] hover:border-[#6E38F7] transition-colors">
+              <div className="flex items-center sm:justify-end gap-3 sm:w-1/3">
+                <a href={`sms:${contact.phone.replace(/[^0-9+]/g, '')}`} className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors">
                   <MessageCircle className="w-4 h-4" />
-                </button>
-                <button className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-[#6E38F7] hover:border-[#6E38F7] transition-colors">
+                </a>
+                <a href={`tel:${contact.phone.replace(/[^0-9+]/g, '')}`} className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors">
                   <Phone className="w-4 h-4" />
-                </button>
-                <button className="w-8 h-8 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
+                </a>
+                <button onClick={() => alert(`More options for ${contact.name}`)} className="w-8 h-8 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
                   <MoreVertical className="w-4 h-4" />
                 </button>
               </div>
             </div>
           ))}
           <div className="p-3 flex justify-center">
-            <button className="text-[#6E38F7] text-sm font-semibold flex items-center gap-1 hover:underline">
-              View All Contacts <ChevronRight className="w-4 h-4" />
-            </button>
+            <Link href="/women-safety/contacts">
+              <button className="text-primary text-sm font-semibold flex items-center gap-1 hover:underline">
+                View All Contacts <ChevronRight className="w-4 h-4" />
+              </button>
+            </Link>
           </div>
         </div>
       </div>
 
       {/* Feature Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white dark:bg-[#110822] rounded-2xl p-6 border border-[#E5E0F1] dark:border-[#2D1B54] flex flex-col justify-between group hover:border-[#6E38F7] transition-all shadow-sm">
+        <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5 hover:border-primary/30 hover:bg-primary/5 flex flex-col justify-between group transition-all shadow-sm">
           <div>
             <div className="flex justify-between items-start mb-4">
               <div className="w-10 h-10 rounded-full bg-[#6E38F7]/10 flex items-center justify-center">
@@ -162,12 +169,14 @@ export default function WomenSafetyPage() {
             <h3 className="font-bold text-lg mb-2">Safe Route</h3>
             <p className="text-sm text-muted-foreground">Get the safest routes with well-lit roads, active areas, and verified charging stations.</p>
           </div>
-          <button className="mt-6 text-[#6E38F7] text-sm font-semibold flex items-center gap-1 hover:underline">
-            Find Safe Route <ChevronRight className="w-4 h-4" />
-          </button>
+          <Link href="/women-safety/safe-route">
+            <button className="mt-6 text-[#6E38F7] text-sm font-semibold flex items-center gap-1 hover:underline">
+              Find Safe Route <ChevronRight className="w-4 h-4" />
+            </button>
+          </Link>
         </div>
 
-        <div className="bg-white dark:bg-[#110822] rounded-2xl p-6 border border-[#E5E0F1] dark:border-[#2D1B54] flex flex-col justify-between group hover:border-[#6E38F7] transition-all shadow-sm">
+        <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5 hover:border-primary/30 hover:bg-primary/5 flex flex-col justify-between group transition-all shadow-sm">
           <div>
             <div className="flex justify-between items-start mb-4">
               <div className="w-10 h-10 rounded-full bg-[#6E38F7]/10 flex items-center justify-center">
@@ -181,12 +190,14 @@ export default function WomenSafetyPage() {
             <h3 className="font-bold text-lg mb-2">Safe Zone View</h3>
             <p className="text-sm text-muted-foreground">Explore safe zones, nearby facilities, and emergency assets around you.</p>
           </div>
-          <button className="mt-6 text-[#6E38F7] text-sm font-semibold flex items-center gap-1 hover:underline">
-            Open Map <ChevronRight className="w-4 h-4" />
-          </button>
+          <Link href="/women-safety/safe-zone">
+            <button className="mt-6 text-[#6E38F7] text-sm font-semibold flex items-center gap-1 hover:underline">
+              Open Map <ChevronRight className="w-4 h-4" />
+            </button>
+          </Link>
         </div>
 
-        <div className="bg-white dark:bg-[#110822] rounded-2xl p-6 border border-[#E5E0F1] dark:border-[#2D1B54] flex flex-col justify-between group hover:border-[#6E38F7] transition-all shadow-sm">
+        <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5 hover:border-primary/30 hover:bg-primary/5 flex flex-col justify-between group transition-all shadow-sm">
           <div>
             <div className="flex justify-between items-start mb-4">
               <div className="w-10 h-10 rounded-full bg-[#6E38F7]/10 flex items-center justify-center">
@@ -196,9 +207,11 @@ export default function WomenSafetyPage() {
             <h3 className="font-bold text-lg mb-2">Nearby Safe Places</h3>
             <p className="text-sm text-muted-foreground">Find nearby hotels, cafes, police stations, and hospitals for your safety.</p>
           </div>
-          <button className="mt-6 text-[#6E38F7] text-sm font-semibold flex items-center gap-1 hover:underline">
-            Explore Places <ChevronRight className="w-4 h-4" />
-          </button>
+          <Link href="/women-safety/nearby-places">
+            <button className="mt-6 text-[#6E38F7] text-sm font-semibold flex items-center gap-1 hover:underline">
+              Explore Places <ChevronRight className="w-4 h-4" />
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -209,20 +222,22 @@ export default function WomenSafetyPage() {
             <h2 className="text-xl font-bold">Nearby Safe Places</h2>
             <p className="text-sm text-muted-foreground">Places you can rely on in your surroundings.</p>
           </div>
-          <button className="text-sm font-semibold border border-border px-4 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-            View All
-          </button>
+          <Link href="/women-safety/nearby-places">
+            <button className="text-sm font-semibold border border-border px-4 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+              View All
+            </button>
+          </Link>
         </div>
 
-        <div className="bg-white dark:bg-[#110822] rounded-2xl border border-[#E5E0F1] dark:border-[#2D1B54] divide-y divide-[#E5E0F1] dark:divide-[#2D1B54]">
+        <div className="glass-card rounded-3xl border border-black/5 dark:border-white/5 divide-y divide-black/5 dark:divide-white/5 overflow-hidden shadow-sm">
           {[
             { name: "Aurora Superhub", type: "EV Charging Station", icon: Zap, distance: "0.8 km", status: "Open 24/7" },
             { name: "Marina Inn", type: "Hotel", icon: Hotel, distance: "1.2 km", status: "Open" },
             { name: "City General Hospital", type: "Hospital", icon: Hospital, distance: "2.4 km", status: "Open 24/7" },
             { name: "Central Police Station", type: "Police Station", icon: Shield, distance: "1.6 km", status: "Open 24/7" },
           ].map((place, i) => (
-            <div key={i} className="flex items-center justify-between p-4 hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer group">
-              <div className="flex items-center gap-4 w-2/5">
+            <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer group gap-4">
+              <div className="flex items-center gap-4 sm:w-2/5">
                 <div className="w-10 h-10 rounded-xl bg-[#6E38F7]/10 flex items-center justify-center text-[#6E38F7]">
                   <place.icon className="w-5 h-5" />
                 </div>
@@ -231,16 +246,18 @@ export default function WomenSafetyPage() {
                   <p className="text-xs text-muted-foreground">{place.type}</p>
                 </div>
               </div>
-              <div className="w-1/5 text-sm text-muted-foreground">
+              <div className="sm:w-1/5 text-sm text-muted-foreground">
                 {place.distance}
               </div>
-              <div className="w-1/5 text-sm text-green-500 font-medium">
+              <div className="sm:w-1/5 text-sm text-green-500 font-medium">
                 {place.status}
               </div>
-              <div className="w-1/5 flex justify-end">
-                <button className="flex items-center gap-1 text-sm font-medium text-foreground dark:text-white group-hover:text-[#6E38F7] transition-colors">
-                  Directions <ChevronRight className="w-4 h-4" />
-                </button>
+              <div className="sm:w-1/5 flex sm:justify-end">
+                <Link href="/map">
+                  <button className="flex items-center gap-1 text-sm font-medium text-foreground dark:text-white group-hover:text-primary transition-colors">
+                    Directions <ChevronRight className="w-4 h-4" />
+                  </button>
+                </Link>
               </div>
             </div>
           ))}
@@ -248,8 +265,8 @@ export default function WomenSafetyPage() {
       </div>
 
       {/* Safety Tips */}
-      <div className="bg-white dark:bg-[#110822] rounded-2xl p-6 md:p-8 border border-[#E5E0F1] dark:border-[#2D1B54] relative overflow-hidden shadow-sm">
-        <div className="absolute right-0 bottom-0 w-64 h-64 bg-[#6E38F7]/5 rounded-full blur-[60px] pointer-events-none"></div>
+      <div className="glass-card rounded-3xl p-6 md:p-8 border border-primary/20 bg-primary/5 relative overflow-hidden shadow-sm">
+        <div className="absolute right-0 bottom-0 w-64 h-64 bg-primary/10 rounded-full blur-[60px] pointer-events-none"></div>
         <h2 className="text-xl font-bold mb-1">Safety Tips</h2>
         <p className="text-sm text-muted-foreground mb-8">Simple steps to ensure a safer journey.</p>
 

@@ -2,6 +2,7 @@
 
 import { MapPin, Battery, Clock, Zap, Star, Shield, Car, CheckCircle2, ChevronRight, Phone, RefreshCw, Navigation, FileText, BadgeCheck } from "lucide-react";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { GlassInput } from "@/components/ui/glass-input";
 import { AnimatedPage } from "@/components/layout/AnimatedPage";
@@ -19,12 +20,39 @@ export default function MobileVansPage() {
   const [isBooking, setIsBooking] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [locationText, setLocationText] = useState("Detecting your location...");
+  const [batteryLevel, setBatteryLevel] = useState("Detecting...");
+  const [coords, setCoords] = useState(null);
+
+  useEffect(() => {
+    let batteryInstance = null;
+    let updateBattery = null;
+
+    if ("getBattery" in navigator) {
+      navigator.getBattery().then((battery) => {
+        batteryInstance = battery;
+        updateBattery = () => {
+          setBatteryLevel(`${Math.round(battery.level * 100)}%`);
+        };
+        updateBattery();
+        battery.addEventListener("levelchange", updateBattery);
+      }).catch(() => setBatteryLevel("10%"));
+    } else {
+      setBatteryLevel("10%");
+    }
+
+    return () => {
+      if (batteryInstance && updateBattery) {
+        batteryInstance.removeEventListener("levelchange", updateBattery);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
+          setCoords({ lat: latitude, lng: longitude });
           try {
             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
             const data = await res.json();
@@ -149,7 +177,7 @@ export default function MobileVansPage() {
           <div className="flex-1 w-full">
             <div className="relative">
               <Battery className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <GlassInput defaultValue="10%" className="pl-9 h-12" />
+              <GlassInput value={batteryLevel} onChange={(e) => setBatteryLevel(e.target.value)} className="pl-9 h-12" />
             </div>
           </div>
           <Button className="w-full md:w-auto bg-primary text-white hover:bg-primary/90 px-8 rounded-xl shadow-lg shadow-primary/25 h-12 font-semibold">
@@ -213,12 +241,25 @@ export default function MobileVansPage() {
           </div>
           
           {/* Right Column: Radar Map */}
-          <div className="bg-white dark:bg-[#110822] border border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col items-center justify-center min-h-[500px]">
-            <Button variant="outline" size="sm" className="absolute top-4 right-4 bg-background/50 backdrop-blur-md rounded-full text-xs border-primary/20">
+          <div className="bg-white dark:bg-[#110822] border border-black/5 dark:border-white/5 rounded-3xl shadow-sm relative overflow-hidden flex flex-col items-center justify-center min-h-[500px] p-6">
+            
+            {/* Full Bleed Static Map Background */}
+            {coords && (
+              <iframe 
+                src={`https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=14&output=embed`} 
+                className="absolute inset-0 w-full h-full opacity-70 dark:opacity-40 pointer-events-none scale-125 saturate-150" 
+                style={{ border: 0 }} 
+              />
+            )}
+            
+            {/* Elegant Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/40 dark:from-[#110822]/90 dark:to-[#110822]/40 pointer-events-none" />
+
+            <Button variant="outline" size="sm" className="absolute top-4 right-4 bg-background/50 backdrop-blur-md rounded-full text-xs border-primary/20 z-20 shadow-sm">
               <RefreshCw className="w-3 h-3 mr-2" /> Refresh
             </Button>
             
-            <div className="relative w-full max-w-[400px] aspect-square flex items-center justify-center mt-8">
+            <div className="relative w-full max-w-[400px] aspect-square flex items-center justify-center mt-8 z-10">
               {/* Radar Rings */}
               <div className="absolute inset-0 rounded-full border border-primary/20 scale-[0.25] animate-[ping_4s_linear_infinite] opacity-50"></div>
               <div className="absolute inset-0 rounded-full border border-primary/10 border-dashed scale-[0.5]"></div>
@@ -356,9 +397,11 @@ export default function MobileVansPage() {
           </div>
           
           <div className="shrink-0 z-10 mt-6 lg:mt-0">
-            <Button variant="outline" className="border-primary/50 text-primary hover:bg-primary/5 font-semibold rounded-xl px-6 h-12">
-              Learn More About Safety
-            </Button>
+            <Link href="/safety">
+              <Button variant="outline" className="border-primary/50 text-primary hover:bg-primary/5 font-semibold rounded-xl px-6 h-12 w-full lg:w-auto">
+                Learn More About Safety
+              </Button>
+            </Link>
           </div>
         </div>
 

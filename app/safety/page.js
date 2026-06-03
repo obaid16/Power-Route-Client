@@ -2,7 +2,7 @@
 
 import { AnimatedPage } from "@/components/layout/AnimatedPage";
 import { Button } from "@/components/ui/button";
-import { ShieldAlert, PhoneCall, MapPin, Video, Info, Lock, Flame, Ambulance, Siren, Phone } from "lucide-react";
+import { ShieldAlert, PhoneCall, MapPin, Video, Info, Lock, Flame, Ambulance, Siren, Phone, Zap } from "lucide-react";
 import Link from "next/link";
 
 export default function SafetyCenter() {
@@ -36,9 +36,9 @@ export default function SafetyCenter() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Women's Safety */}
-        <div className="glass-card rounded-3xl p-6 border border-pink-500/20 bg-pink-500/5 hover:border-pink-500/40 transition-all">
+        <div className="glass-card rounded-3xl p-6 border border-pink-500/20 bg-pink-500/5 hover:border-pink-500/40 transition-all flex flex-col">
           <div className="w-12 h-12 rounded-full bg-pink-500/20 flex items-center justify-center mb-4">
             <Lock className="h-6 w-6 text-pink-400" />
           </div>
@@ -46,9 +46,9 @@ export default function SafetyCenter() {
           <p className="text-sm text-muted-foreground mb-4">
             Activate enhanced security protocols. Station lights will turn to maximum brightness, camera feeds are monitored live, and security personnel are placed on standby.
           </p>
-          <Link href="/women-safety" className="w-full">
+          <Link href="/women-safety" className="w-full mt-auto">
             <Button 
-              className="w-full bg-pink-600/20 text-pink-400 hover:bg-pink-600/30 border border-pink-500/30 rounded-xl"
+              className="w-full bg-pink-600/20 text-pink-500 hover:bg-pink-600/30 border border-pink-500/30 rounded-xl"
             >
               Activate Safe Mode
             </Button>
@@ -58,7 +58,7 @@ export default function SafetyCenter() {
 
 
         {/* Share Location */}
-        <div className="glass-card rounded-3xl p-6 border border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40 transition-all">
+        <div className="glass-card rounded-3xl p-6 border border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40 transition-all flex flex-col">
           <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-4">
             <MapPin className="h-6 w-6 text-blue-400" />
           </div>
@@ -68,25 +68,24 @@ export default function SafetyCenter() {
           </p>
           <Button 
             onClick={() => alert("📍 Sharing live trip status with emergency contacts...")}
-            className="w-full bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 border border-blue-500/30 rounded-xl"
+            className="w-full bg-blue-600/20 text-blue-500 hover:bg-blue-600/30 border border-blue-500/30 rounded-xl mt-auto"
           >
             Manage Contacts
           </Button>
         </div>
 
         {/* Roadside Assistance */}
-        <div className="glass-card rounded-3xl p-6 border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all">
-          <div className="w-12 h-12 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center mb-4">
-            <Info className="h-6 w-6 text-white" />
+        <div className="glass-card rounded-3xl p-6 border border-primary/20 bg-primary/5 hover:border-primary/40 transition-all flex flex-col">
+          <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mb-4">
+            <Zap className="h-6 w-6 text-primary" />
           </div>
-          <h3 className="text-xl font-bold text-white mb-2">Mobile Charging Van</h3>
+          <h3 className="text-xl font-bold text-primary mb-2">Mobile Charging Van</h3>
           <p className="text-sm text-muted-foreground mb-4">
             Stranded with zero battery? Request our emergency mobile EV charging van to come to your location and provide enough charge to reach the nearest station.
           </p>
-          <Link href="/van" className="w-full">
+          <Link href="/van" className="w-full mt-auto">
             <Button 
-              variant="outline" 
-              className="w-full border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 rounded-xl"
+              className="w-full bg-primary/20 text-primary hover:bg-primary/30 border border-primary/30 rounded-xl"
             >
               Request Van
             </Button>
