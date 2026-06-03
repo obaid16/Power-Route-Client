@@ -93,7 +93,7 @@ function BookingContent() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Rate</span>
-                  <span className="font-semibold">${station.pricing?.ratePerKwh || 0.45} / kWh</span>
+                  <span className="font-semibold">₹{station.pricing?.ratePerKwh || 15} / kWh</span>
                 </div>
               </div>
             ) : (
@@ -149,15 +149,15 @@ function BookingContent() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Charging Cost</span>
-                  <span>$20.25</span>
+                  <span>₹675</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Booking Fee</span>
-                  <span>$1.50</span>
+                  <span>₹50</span>
                 </div>
                 <div className="border-t border-black/10 dark:border-white/10 pt-2 mt-2 flex justify-between font-bold text-lg">
                   <span>Total Estimated</span>
-                  <span className="text-primary neon-text">$21.75</span>
+                  <span className="text-primary neon-text">₹725</span>
                 </div>
               </div>
 

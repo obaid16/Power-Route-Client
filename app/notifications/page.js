@@ -28,7 +28,7 @@ const initialNotifications = [
   {
     id: 3,
     title: "Payment Successful",
-    message: "$21.75 was successfully charged to your Visa ending in 4242.",
+    message: "₹725 was successfully charged to your Visa ending in 4242.",
     time: "Yesterday",
     icon: CreditCard,
     color: "text-primary",

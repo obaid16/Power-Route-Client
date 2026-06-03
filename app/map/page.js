@@ -113,9 +113,9 @@ function getPositionOnPath(points, progress) {
   return { x: last.x, y: last.y, angle: 0 };
 }
 
-// Haversine distance in miles
-function getDistanceFromLatLonInMiles(lat1, lon1, lat2, lon2) {
-  const R = 3958.8; // Radius of the earth in miles
+// Haversine distance in km
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Radius of the earth in km
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
   const a =
@@ -159,19 +159,6 @@ export default function MapPage() {
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [showNavSetup, setShowNavSetup] = useState(false);
 
-  // Helper function to calculate distance in miles
-  const getDistanceFromLatLonInMiles = (lat1, lon1, lat2, lon2) => {
-    const R = 3958.8; // Radius of the earth in miles
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-  };
-
   // Fetch stations and location on load
   useEffect(() => {
     setMounted(true);
@@ -190,8 +177,8 @@ export default function MapPage() {
           const lng = st.location?.coordinates?.[0] || baseLng;
           const lat = st.location?.coordinates?.[1] || baseLat;
 
-          const distVal = getDistanceFromLatLonInMiles(baseLat, baseLng, lat, lng);
-          const distStr = distVal.toFixed(1) + " mi";
+          const distVal = getDistanceFromLatLonInKm(baseLat, baseLng, lat, lng);
+          const distStr = distVal.toFixed(1) + " km";
 
           return {
             id: st._id || i.toString(),
@@ -205,7 +192,7 @@ export default function MapPage() {
             lat,
             lng,
             address: st.location?.formattedAddress || st.location?.city || "123 EV Avenue, Tech District",
-            price: st.pricing?.ratePerKwh ? `$${st.pricing.ratePerKwh}/kWh` : "$0.45/kWh",
+            price: st.pricing?.ratePerKwh ? `₹${st.pricing.ratePerKwh}/kWh` : "₹15/kWh",
             portType: st.chargers?.[0]?.portType || "CCS1"
           };
         });
@@ -721,7 +708,7 @@ export default function MapPage() {
                     <MapPin className="h-3.5 w-3.5 mr-1 text-primary" /> Distance
                   </span>
                   <p className="text-2xl font-bold text-foreground dark:text-white">
-                    {progress >= 100 ? "0.0" : (4.2 * (1 - progress / 100)).toFixed(1)} mi
+                    {progress >= 100 ? "0.0" : (6.8 * (1 - progress / 100)).toFixed(1)} km
                   </p>
                 </div>
               </div>
@@ -768,7 +755,7 @@ export default function MapPage() {
                     <div>
                       <div className="flex justify-between text-xs font-semibold mb-1">
                         <span className="text-muted-foreground">Range Est</span>
-                        <span className="text-foreground dark:text-white font-bold">{Math.round(currentBattery * 2.6)} miles</span>
+                        <span className="text-foreground dark:text-white font-bold">{Math.round(currentBattery * 4.2)} km</span>
                       </div>
                       <div className="h-1.5 w-full bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
                         <div

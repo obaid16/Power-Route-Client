@@ -144,7 +144,6 @@ export default function SettingsPage() {
                       value="km"
                       options={[
                         { value: "km", label: "Kilometers (km)" },
-                        { value: "mi", label: "Miles (mi)" },
                       ]}
                       className="md:w-1/2"
                     />
