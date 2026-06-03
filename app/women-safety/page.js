@@ -6,7 +6,21 @@ import Link from "next/link";
 
 export default function WomenSafetyPage() {
   const handleSOS = () => {
-    alert("🚨 SOS TRIGGERED! Your live location has been shared with your Emergency Contacts and nearby authorities.");
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          const mapLink = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+          const message = `🚨 EMERGENCY! Please help! This is my live location: ${mapLink}`;
+          window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`, '_blank');
+        },
+        () => {
+          alert("🚨 SOS! Please enable location services to share your live location.");
+        }
+      );
+    } else {
+      alert("🚨 SOS! Geolocation is not supported by your browser.");
+    }
   };
 
   return (
@@ -86,7 +100,7 @@ export default function WomenSafetyPage() {
             >
               <div className="absolute inset-0 bg-[#6E38F7] rounded-full blur-[40px] opacity-50 group-hover:opacity-80 animate-pulse transition-opacity"></div>
               <div className="w-32 h-32 rounded-full bg-gradient-to-b from-[#8B5CF6] to-[#5B21B6] border-4 border-[#6E38F7] shadow-[0_0_50px_rgba(110,56,247,0.6)] flex items-center justify-center relative z-10 hover:scale-105 transition-transform">
-                <BellRing className="w-12 h-12 text-white animate-bounce" />
+                <BellRing className="w-12 h-12 text-white" />
               </div>
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-[#6E38F7]/30 animate-ping pointer-events-none"></div>
             </button>
@@ -95,61 +109,6 @@ export default function WomenSafetyPage() {
         </div>
       </div>
 
-      {/* Emergency Contacts */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-xl font-bold">My Emergency Contacts</h2>
-            <p className="text-sm text-muted-foreground">Add and manage your trusted contacts for quick reach.</p>
-          </div>
-          <Link href="/women-safety/contacts/add">
-            <button className="flex items-center gap-2 text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors">
-              <Plus className="w-4 h-4" /> Add New Contact
-            </button>
-          </Link>
-        </div>
-
-        <div className="glass-card rounded-3xl border border-black/5 dark:border-white/5 divide-y divide-black/5 dark:divide-white/5 overflow-hidden shadow-sm">
-          {[
-            { name: "Priya Sharma", rel: "Sister", phone: "+91 98765 43210", initials: "PS", color: "bg-pink-500" },
-            { name: "Rahul Sharma", rel: "Brother", phone: "+91 91234 56789", initials: "RS", color: "bg-blue-500" },
-            { name: "Aarav Singh", rel: "Close Friend", phone: "+91 99887 66554", initials: "AS", color: "bg-primary" },
-          ].map((contact, i) => (
-            <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 hover:bg-black/5 dark:hover:bg-white/5 transition-colors gap-4">
-              <div className="flex items-center gap-4 sm:w-1/3">
-                <div className={`w-10 h-10 rounded-full ${contact.color} flex items-center justify-center text-white font-bold shadow-sm`}>
-                  {contact.initials}
-                </div>
-                <div>
-                  <h4 className="font-semibold text-sm">{contact.name}</h4>
-                  <p className="text-xs text-[#6E38F7] font-medium">{contact.rel}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground sm:w-1/3">
-                <PhoneCall className="w-4 h-4" /> {contact.phone}
-              </div>
-              <div className="flex items-center sm:justify-end gap-3 sm:w-1/3">
-                <a href={`sms:${contact.phone.replace(/[^0-9+]/g, '')}`} className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors">
-                  <MessageCircle className="w-4 h-4" />
-                </a>
-                <a href={`tel:${contact.phone.replace(/[^0-9+]/g, '')}`} className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors">
-                  <Phone className="w-4 h-4" />
-                </a>
-                <button onClick={() => alert(`More options for ${contact.name}`)} className="w-8 h-8 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
-                  <MoreVertical className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          ))}
-          <div className="p-3 flex justify-center">
-            <Link href="/women-safety/contacts">
-              <button className="text-primary text-sm font-semibold flex items-center gap-1 hover:underline">
-                View All Contacts <ChevronRight className="w-4 h-4" />
-              </button>
-            </Link>
-          </div>
-        </div>
-      </div>
 
       {/* Feature Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
