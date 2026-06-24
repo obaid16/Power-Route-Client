@@ -198,41 +198,43 @@ export function Dashboard() {
             {/* Immersive Cyberpunk HUD Container with Interactive 3D WebGL Vehicle Visualizer */}
             <div className="relative w-full h-[270px] bg-gradient-to-br from-[#0B0516] via-[#12072B] to-[#0A0314] rounded-[24px] overflow-hidden mb-8 flex items-center justify-center border border-[#6E38F7]/25 shadow-[inset_0_0_30px_rgba(110,56,247,0.35)]">
               
+              {/* Vehicle Photo Background (fills the box completely) */}
+              <div className="absolute inset-0 w-full h-full z-0">
+                <Image 
+                  src="/ev_car.png" 
+                  alt="Vehicle Status" 
+                  fill
+                  className="object-cover w-full h-full transition-transform duration-500 hover:scale-[1.02]"
+                  priority
+                />
+                {/* Technical dark overlay to ensure readability of HUD overlays */}
+                <div className="absolute inset-0 bg-black/40 mix-blend-multiply pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#0B0516]/60 via-transparent to-[#0A0314]/80 pointer-events-none" />
+              </div>
+              
               {/* High-tech grid background */}
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(168,85,247,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.06)_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,white,transparent_85%)] pointer-events-none" />
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(168,85,247,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.06)_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,white,transparent_85%)] pointer-events-none z-10" />
               
               {/* Radial background glows */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#6E38F7]/10 rounded-full blur-[80px] pointer-events-none" />
-              <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-purple-500/10 rounded-full blur-[60px] pointer-events-none animate-pulse-glow" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#6E38F7]/10 rounded-full blur-[80px] pointer-events-none z-10" />
+              <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-purple-500/10 rounded-full blur-[60px] pointer-events-none animate-pulse-glow z-10" />
 
               {/* Technical Corner Brackets */}
-              <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-primary/40 rounded-tl pointer-events-none" />
-              <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-primary/40 rounded-tr pointer-events-none" />
-              <div className="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-primary/40 rounded-bl pointer-events-none" />
-              <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-primary/40 rounded-br pointer-events-none" />
+              <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-primary/40 rounded-tl pointer-events-none z-20" />
+              <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-primary/40 rounded-tr pointer-events-none z-20" />
+              <div className="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-primary/40 rounded-bl pointer-events-none z-20" />
+              <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-primary/40 rounded-br pointer-events-none z-20" />
 
               {/* Real-time telemetry readouts */}
-              <div className="absolute left-6 top-6 text-[9px] font-mono text-primary/70 leading-relaxed uppercase tracking-widest hidden sm:block pointer-events-none">
+              <div className="absolute left-6 top-6 text-[9px] font-mono text-primary/90 leading-relaxed uppercase tracking-widest hidden sm:block pointer-events-none z-20 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                 SYS: NOMINAL<br/>
                 NET: CONNECTED<br/>
                 CAM: LIVE
               </div>
-              <div className="absolute right-6 top-6 text-[9px] font-mono text-primary/70 leading-relaxed uppercase tracking-widest text-right hidden sm:block pointer-events-none">
+              <div className="absolute right-6 top-6 text-[9px] font-mono text-primary/90 leading-relaxed uppercase tracking-widest text-right hidden sm:block pointer-events-none z-20 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                 VOLTAGE: 398V<br/>
                 TEMP: 26.4 °C<br/>
                 HUD: STATIC
-              </div>
-
-              {/* Vehicle Photo (replaces 3D wireframe) */}
-              <div className="relative z-10 flex items-center justify-center w-full h-full p-4">
-                <Image 
-                  src="/ev_car.png" 
-                  alt="Vehicle Status" 
-                  width={300}
-                  height={180}
-                  className="object-contain max-h-[190px] drop-shadow-[0_0_30px_rgba(168,85,247,0.35)] transition-transform duration-500 hover:scale-[1.04]"
-                  priority
-                />
               </div>
             </div>
 

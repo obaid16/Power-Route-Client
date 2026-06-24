@@ -1,10 +1,56 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { AnimatedPage } from "@/components/layout/AnimatedPage";
-import { Shield, Phone, MapPin, Navigation, Map, Hotel, Hospital, Flame, Info, CheckCircle, BellRing, PhoneCall, MessageCircle, MoreVertical, Plus, ChevronRight, AlertTriangle, BatteryCharging, Zap } from "lucide-react";
+import { Shield, Phone, MapPin, Navigation, Map, Hotel, Hospital, Flame, Info, CheckCircle, BellRing, PhoneCall, MessageCircle, MoreVertical, Plus, ChevronRight, AlertTriangle, BatteryCharging, Zap, Coffee } from "lucide-react";
 import Link from "next/link";
+import api from "@/lib/api";
 
 export default function WomenSafetyPage() {
+  const [places, setPlaces] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          fetchPlaces(latitude, longitude);
+        },
+        () => {
+          // Fallback to Mumbai central coordinates
+          fetchPlaces(19.0760, 72.8777);
+        }
+      );
+    } else {
+      fetchPlaces(19.0760, 72.8777);
+    }
+  }, []);
+
+  const fetchPlaces = async (lat, lng) => {
+    try {
+      const res = await api.get(`/safety/nearby-places?lat=${lat}&lng=${lng}&radius=5000`);
+      if (res.data && res.data.success) {
+        setPlaces(res.data.data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch nearby safe places:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getIconForType = (type) => {
+    switch (type) {
+      case "Police Station": return Shield;
+      case "Hospital": return Hospital;
+      case "Hotel": return Hotel;
+      case "Cafe": return Coffee;
+      case "EV Charging Station": return Zap;
+      default: return Shield;
+    }
+  };
+
   const handleSOS = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -189,39 +235,65 @@ export default function WomenSafetyPage() {
         </div>
 
         <div className="glass-card rounded-3xl border border-black/5 dark:border-white/5 divide-y divide-black/5 dark:divide-white/5 overflow-hidden shadow-sm">
-          {[
-            { name: "Aurora Superhub", type: "EV Charging Station", icon: Zap, distance: "0.8 km", status: "Open 24/7" },
-            { name: "Marina Inn", type: "Hotel", icon: Hotel, distance: "1.2 km", status: "Open" },
-            { name: "City General Hospital", type: "Hospital", icon: Hospital, distance: "2.4 km", status: "Open 24/7" },
-            { name: "Central Police Station", type: "Police Station", icon: Shield, distance: "1.6 km", status: "Open 24/7" },
-          ].map((place, i) => (
-            <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer group gap-4">
-              <div className="flex items-center gap-4 sm:w-2/5">
-                <div className="w-10 h-10 rounded-xl bg-[#6E38F7]/10 flex items-center justify-center text-[#6E38F7]">
-                  <place.icon className="w-5 h-5" />
+          {loading ? (
+            // Beautiful Skeletons for the list
+            [1, 2, 3, 4].map((n) => (
+              <div key={n} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 animate-pulse gap-4">
+                <div className="flex items-center gap-4 sm:w-2/5">
+                  <div className="w-10 h-10 rounded-xl bg-black/10 dark:bg-white/10" />
+                  <div className="space-y-2 flex-1">
+                    <div className="h-4 w-[60%] rounded bg-black/10 dark:bg-white/10" />
+                    <div className="h-3 w-[40%] rounded bg-black/10 dark:bg-white/10" />
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-bold text-sm text-foreground dark:text-white group-hover:text-[#6E38F7] transition-colors">{place.name}</h4>
-                  <p className="text-xs text-muted-foreground">{place.type}</p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between sm:w-3/5 mt-2 sm:mt-0">
-                <div className="text-sm text-muted-foreground">
-                  {place.distance}
-                </div>
-                <div className="text-sm text-green-500 font-medium">
-                  {place.status}
-                </div>
-                <div className="flex">
-                  <Link href="/map">
-                    <button className="flex items-center gap-1 text-sm font-medium text-foreground dark:text-white group-hover:text-primary transition-colors">
-                      Directions <ChevronRight className="w-4 h-4" />
-                    </button>
-                  </Link>
+                <div className="flex items-center justify-between sm:w-3/5 mt-2 sm:mt-0">
+                  <div className="h-4 w-12 rounded bg-black/10 dark:bg-white/10" />
+                  <div className="h-4 w-16 rounded bg-black/10 dark:bg-white/10" />
+                  <div className="h-8 w-24 rounded-lg bg-black/10 dark:bg-white/10" />
                 </div>
               </div>
+            ))
+          ) : places.length === 0 ? (
+            <div className="p-8 text-center text-sm text-muted-foreground">
+              No verified safe places found in your surrounding area.
             </div>
-          ))}
+          ) : (
+            places.slice(0, 4).map((place, i) => {
+              const PlaceIcon = getIconForType(place.type);
+              return (
+                <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer group gap-4">
+                  <div className="flex items-center gap-4 sm:w-2/5">
+                    <div className="w-10 h-10 rounded-xl bg-[#6E38F7]/10 flex items-center justify-center text-[#6E38F7]">
+                      <PlaceIcon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-sm text-foreground dark:text-white group-hover:text-[#6E38F7] transition-colors line-clamp-1">{place.name}</h4>
+                      <p className="text-xs text-muted-foreground">{place.type}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between sm:w-3/5 mt-2 sm:mt-0">
+                    <div className="text-sm text-muted-foreground">
+                      {place.distance} away
+                    </div>
+                    <div className="text-sm text-green-500 font-medium">
+                      {place.status}
+                    </div>
+                    <div className="flex">
+                      <a 
+                        href={`https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
+                        <button className="flex items-center gap-1 text-sm font-medium text-foreground dark:text-white group-hover:text-primary transition-colors">
+                          Directions <ChevronRight className="w-4 h-4" />
+                        </button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
 
