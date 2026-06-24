@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 export default function SafeZonePage() {
   return (
-    <AnimatedPage className="p-4 md:p-8 max-w-6xl mx-auto space-y-8 pb-20 font-sans h-[calc(100vh-4rem)] flex flex-col">
+    <AnimatedPage stagger className="p-4 md:p-8 max-w-6xl mx-auto space-y-8 pb-20 font-sans md:h-[calc(100vh-4rem)] flex flex-col">
       {/* Header */}
       <div className="shrink-0">
         <Link href="/women-safety" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-4 transition-colors">

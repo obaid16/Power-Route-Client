@@ -14,6 +14,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import Image from "next/image";
 
 const stationImages = [
   "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Electric_car_charging_station_in_Amsterdam.jpg/800px-Electric_car_charging_station_in_Amsterdam.jpg",
@@ -161,7 +162,7 @@ export default function MapPage() {
 
   // Fetch stations and location on load
   useEffect(() => {
-    setMounted(true);
+    Promise.resolve().then(() => setMounted(true));
 
     const fetchStations = async (userLat, userLng) => {
       try {
@@ -228,12 +229,7 @@ export default function MapPage() {
     }
   }, []);
 
-  // Update battery states when customizable battery sliders move
-  useEffect(() => {
-    if (!isNavigating) {
-      setCurrentBattery(startBattery);
-    }
-  }, [startBattery, isNavigating]);
+  // Battery state is updated directly via event handlers to avoid cascading render effects.
 
   // Main simulation tick loop
   useEffect(() => {
@@ -340,6 +336,7 @@ export default function MapPage() {
     setIsNavigating(false);
     setProgress(0);
     setIsPaused(false);
+    setCurrentBattery(startBattery);
   };
 
   const getBatteryColor = (bat) => {
@@ -349,7 +346,7 @@ export default function MapPage() {
   };
 
   return (
-    <AnimatedPage className="mt-8 md:mt-10 max-w-7xl mx-auto w-full min-h-[calc(100vh-8rem)] md:h-[calc(100vh-8rem)] flex flex-col-reverse md:flex-row gap-10 lg:gap-14">
+    <AnimatedPage stagger className="px-4 md:px-0 mt-8 md:mt-10 max-w-7xl mx-auto w-full md:h-[calc(100vh-8rem)] flex flex-col-reverse md:flex-row gap-6 md:gap-10 lg:gap-14">
 
       {/* Left Column Sidebar */}
       <div className="w-full md:w-[300px] lg:w-[320px] flex flex-col gap-4 h-[50vh] md:h-full shrink-0">
@@ -489,7 +486,13 @@ export default function MapPage() {
                               min="5"
                               max="100"
                               value={startBattery}
-                              onChange={(e) => setStartBattery(parseInt(e.target.value))}
+                              onChange={(e) => {
+                                const val = parseInt(e.target.value);
+                                setStartBattery(val);
+                                if (!isNavigating) {
+                                  setCurrentBattery(val);
+                                }
+                              }}
                               className="w-full h-1 bg-black/10 dark:bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary"
                             />
                             <div className="flex justify-between text-[9px] text-muted-foreground font-semibold">
@@ -539,11 +542,11 @@ export default function MapPage() {
                                 className="min-w-[180px] shrink-0 rounded-2xl cursor-pointer glass-card border border-black/5 dark:border-white/5 hover:border-primary/50 transition-all overflow-hidden flex flex-col"
                               >
                                 <div className="w-full h-20 relative bg-gradient-to-br from-primary/20 to-purple-500/20 overflow-hidden flex items-center justify-center">
-                                  <img
+                                  <Image
                                     src={stationImages[parseInt(station.id.slice(-2), 16) % stationImages.length || 0]}
                                     alt={station.name}
-                                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                                    className="absolute inset-0 object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+                                    fill
+                                    className="object-cover hover:scale-105 transition-transform duration-500"
                                   />
                                   <Zap className="h-6 w-6 text-primary/40 -z-10" />
                                 </div>
@@ -598,11 +601,11 @@ export default function MapPage() {
                           }`}
                       >
                         <div className="w-full h-32 relative bg-gradient-to-br from-primary/20 to-purple-500/20 overflow-hidden flex items-center justify-center">
-                          <img
+                          <Image
                             src={stationImages[parseInt(station.id.slice(-2), 16) % stationImages.length || 0]}
                             alt={station.name}
-                            onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                            className="absolute inset-0 object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+                            fill
+                            className="object-cover hover:scale-105 transition-transform duration-500"
                           />
                           <Zap className="h-10 w-10 text-primary/40 -z-10" />
                         </div>

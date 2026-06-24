@@ -25,7 +25,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <AnimatedPage className="min-h-[calc(100vh-8rem)] flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+      <AnimatedPage stagger className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_20px_rgba(168,85,247,0.3)]">
             <Zap className="h-8 w-8 text-primary" />
@@ -103,7 +103,7 @@ export default function ForgotPasswordPage() {
             </form>
           )}
         </div>
-      </div>
+      </AnimatedPage>
     </AnimatedPage>
   );
 }

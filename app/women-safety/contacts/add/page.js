@@ -25,7 +25,7 @@ export default function AddContactPage() {
   };
 
   return (
-    <AnimatedPage className="p-4 md:p-8 max-w-3xl mx-auto space-y-8 pb-20 font-sans">
+    <AnimatedPage stagger className="p-4 md:p-8 max-w-3xl mx-auto space-y-8 pb-20 font-sans">
       {/* Header */}
       <div>
         <Link href="/women-safety/contacts" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-6 transition-colors">

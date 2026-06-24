@@ -55,7 +55,7 @@ export default function NotificationsPage() {
   };
 
   return (
-    <AnimatedPage className="max-w-3xl mx-auto space-y-6 pt-8 pb-20 px-4">
+    <AnimatedPage stagger className="max-w-3xl mx-auto space-y-6 pt-8 pb-20 px-4">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center neon-glow">
@@ -74,7 +74,6 @@ export default function NotificationsPage() {
         </button>
       </div>
 
-      <div className="space-y-4">
         {notifs.map((notification) => {
           const Icon = notification.icon;
           return (
@@ -106,7 +105,6 @@ export default function NotificationsPage() {
             </div>
           );
         })}
-      </div>
     </AnimatedPage>
   );
 }

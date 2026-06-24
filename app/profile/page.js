@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Edit2, Save, MapPin, Zap, Battery, Award, Activity } from "lucide-react";
 import { useState } from "react";
 import useAuthStore from "@/store/useAuthStore";
+import Image from "next/image";
 
 export default function ProfilePage() {
   const { user } = useAuthStore();
@@ -23,7 +24,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <AnimatedPage className="space-y-6 pb-20">
+    <AnimatedPage stagger className="p-4 md:p-8 max-w-5xl mx-auto space-y-6 pb-20">
       {/* Banner & Avatar Profile Card */}
       <div className="relative w-full rounded-3xl overflow-hidden glass-card border border-primary/20">
         <div className="h-48 w-full bg-gradient-to-r from-purple-900/60 via-primary/40 to-indigo-900/60 relative">
@@ -35,7 +36,7 @@ export default function ProfilePage() {
           <div className="relative">
             <div className="w-32 h-32 rounded-full border-4 border-background bg-secondary/50 backdrop-blur-md overflow-hidden relative z-10 shadow-[0_0_20px_rgba(168,85,247,0.5)]">
               {profileImage ? (
-                <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
+                <Image src={profileImage} alt="Profile" width={128} height={128} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-primary/40 to-purple-800/40 flex items-center justify-center text-4xl font-bold text-white uppercase">
                   {user?.name ? user.name.charAt(0) : "U"}

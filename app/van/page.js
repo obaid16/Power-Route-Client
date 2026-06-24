@@ -37,7 +37,7 @@ export default function MobileVansPage() {
         battery.addEventListener("levelchange", updateBattery);
       }).catch(() => setBatteryLevel("10%"));
     } else {
-      setBatteryLevel("10%");
+      Promise.resolve().then(() => setBatteryLevel("10%"));
     }
 
     return () => {
@@ -83,7 +83,7 @@ export default function MobileVansPage() {
         }
       );
     } else {
-      setLocationText("Geolocation Unavailable");
+      Promise.resolve().then(() => setLocationText("Geolocation Unavailable"));
     }
   }, []);
 
@@ -102,8 +102,8 @@ export default function MobileVansPage() {
   };
 
   return (
-    <AnimatedPage className="min-h-screen bg-[#F4F2FA] dark:bg-[#06020E] text-foreground pb-20 transition-colors duration-300">
-      <div className="max-w-[1200px] mx-auto px-4 md:px-8 space-y-12 mt-8">
+    <div className="min-h-screen bg-[#F4F2FA] dark:bg-[#06020E] text-foreground pb-20 transition-colors duration-300">
+      <AnimatedPage stagger className="max-w-[1200px] mx-auto px-4 md:px-8 space-y-12 mt-8">
         
         {/* Header */}
         <div className="flex items-center gap-4">
@@ -123,7 +123,7 @@ export default function MobileVansPage() {
               Power on the go, <br/>
               <span className="text-primary">wherever you are.</span>
             </h2>
-            <p className="text-muted-foreground max-w-md">Our portable charging vans reach you anytime, anywhere. Don't let a low battery slow you down.</p>
+            <p className="text-muted-foreground max-w-md">{"Our portable charging vans reach you anytime, anywhere. Don't let a low battery slow you down."}</p>
             
             <div className="flex flex-wrap gap-6">
               <div className="flex items-center gap-3">
@@ -372,7 +372,7 @@ export default function MobileVansPage() {
               <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs mb-4 shadow-[0_0_15px_rgba(110,56,247,0.4)] absolute -top-3 -left-3">4</div>
               <div className="bg-white dark:bg-[#1A0E38] p-6 rounded-2xl border border-primary/10 mb-4 shadow-sm"><CheckCircle2 className="w-10 h-10 text-primary" /></div>
               <h4 className="font-bold text-sm mb-2">Pay & Go</h4>
-              <p className="text-xs text-muted-foreground">Easy & secure payment. You're all set!</p>
+              <p className="text-xs text-muted-foreground">{"Easy & secure payment. You're all set!"}</p>
             </div>
           </div>
         </div>
@@ -405,7 +405,7 @@ export default function MobileVansPage() {
           </div>
         </div>
 
-      </div>
+      </AnimatedPage>
 
       {/* Booking Modal Overlay */}
       {isModalOpen && selectedVan && (
@@ -476,6 +476,6 @@ export default function MobileVansPage() {
         </div>
       )}
 
-    </AnimatedPage>
+    </div>
   );
 }

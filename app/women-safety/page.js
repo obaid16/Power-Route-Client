@@ -24,7 +24,7 @@ export default function WomenSafetyPage() {
   };
 
   return (
-    <AnimatedPage className="p-4 md:p-8 max-w-5xl mx-auto space-y-8 pb-20 font-sans">
+    <AnimatedPage stagger className="p-4 md:p-8 max-w-5xl mx-auto space-y-8 pb-20 font-sans">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
@@ -42,7 +42,7 @@ export default function WomenSafetyPage() {
         
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 relative z-10">
           <div>
-            <h2 className="text-2xl font-bold mb-1 text-foreground dark:text-white">In Emergency? We're here for you.</h2>
+            <h2 className="text-2xl font-bold mb-1 text-foreground dark:text-white">{"In Emergency? We're here for you."}</h2>
             <p className="text-muted-foreground text-sm mb-6">Quick access to essential emergency services.</p>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

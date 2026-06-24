@@ -15,7 +15,7 @@ export default function ContactsPage() {
   ];
 
   return (
-    <AnimatedPage className="p-4 md:p-8 max-w-5xl mx-auto space-y-8 pb-20 font-sans">
+    <AnimatedPage stagger className="p-4 md:p-8 max-w-5xl mx-auto space-y-8 pb-20 font-sans">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>

@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function SafetyCenter() {
   return (
-    <AnimatedPage className="space-y-6 max-w-5xl mx-auto pb-20">
+    <AnimatedPage stagger className="p-4 md:p-8 max-w-5xl mx-auto space-y-6 pb-20">
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/20 mb-4 shadow-[0_0_20px_rgba(239,68,68,0.4)]">
           <ShieldAlert className="h-8 w-8 text-red-500 animate-pulse" />
@@ -42,7 +42,7 @@ export default function SafetyCenter() {
           <div className="w-12 h-12 rounded-full bg-pink-500/20 flex items-center justify-center mb-4">
             <Lock className="h-6 w-6 text-pink-400" />
           </div>
-          <h3 className="text-xl font-bold text-pink-400 mb-2">Women's Safety Mode</h3>
+          <h3 className="text-xl font-bold text-pink-400 mb-2">{"Women's Safety Mode"}</h3>
           <p className="text-sm text-muted-foreground mb-4">
             Activate enhanced security protocols. Station lights will turn to maximum brightness, camera feeds are monitored live, and security personnel are placed on standby.
           </p>

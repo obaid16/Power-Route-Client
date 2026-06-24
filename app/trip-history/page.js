@@ -38,7 +38,7 @@ export default function TripHistoryPage() {
   ];
 
   return (
-    <AnimatedPage className="p-4 md:p-8 max-w-4xl mx-auto space-y-6 pb-20">
+    <AnimatedPage stagger className="p-4 md:p-8 max-w-4xl mx-auto space-y-6 pb-20">
       <div className="flex items-center gap-4 mb-8">
         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
           <Clock className="w-6 h-6 text-primary" />
@@ -48,8 +48,6 @@ export default function TripHistoryPage() {
           <p className="text-muted-foreground mt-1">Review your past journeys and energy usage.</p>
         </div>
       </div>
-
-      <div className="space-y-4">
         {trips.map((trip) => (
           <div key={trip.id} className="glass-card rounded-2xl p-6 border border-border/50 hover:border-primary/50 transition-all duration-300">
             <div className="flex flex-col md:flex-row justify-between gap-4">
@@ -95,7 +93,6 @@ export default function TripHistoryPage() {
             </div>
           </div>
         ))}
-      </div>
     </AnimatedPage>
   );
 }

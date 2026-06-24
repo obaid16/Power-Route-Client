@@ -8,6 +8,8 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import useAuthStore from "@/store/useAuthStore";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -27,7 +29,7 @@ export function Navbar() {
   const { user, logout, isInitialized } = useAuthStore();
 
   useEffect(() => {
-    setMounted(true);
+    Promise.resolve().then(() => setMounted(true));
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
         setIsProfileOpen(false);
@@ -43,14 +45,16 @@ export function Navbar() {
         
         {/* Logo Section */}
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            <Menu className="h-5 w-5" />
-          </Button>
+          {mounted && isInitialized && user && (
+            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              <Menu className="h-5 w-5" />
+            </Button>
+          )}
           <Link href="/" className="flex items-center gap-3 group" onClick={() => setIsMobileMenuOpen(false)}>
             <div className="w-12 h-12 flex items-center justify-center overflow-hidden rounded-xl shadow-[0_0_15px_rgba(110,56,247,0.3)] border border-primary/20 bg-black transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(110,56,247,0.5)]">
-              <img src="/logo.jpeg" alt="PoweRoute Logo" className="w-full h-full object-contain p-0.5" />
+              <Image src="/logo.jpeg" alt="PoweRoute Logo" width={48} height={48} className="w-full h-full object-contain p-0.5" />
             </div>
-            <span className="text-xl font-bold tracking-wider transition-colors duration-300 group-hover:text-primary">
+            <span className="text-xl font-bold tracking-wider transition-colors duration-300 group-hover:text-primary hidden sm:inline-block">
               POWEROUTE
             </span>
           </Link>
@@ -114,25 +118,35 @@ export function Navbar() {
                   <User className="h-5 w-5" />
                 </button>
                 
-                <div className={`absolute right-0 top-[70px] w-48 rounded-xl border border-border/50 bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl shadow-xl transition-all duration-300 transform origin-top-right z-50 ${isProfileOpen ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-95"}`}>
-                  <div className="p-2 space-y-1">
-                    <Link href="/profile" onClick={() => setIsProfileOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted/50 rounded-lg transition-colors">
-                      <User className="h-4 w-4" /> Profile
-                    </Link>
-                    <div className="h-px bg-border/50 my-1 mx-2" />
-                    <button 
-                      onClick={() => {
-                        setIsProfileOpen(false);
-                        logout();
-                        window.location.href = '/login';
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-sm text-destructive hover:bg-destructive/10 rounded-lg transition-colors cursor-pointer"
+                <AnimatePresence>
+                  {isProfileOpen && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 top-[70px] w-48 rounded-xl border border-border/50 bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl shadow-xl z-50 origin-top-right"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-                      Sign Out
-                    </button>
-                  </div>
-                </div>
+                      <div className="p-2 space-y-1">
+                        <Link href="/profile" onClick={() => setIsProfileOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted/50 rounded-lg transition-colors">
+                          <User className="h-4 w-4" /> Profile
+                        </Link>
+                        <div className="h-px bg-border/50 my-1 mx-2" />
+                        <button 
+                          onClick={() => {
+                            setIsProfileOpen(false);
+                            logout();
+                            window.location.href = '/login';
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-sm text-destructive hover:bg-destructive/10 rounded-lg transition-colors cursor-pointer"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                          Sign Out
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </>
           ) : (
@@ -163,21 +177,37 @@ export function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`md:hidden absolute top-20 left-0 w-full bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl border-b border-border/50 p-4 flex flex-col gap-2 shadow-xl z-40 transition-all duration-300 ease-in-out transform origin-top ${isMobileMenuOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0 pointer-events-none'}`}>
-        {NAV_LINKS.map(link => (
-          <Link 
-            key={link.href}
-            href={link.href} 
-            onClick={() => setIsMobileMenuOpen(false)} 
-            className={cn(
-              "px-4 py-3 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors font-medium",
-              pathname === link.href ? "text-[#6E38F7] bg-[#6E38F7]/10" : "text-[#9AA0A6]"
-            )}
+      <AnimatePresence>
+        {mounted && isInitialized && user && isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden absolute top-20 left-0 w-full bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl border-b border-border/50 p-4 flex flex-col gap-2 shadow-xl z-40 overflow-hidden"
           >
-            {link.label}
-          </Link>
-        ))}
-      </div>
+            {NAV_LINKS.map((link, i) => (
+              <motion.div
+                key={link.href}
+                initial={{ opacity: 0, x: -15 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.04, duration: 0.2 }}
+              >
+                <Link 
+                  href={link.href} 
+                  onClick={() => setIsMobileMenuOpen(false)} 
+                  className={cn(
+                    "block px-4 py-3 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors font-medium",
+                    pathname === link.href ? "text-[#6E38F7] bg-[#6E38F7]/10" : "text-[#9AA0A6]"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </header>
   );

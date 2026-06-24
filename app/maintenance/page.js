@@ -5,14 +5,14 @@ import { AnimatedPage } from "@/components/layout/AnimatedPage";
 
 export default function MaintenancePage() {
   return (
-    <AnimatedPage className="p-4 md:p-8 max-w-5xl mx-auto space-y-6 pb-20">
+    <AnimatedPage stagger className="p-4 md:p-8 max-w-5xl mx-auto space-y-6 pb-20">
       <div className="flex items-center gap-4 mb-8">
         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
           <Wrench className="w-6 h-6 text-primary" />
         </div>
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Vehicle Maintenance</h1>
-          <p className="text-muted-foreground mt-1">Schedule and track your van's health.</p>
+          <p className="text-muted-foreground mt-1">{"Schedule and track your van's health."}</p>
         </div>
       </div>
 

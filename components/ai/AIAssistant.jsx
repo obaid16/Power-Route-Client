@@ -26,7 +26,7 @@ export function AIAssistant() {
 
   useEffect(() => {
     if (transcript && isListening) {
-      setInputText(transcript);
+      Promise.resolve().then(() => setInputText(transcript));
     }
   }, [transcript, isListening]);
 
@@ -115,7 +115,7 @@ export function AIAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed bottom-6 right-6 z-50 w-[90vw] max-w-[400px] h-[600px] max-h-[85vh] flex flex-col rounded-3xl glass-card border border-primary/30 shadow-[0_10px_40px_rgba(0,0,0,0.5)] overflow-hidden bg-background/80 backdrop-blur-3xl"
+            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-[400px] h-[calc(100vh-6rem)] sm:h-[600px] max-h-[85vh] flex flex-col rounded-3xl glass-card border border-primary/30 shadow-[0_10px_40px_rgba(0,0,0,0.5)] overflow-hidden bg-background/80 backdrop-blur-3xl"
           >
             {/* Header */}
             <div className="p-4 border-b border-black/10 dark:border-white/10 bg-gradient-to-r from-primary/20 to-transparent flex justify-between items-center relative">

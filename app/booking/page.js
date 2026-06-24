@@ -63,7 +63,7 @@ function BookingContent() {
     }
   };
   return (
-    <AnimatedPage className="max-w-4xl mx-auto space-y-6 pb-20">
+    <AnimatedPage stagger className="p-4 md:p-8 max-w-4xl mx-auto space-y-6 pb-20">
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/20 mb-4 neon-glow">
           <CalendarCheck className="h-8 w-8 text-primary" />

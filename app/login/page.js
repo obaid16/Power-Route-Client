@@ -10,6 +10,7 @@ import { GlassInput } from "@/components/ui/glass-input";
 import { Button } from "@/components/ui/button";
 import { Zap, Eye, EyeOff, LogIn, Loader2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Login() {
   const router = useRouter();
@@ -42,10 +43,10 @@ export default function Login() {
   });
 
   return (
-    <AnimatedPage className="flex min-h-[calc(100vh-8rem)] items-center justify-center py-10 relative">
+    <AnimatedPage className="flex min-h-[calc(100vh-8rem)] items-center justify-center py-10 px-4 relative">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img src="/auth_bg.png" alt="EV Charging Station Background" className="w-full h-full object-cover opacity-80" />
+        <Image src="/auth_bg.png" alt="EV Charging Station Background" fill className="object-cover opacity-80" priority />
         <div className="absolute inset-0 bg-background/60 backdrop-blur-sm" />
       </div>
       
@@ -53,7 +54,7 @@ export default function Login() {
         <div className="absolute -top-20 -right-20 w-48 h-48 bg-primary/20 rounded-full blur-[60px] pointer-events-none" />
         <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-purple-900/20 rounded-full blur-[60px] pointer-events-none" />
         
-        <div className="relative z-10">
+        <AnimatedPage stagger className="relative z-10">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/20 mb-4 neon-glow">
               <Zap className="h-8 w-8 text-primary" />
@@ -124,13 +125,13 @@ export default function Login() {
             </div>
 
             <p className="text-center text-sm text-muted-foreground mt-6">
-              Don't have an account?{" "}
+              {"Don't have an account? "}
               <Link href="/signup" className="text-primary hover:underline font-medium">
                 Sign Up
               </Link>
             </p>
           </form>
-        </div>
+        </AnimatedPage>
       </div>
     </AnimatedPage>
   );

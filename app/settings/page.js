@@ -13,11 +13,11 @@ export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("preferences");
 
   useEffect(() => {
-    setMounted(true);
+    Promise.resolve().then(() => setMounted(true));
   }, []);
 
   return (
-    <AnimatedPage className="max-w-4xl mx-auto space-y-6 pb-20">
+    <AnimatedPage stagger className="p-4 md:p-8 max-w-4xl mx-auto space-y-6 pb-20">
       <div className="flex items-center gap-4 mb-8">
         <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center neon-glow">
           <SettingsIcon className="h-6 w-6 text-primary" />
@@ -122,7 +122,7 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="font-medium text-foreground">Wake Word</h3>
-                      <p className="text-sm text-muted-foreground">Say "Hey Power AI" to activate voice commands.</p>
+                      <p className="text-sm text-muted-foreground">Say &quot;Hey Power AI&quot; to activate voice commands.</p>
                     </div>
                     <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-black/10 dark:bg-white/10 transition-colors focus:outline-none cursor-pointer">
                       <span className="inline-block h-4 w-4 translate-x-1 rounded-full bg-white transition-transform" />
