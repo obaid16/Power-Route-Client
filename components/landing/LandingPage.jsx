@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Zap, ArrowRight, ShieldCheck, BatteryCharging, MapPin } from "lucide-react";
 import Link from "next/link";
 import { EnergyVisualizer } from "./EnergyVisualizer";
+import { LiquidBackground } from "@/components/layout/LiquidBackground";
 
 export function LandingPage() {
   const badgeRef = useRef(null);
@@ -75,6 +76,7 @@ export function LandingPage() {
     <AnimatedPage className="flex flex-col gap-12 pb-16">
       {/* Hero Section */}
       <section className="relative w-full py-12 md:py-20 lg:py-24 overflow-hidden rounded-3xl glass-card border border-primary/20">
+        <LiquidBackground nested />
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-purple-900/20" />
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/20 rounded-full blur-[100px]" />
         

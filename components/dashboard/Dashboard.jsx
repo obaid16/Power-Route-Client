@@ -9,7 +9,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
-import { Vehicle3DVisualizer } from "./Vehicle3DVisualizer";
+import { LiquidBackground } from "@/components/layout/LiquidBackground";
 
 export function Dashboard() {
   const [stations, setStations] = useState([]);
@@ -120,7 +120,7 @@ export function Dashboard() {
   }, []);
 
   return (
-    <div className="w-full bg-[#F4F2FA] dark:bg-[#06020E] text-[#1A0E38] dark:text-[#F8F9FA] transition-colors duration-300 min-h-screen">
+    <div className="w-full text-[#1A0E38] dark:text-[#F8F9FA] transition-colors duration-300 min-h-screen">
       <div className="max-w-[1400px] mx-auto p-4 md:p-8 space-y-8">
         
         {/* Hero Section */}
@@ -129,6 +129,7 @@ export function Dashboard() {
           className="relative w-full rounded-[32px] overflow-hidden bg-white dark:bg-[#0a0518] border border-black/5 dark:border-black/5 dark:dark:border-white/5 shadow-xl flex flex-col md:flex-row items-center p-8 md:p-16 min-h-[400px] opacity-0"
         >
           {/* Background effects */}
+          <LiquidBackground nested />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-[#6E38F7]/10 via-white to-white dark:from-[#6E38F7]/20 dark:via-[#0a0518] dark:to-[#0a0518]"></div>
           
           {/* Left Content */}
@@ -214,17 +215,24 @@ export function Dashboard() {
               <div className="absolute left-6 top-6 text-[9px] font-mono text-primary/70 leading-relaxed uppercase tracking-widest hidden sm:block pointer-events-none">
                 SYS: NOMINAL<br/>
                 NET: CONNECTED<br/>
-                3D: GL_ACTIVE
+                CAM: LIVE
               </div>
               <div className="absolute right-6 top-6 text-[9px] font-mono text-primary/70 leading-relaxed uppercase tracking-widest text-right hidden sm:block pointer-events-none">
                 VOLTAGE: 398V<br/>
                 TEMP: 26.4 °C<br/>
-                ROT: INTERACTIVE
+                HUD: STATIC
               </div>
 
-              {/* Interactive 3D WebGL Vehicle Visualizer */}
-              <div className="relative z-10 w-full h-full">
-                <Vehicle3DVisualizer />
+              {/* Vehicle Photo (replaces 3D wireframe) */}
+              <div className="relative z-10 flex items-center justify-center w-full h-full p-4">
+                <Image 
+                  src="/van_image.png" 
+                  alt="Vehicle Status" 
+                  width={300}
+                  height={180}
+                  className="object-contain max-h-[190px] drop-shadow-[0_0_30px_rgba(168,85,247,0.35)] transition-transform duration-500 hover:scale-[1.04]"
+                  priority
+                />
               </div>
             </div>
 

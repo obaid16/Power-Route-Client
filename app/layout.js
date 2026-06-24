@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { AIAssistant } from "@/components/ai/AIAssistant";
+import { LiquidBackground } from "@/components/layout/LiquidBackground";
 
 import { AuthProvider } from "@/components/layout/AuthProvider";
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -30,8 +31,9 @@ export default function RootLayout({ children }) {
           >
             <AuthProvider>
               <div className="relative flex min-h-screen flex-col">
+                <LiquidBackground />
                 <Navbar />
-                <main className="flex-1 overflow-x-hidden">
+                <main className="flex-1 overflow-x-hidden relative z-10">
                   {children}
                 </main>
                 <AIAssistant />
