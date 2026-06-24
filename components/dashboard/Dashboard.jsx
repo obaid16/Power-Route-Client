@@ -164,11 +164,11 @@ export function Dashboard() {
             <div className="absolute w-[120%] aspect-square rounded-full border border-[#6E38F7]/30 border-dashed animate-[spin_60s_linear_infinite]"></div>
             <div className="absolute w-[100%] aspect-square rounded-full border-2 border-[#6E38F7]/50 shadow-[0_0_50px_rgba(110,56,247,0.3)]"></div>
             <Image 
-              src="/electra_van_hero.png" 
-              alt="PoweRoute Van" 
+              src="/ev_car.png" 
+              alt="PoweRoute EV" 
               width={300}
               height={300}
-              className="relative z-20 w-[85%] aspect-square object-cover rounded-full shadow-[0_20px_50px_rgba(110,56,247,0.5)] border-4 border-black/10 dark:border-white/10 dark:border-[#6E38F7]/30"
+              className="relative z-20 w-[85%] aspect-square object-contain rounded-full shadow-[0_20px_50px_rgba(110,56,247,0.4)] border-4 border-black/10 dark:border-white/10 dark:border-[#6E38F7]/30 bg-[#0B0516]/80 p-4"
               priority
             />
           </div>
@@ -183,8 +183,8 @@ export function Dashboard() {
           <div className="xl:col-span-7 bg-gradient-to-br from-white to-[#F4F2FA] dark:from-[#110822] dark:to-[#0A0512] rounded-[32px] p-6 lg:p-8 shadow-lg border border-white/40 dark:border-[#2D1B54]/50 transition-all duration-300 hover:shadow-xl">
             <div className="mb-6 flex justify-between items-start">
               <div>
-                <h2 className="text-xs font-semibold uppercase tracking-wider text-[#6B7280] dark:text-[#9AA0A6] mb-1">My Van</h2>
-                <h1 className="text-3xl font-extrabold mb-3 tracking-tight text-foreground dark:text-white">PoweRoute Van</h1>
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-[#6B7280] dark:text-[#9AA0A6] mb-1">My EV</h2>
+                <h1 className="text-3xl font-extrabold mb-3 tracking-tight text-foreground dark:text-white">PoweRoute EV</h1>
                 <div className="inline-flex items-center gap-2 bg-[#6E38F7]/10 text-[#6E38F7] dark:text-[#A87BFF] px-4 py-1.5 rounded-full text-xs font-bold border border-[#6E38F7]/20 shadow-[0_2px_10px_rgba(110,56,247,0.05)]">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#6E38F7] opacity-75"></span>
@@ -226,7 +226,7 @@ export function Dashboard() {
               {/* Vehicle Photo (replaces 3D wireframe) */}
               <div className="relative z-10 flex items-center justify-center w-full h-full p-4">
                 <Image 
-                  src="/van_image.png" 
+                  src="/ev_car.png" 
                   alt="Vehicle Status" 
                   width={300}
                   height={180}
