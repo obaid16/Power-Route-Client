@@ -255,16 +255,17 @@ export function Dashboard() {
           {/* Van Overview Grid - Glassmorphism Card Redesign */}
           <div className="xl:col-span-5 grid grid-cols-2 gap-4 lg:gap-6">
             {[
-              { icon: MapPin, title: "Total Distance", value: "1,256", unit: "km", desc: "+12.4% this week" },
-              { icon: Route, title: "Total Trips", value: "28", unit: "trips", desc: "Average 45km/trip" },
-              { icon: Zap, title: "Total Energy", value: "320", unit: "kWh", desc: "Green efficiency: 98%" },
-              { icon: Wallet, title: "Total Cost", value: "₹1,890", unit: "", desc: "Saved ₹4,500 vs Diesel" }
+              { icon: MapPin, title: "Total Distance", value: "1,256", unit: "km", desc: "+12.4% this week", href: "/analytics?tab=distance" },
+              { icon: Route, title: "Total Trips", value: "28", unit: "trips", desc: "Average 45km/trip", href: "/trip-history" },
+              { icon: Zap, title: "Total Energy", value: "320", unit: "kWh", desc: "Green efficiency: 98%", href: "/analytics?tab=energy" },
+              { icon: Wallet, title: "Total Cost", value: "₹1,890", unit: "", desc: "Saved ₹4,500 vs Diesel", href: "/wallet" }
             ].map((card, idx) => {
               const CardIcon = card.icon;
               return (
-                <div 
+                <Link
+                  href={card.href}
                   key={idx} 
-                  className="group relative overflow-hidden bg-gradient-to-br from-white/95 to-[#F4F2FA]/95 dark:from-[#110822]/95 dark:to-[#0A0512]/95 backdrop-blur-md rounded-[24px] p-5 lg:p-6 border border-white/60 dark:border-[#2D1B54]/40 hover:border-[#6E38F7]/40 dark:hover:border-[#6E38F7]/50 flex flex-col justify-between transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(110,56,247,0.08)]"
+                  className="group relative overflow-hidden bg-gradient-to-br from-white/95 to-[#F4F2FA]/95 dark:from-[#110822]/95 dark:to-[#0A0512]/95 backdrop-blur-md rounded-[24px] p-5 lg:p-6 border border-white/60 dark:border-[#2D1B54]/40 hover:border-[#6E38F7]/40 dark:hover:border-[#6E38F7]/50 flex flex-col justify-between transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(110,56,247,0.08)] cursor-pointer"
                 >
                   {/* Hover Accent Glow */}
                   <div className="absolute -right-10 -bottom-10 w-28 h-28 bg-[#6E38F7]/5 rounded-full blur-2xl group-hover:bg-[#6E38F7]/10 transition-all duration-500" />
@@ -285,7 +286,7 @@ export function Dashboard() {
                   <p className="text-[10px] text-muted-foreground font-medium mt-3 flex items-center gap-1 group-hover:text-primary dark:group-hover:text-[#A87BFF] transition-colors duration-300">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> {card.desc}
                   </p>
-                </div>
+                </Link>
               );
             })}
           </div>
