@@ -41,7 +41,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-black/5 dark:border-black/5 dark:dark:border-white/5">
-      <div className="container flex h-20 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
+      <div className="relative flex h-18 items-center justify-between px-8 max-w-7xl mx-auto w-full">
         
         {/* Logo Section */}
         <div className="flex items-center gap-3">
@@ -50,38 +50,43 @@ export function Navbar() {
               <Menu className="h-5 w-5" />
             </Button>
           )}
-          <Link href="/" className="flex items-center gap-3 group" onClick={() => setIsMobileMenuOpen(false)}>
-            <div className="w-12 h-12 flex items-center justify-center overflow-hidden rounded-xl shadow-[0_0_15px_rgba(110,56,247,0.3)] border border-primary/20 bg-black transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(110,56,247,0.5)]">
-              <Image src="/logo.jpeg" alt="PoweRoute Logo" width={48} height={48} className="w-full h-full object-contain p-0.5" />
-            </div>
-            <span className="text-xl font-bold tracking-wider transition-colors duration-300 group-hover:text-primary hidden sm:inline-block">
-              POWEROUTE
-            </span>
+          <Link href="/" className="flex items-center group" onClick={() => setIsMobileMenuOpen(false)}>
+            <Image 
+              src="/logo_horizontal.png" 
+              alt="PoweRoute Logo" 
+              width={176} 
+              height={44} 
+              className="h-[44px] w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-[1.03]" 
+              priority
+              quality={100}
+            />
           </Link>
         </div>
 
         {/* Center Navigation Links (Only shown if logged in) */}
         {mounted && isInitialized && user && (
-          <nav className="hidden md:flex items-center gap-8 h-full">
-            {NAV_LINKS.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "relative flex items-center h-full text-sm font-medium transition-colors hover:text-foreground dark:hover:text-white",
-                    isActive ? "text-foreground dark:text-white" : "text-muted-foreground dark:text-[#9AA0A6]"
-                  )}
-                >
-                  {link.label}
-                  {isActive && (
-                    <div className="absolute bottom-0 left-0 right-0 h-1 rounded-t-full bg-[#6E38F7] shadow-[0_-2px_10px_rgba(110,56,247,0.5)]" />
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block h-full">
+            <nav className="flex items-center gap-8 h-full">
+              {NAV_LINKS.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      "relative flex items-center h-full text-sm font-medium transition-colors hover:text-foreground dark:hover:text-white",
+                      isActive ? "text-foreground dark:text-white" : "text-muted-foreground dark:text-[#9AA0A6]"
+                    )}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <div className="absolute bottom-0 left-0 right-0 h-1 rounded-t-full bg-[#6E38F7] shadow-[0_-2px_10px_rgba(110,56,247,0.5)]" />
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
         )}
 
         {/* Right Actions */}
@@ -125,7 +130,7 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-0 top-[70px] w-48 rounded-xl border border-border/50 bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl shadow-xl z-50 origin-top-right"
+                      className="absolute right-0 top-[62px] w-48 rounded-xl border border-border/50 bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl shadow-xl z-50 origin-top-right"
                     >
                       <div className="p-2 space-y-1">
                         <Link href="/profile" onClick={() => setIsProfileOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted/50 rounded-lg transition-colors">
@@ -184,7 +189,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden absolute top-20 left-0 w-full bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl border-b border-border/50 p-4 flex flex-col gap-2 shadow-xl z-40 overflow-hidden"
+            className="md:hidden absolute top-[72px] left-0 w-full bg-background/95 dark:bg-[#06020E]/95 backdrop-blur-xl border-b border-border/50 p-4 flex flex-col gap-2 shadow-xl z-40 overflow-hidden"
           >
             {NAV_LINKS.map((link, i) => (
               <motion.div

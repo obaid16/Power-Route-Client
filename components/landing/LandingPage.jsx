@@ -6,7 +6,7 @@ import { AnimatedPage } from "@/components/layout/AnimatedPage";
 import { Button } from "@/components/ui/button";
 import { Zap, ArrowRight, ShieldCheck, BatteryCharging, MapPin } from "lucide-react";
 import Link from "next/link";
-import { EnergyVisualizer } from "./EnergyVisualizer";
+import Image from "next/image";
 import { LiquidBackground } from "@/components/layout/LiquidBackground";
 
 export function LandingPage() {
@@ -133,7 +133,15 @@ export function LandingPage() {
             >
               <div className="w-full max-w-[450px] aspect-square rounded-3xl overflow-hidden glass-card border border-primary/10 shadow-[0_0_40px_rgba(110,56,247,0.15)] flex items-center justify-center relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-purple-950/10 pointer-events-none" />
-                <EnergyVisualizer />
+                <Image 
+                  src="/electra_van_hero.png" 
+                  alt="PoweRoute EV Hero" 
+                  width={450}
+                  height={450}
+                  className="w-full h-full object-cover relative z-10 transition-transform duration-500 hover:scale-[1.02]"
+                  priority
+                  unoptimized
+                />
               </div>
             </div>
 
