@@ -60,7 +60,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <AnimatedPage className="min-h-screen bg-[#F4F2FA] dark:bg-[#06020E] text-foreground pb-20 transition-colors duration-300">
+    <AnimatedPage className="min-h-[calc(100vh-5rem)] text-foreground pb-20 transition-colors duration-300">
       <AnimatedPage stagger className="p-4 md:p-8 max-w-5xl mx-auto space-y-8 mt-4 font-sans">
         
         {/* Connection Telemetry Header Banner */}

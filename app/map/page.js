@@ -17,11 +17,11 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 
 const stationImages = [
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Electric_car_charging_station_in_Amsterdam.jpg/800px-Electric_car_charging_station_in_Amsterdam.jpg",
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Tesla_Supercharger_at_Kettleman_City.jpg/800px-Tesla_Supercharger_at_Kettleman_City.jpg",
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Nissan_Leaf_charging_at_a_public_station.jpg/800px-Nissan_Leaf_charging_at_a_public_station.jpg",
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/BMW_i3_charging_at_a_ChargePoint_station.jpg/800px-BMW_i3_charging_at_a_ChargePoint_station.jpg",
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Electric_vehicle_charging_station_in_Toronto.jpg/800px-Electric_vehicle_charging_station_in_Toronto.jpg"
+  "/station_1.png",
+  "/station_2.png",
+  "/station_3.png",
+  "/station_4.png",
+  "/station_5.png"
 ];
 
 // Custom Road Network & Station Paths

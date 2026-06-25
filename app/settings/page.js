@@ -6,11 +6,28 @@ import { Settings as SettingsIcon, Bell, Shield, CreditCard, Moon, Volume2, Glob
 import { GlassSelect } from "@/components/ui/glass-select";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
+import useSettingsStore from "@/store/useSettingsStore";
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("preferences");
+
+  const {
+    voiceFeedback,
+    setVoiceFeedback,
+    wakeWord,
+    setWakeWord,
+    chargingComplete,
+    setChargingComplete,
+    bookingReminders,
+    setBookingReminders,
+    priceDrops,
+    setPriceDrops,
+    safetyAlerts,
+    setSafetyAlerts
+  } = useSettingsStore();
 
   useEffect(() => {
     Promise.resolve().then(() => setMounted(true));
@@ -114,9 +131,20 @@ export default function SettingsPage() {
                       <h3 className="font-medium text-foreground">Voice Feedback</h3>
                       <p className="text-sm text-muted-foreground">Allow AI to speak responses aloud.</p>
                     </div>
-                    <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-primary transition-colors focus:outline-none cursor-pointer">
-                      <span className="inline-block h-4 w-4 translate-x-6 rounded-full bg-white transition-transform" />
-                    </div>
+                    <button 
+                      onClick={() => setVoiceFeedback(!voiceFeedback)}
+                      className={cn(
+                        "relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer border-none",
+                        voiceFeedback ? "bg-primary" : "bg-black/10 dark:bg-white/10"
+                      )}
+                    >
+                      <span 
+                        className={cn(
+                          "inline-block h-4 w-4 rounded-full bg-white transition-transform",
+                          voiceFeedback ? "translate-x-6" : "translate-x-1"
+                        )} 
+                      />
+                    </button>
                   </div>
                   
                   <div className="flex items-center justify-between">
@@ -124,9 +152,20 @@ export default function SettingsPage() {
                       <h3 className="font-medium text-foreground">Wake Word</h3>
                       <p className="text-sm text-muted-foreground">Say &quot;Hey Power AI&quot; to activate voice commands.</p>
                     </div>
-                    <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-black/10 dark:bg-white/10 transition-colors focus:outline-none cursor-pointer">
-                      <span className="inline-block h-4 w-4 translate-x-1 rounded-full bg-white transition-transform" />
-                    </div>
+                    <button 
+                      onClick={() => setWakeWord(!wakeWord)}
+                      className={cn(
+                        "relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer border-none",
+                        wakeWord ? "bg-primary" : "bg-black/10 dark:bg-white/10"
+                      )}
+                    >
+                      <span 
+                        className={cn(
+                          "inline-block h-4 w-4 rounded-full bg-white transition-transform",
+                          wakeWord ? "translate-x-6" : "translate-x-1"
+                        )} 
+                      />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -160,19 +199,30 @@ export default function SettingsPage() {
               </h2>
               <div className="space-y-6">
                 {[
-                  { title: "Charging Complete", desc: "Get notified when your EV reaches target charge" },
-                  { title: "Booking Reminders", desc: "Reminders 15 mins before your reservation" },
-                  { title: "Price Drops", desc: "Alerts when nearby stations have lower rates" },
-                  { title: "Safety Alerts", desc: "Critical route warnings and weather updates" }
+                  { title: "Charging Complete", desc: "Get notified when your EV reaches target charge", state: chargingComplete, setter: setChargingComplete },
+                  { title: "Booking Reminders", desc: "Reminders 15 mins before your reservation", state: bookingReminders, setter: setBookingReminders },
+                  { title: "Price Drops", desc: "Alerts when nearby stations have lower rates", state: priceDrops, setter: setPriceDrops },
+                  { title: "Safety Alerts", desc: "Critical route warnings and weather updates", state: safetyAlerts, setter: setSafetyAlerts }
                 ].map((item, i) => (
                   <div key={i} className="flex items-center justify-between">
                     <div>
                       <h3 className="font-medium text-foreground">{item.title}</h3>
                       <p className="text-sm text-muted-foreground">{item.desc}</p>
                     </div>
-                    <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-primary transition-colors cursor-pointer">
-                      <span className="inline-block h-4 w-4 translate-x-6 rounded-full bg-white transition-transform" />
-                    </div>
+                    <button 
+                      onClick={() => item.setter(!item.state)}
+                      className={cn(
+                        "relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer border-none",
+                        item.state ? "bg-primary" : "bg-black/10 dark:bg-white/10"
+                      )}
+                    >
+                      <span 
+                        className={cn(
+                          "inline-block h-4 w-4 rounded-full bg-white transition-transform",
+                          item.state ? "translate-x-6" : "translate-x-1"
+                        )} 
+                      />
+                    </button>
                   </div>
                 ))}
               </div>

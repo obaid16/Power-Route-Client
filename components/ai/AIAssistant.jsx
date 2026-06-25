@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { cn } from "@/lib/utils";
 import api from "@/lib/api";
+import useSettingsStore from "@/store/useSettingsStore";
 
 export function AIAssistant() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +18,7 @@ export function AIAssistant() {
   const messagesEndRef = useRef(null);
   
   const { isListening, transcript, startListening, stopListening, setTranscript } = useSpeechRecognition();
+  const { voiceFeedback, wakeWord } = useSettingsStore();
 
   useEffect(() => {
     const handleOpen = () => setIsOpen(true);
@@ -29,6 +31,26 @@ export function AIAssistant() {
       Promise.resolve().then(() => setInputText(transcript));
     }
   }, [transcript, isListening]);
+
+  // Background Wake Word Listening
+  useEffect(() => {
+    if (wakeWord && !isOpen && !isListening) {
+      startListening();
+    }
+  }, [wakeWord, isOpen, isListening, startListening]);
+
+  useEffect(() => {
+    if (!wakeWord && !isOpen && isListening) {
+      stopListening();
+    }
+  }, [wakeWord, isOpen, isListening, stopListening]);
+
+  // Auto-submit voice commands when opened via Wake Word
+  useEffect(() => {
+    if (isOpen && transcript && transcript !== "Listening..." && transcript !== "listening...") {
+      handleSendMessage(transcript);
+    }
+  }, [isOpen, transcript]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -56,7 +78,7 @@ export function AIAssistant() {
 
       // Free Browser Native TTS
       try {
-        if ('speechSynthesis' in window) {
+        if (voiceFeedback && 'speechSynthesis' in window) {
           const utterance = new SpeechSynthesisUtterance(aiText);
           utterance.rate = 1.0;
           utterance.pitch = 1.0;

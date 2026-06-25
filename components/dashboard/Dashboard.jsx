@@ -11,6 +11,14 @@ import Link from "next/link";
 import gsap from "gsap";
 import { LiquidBackground } from "@/components/layout/LiquidBackground";
 
+const stationImages = [
+  "/station_1.png",
+  "/station_2.png",
+  "/station_3.png",
+  "/station_4.png",
+  "/station_5.png"
+];
+
 export function Dashboard() {
   const [stations, setStations] = useState([]);
   const [loadingStations, setLoadingStations] = useState(true);
@@ -396,9 +404,16 @@ export function Dashboard() {
               ) : stations.length > 0 ? (
                 stations.map((station, i) => (
                   <div key={i} className="min-w-[280px] max-w-[300px] flex-1 snap-start bg-white dark:bg-[#110822] rounded-[20px] overflow-hidden shadow-sm border border-[#E5E0F1] dark:border-[#2D1B54] transition-colors duration-300 cursor-pointer hover:border-[#6E38F7]">
-                    <div className="h-32 bg-gray-200 dark:bg-[#1A0E38] relative overflow-hidden">
+                    <div className="h-32 relative overflow-hidden bg-gradient-to-br from-primary/20 to-purple-500/20">
+                      <Image
+                        src={stationImages[parseInt((station.id || "0").slice(-2), 16) % stationImages.length || 0]}
+                        alt={station.name}
+                        fill
+                        className="object-cover hover:scale-105 transition-transform duration-500"
+                        unoptimized
+                      />
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#110822]/80 z-10"></div>
-                      <div className="w-full h-full opacity-40 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+                      <Zap className="h-10 w-10 text-primary/40 absolute inset-0 m-auto -z-10" />
                       <div className="absolute top-2 left-2 z-20 bg-background/80 backdrop-blur-md rounded-md px-2 py-1 flex items-center gap-1 text-[10px] font-bold">
                         <MapPin className="w-3 h-3 text-[#6E38F7]" /> {station.dist}
                       </div>

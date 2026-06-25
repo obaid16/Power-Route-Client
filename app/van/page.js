@@ -102,7 +102,7 @@ export default function MobileVansPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F2FA] dark:bg-[#06020E] text-foreground pb-20 transition-colors duration-300">
+    <div className="min-h-[calc(100vh-5rem)] text-foreground pb-20 transition-colors duration-300">
       <AnimatedPage stagger className="max-w-[1200px] mx-auto px-4 md:px-8 space-y-12 mt-8">
         
         {/* Header */}

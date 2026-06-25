@@ -2,13 +2,16 @@
 
 import { useEffect } from "react";
 import useAuthStore from "@/store/useAuthStore";
+import useSettingsStore from "@/store/useSettingsStore";
 
 export function AuthProvider({ children }) {
-  const init = useAuthStore((state) => state.init);
+  const initAuth = useAuthStore((state) => state.init);
+  const initSettings = useSettingsStore((state) => state.init);
   
   useEffect(() => {
-    init();
-  }, [init]);
+    initAuth();
+    initSettings();
+  }, [initAuth, initSettings]);
 
   return <>{children}</>;
 }

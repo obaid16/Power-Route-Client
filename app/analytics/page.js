@@ -14,7 +14,7 @@ export default function AnalyticsPage() {
       const params = new URLSearchParams(window.location.search);
       const tab = params.get("tab");
       if (tab === "energy" || tab === "distance") {
-        setActiveTab(tab);
+        Promise.resolve().then(() => setActiveTab(tab));
       }
     }
   }, []);
@@ -43,8 +43,8 @@ export default function AnalyticsPage() {
 
   // SVG Chart Dimensions
   const chartWidth = 500;
-  const chartHeight = 200;
-  const padding = 30;
+  const chartHeight = 240;
+  const padding = 40;
 
   // Calculate points for Distance Line Chart
   const maxVal = Math.max(...weeklyDistance.map(d => d.val)) * 1.1; // 10% buffer
@@ -58,7 +58,7 @@ export default function AnalyticsPage() {
   const areaPath = `${linePath} L ${points[points.length - 1].x} ${chartHeight - padding} L ${points[0].x} ${chartHeight - padding} Z`;
 
   return (
-    <AnimatedPage className="min-h-screen bg-[#F4F2FA] dark:bg-[#06020E] text-foreground pb-20 transition-colors duration-300">
+    <div className="min-h-[calc(100vh-5rem)] text-foreground pb-32 transition-colors duration-300">
       <AnimatedPage stagger className="max-w-5xl mx-auto px-4 md:px-8 space-y-8 mt-8">
         
         {/* Header */}
@@ -96,7 +96,7 @@ export default function AnalyticsPage() {
         </div>
 
         {activeTab === "distance" ? (
-          <>
+          <div className="flex flex-col gap-8">
             {/* Distance Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {[
@@ -138,7 +138,7 @@ export default function AnalyticsPage() {
 
               {/* SVG Canvas Chart */}
               <div className="w-full overflow-x-auto scrollbar-hide">
-                <div className="min-w-[500px] h-[220px] mx-auto relative">
+                <div className="min-w-[500px] h-[260px] mx-auto relative">
                   <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-full">
                     {/* Y-axis grid lines */}
                     {[0, 0.25, 0.5, 0.75, 1].map((p, i) => {
@@ -180,7 +180,7 @@ export default function AnalyticsPage() {
                           </text>
                         </g>
                         {/* X-axis labels */}
-                        <text x={p.x} y={chartHeight - 8} className="fill-muted-foreground text-[9px] font-mono font-bold" textAnchor="middle">
+                        <text x={p.x} y={chartHeight - 12} className="fill-muted-foreground text-[9px] font-mono font-bold" textAnchor="middle">
                           {p.day}
                         </text>
                       </g>
@@ -189,9 +189,9 @@ export default function AnalyticsPage() {
                 </div>
               </div>
             </div>
-          </>
+          </div>
         ) : (
-          <>
+          <div className="flex flex-col gap-8">
             {/* Energy Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {[
@@ -238,7 +238,7 @@ export default function AnalyticsPage() {
 
               {/* SVG Canvas Chart for Energy comparison */}
               <div className="w-full overflow-x-auto scrollbar-hide">
-                <div className="min-w-[500px] h-[220px] mx-auto relative">
+                <div className="min-w-[500px] h-[260px] mx-auto relative">
                   <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-full">
                     {/* Y-axis grid lines */}
                     {[0, 0.25, 0.5, 0.75, 1].map((p, i) => {
@@ -285,18 +285,16 @@ export default function AnalyticsPage() {
                             rx="3" 
                             className="fill-green-500 hover:fill-green-400 transition-colors" 
                             style={{ filter: "drop-shadow(0 2px 6px rgba(34, 197, 94, 0.2))" }}
-                          />
-
-                          {/* Tooltip values on hover */}
+                          />                          {/* Tooltip values on hover */}
                           <g className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            <rect x={groupX - 16} y={Math.min(consumedY, regenY) - 32} width="66" height="24" rx="6" className="fill-[#110822]" />
-                            <text x={groupX + barWidth} y={Math.min(consumedY, regenY) - 20} className="fill-white text-[8px] font-bold font-mono" textAnchor="middle">
+                            <rect x={groupX - 16} y={Math.min(consumedY, regenY) - 36} width="66" height="24" rx="6" className="fill-[#110822]" />
+                            <text x={groupX + barWidth} y={Math.min(consumedY, regenY) - 24} className="fill-white text-[8px] font-bold font-mono" textAnchor="middle">
                               {d.consumed} / {d.regen} kWh
                             </text>
                           </g>
 
                           {/* X-axis label */}
-                          <text x={groupX + barWidth} y={chartHeight - 8} className="fill-muted-foreground text-[9px] font-mono font-bold" textAnchor="middle">
+                          <text x={groupX + barWidth} y={chartHeight - 12} className="fill-muted-foreground text-[9px] font-mono font-bold" textAnchor="middle">
                             {d.day}
                           </text>
                         </g>
@@ -306,7 +304,7 @@ export default function AnalyticsPage() {
                 </div>
               </div>
             </div>
-          </>
+          </div>
         )}
 
         {/* Driving / Charging Tips Section */}
@@ -341,8 +339,7 @@ export default function AnalyticsPage() {
             </div>
           </div>
         </div>
-
       </AnimatedPage>
-    </AnimatedPage>
+    </div>
   );
 }
