@@ -62,7 +62,6 @@ export function Navbar() {
               height={44} 
               className="h-[44px] w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-[1.03]" 
               priority
-              quality={100}
             />
           </Link>
         </div>

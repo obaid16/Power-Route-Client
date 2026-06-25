@@ -44,8 +44,8 @@ export default function WalletPage() {
         
         {/* Header */}
         <div className="shrink-0">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-4 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+          <Link href="/profile" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-4 transition-colors">
+            <ArrowLeft className="w-4 h-4" /> Back to Profile
           </Link>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>

@@ -2,8 +2,9 @@
 
 import { AnimatedPage } from "@/components/layout/AnimatedPage";
 import { Button } from "@/components/ui/button";
-import { Settings as SettingsIcon, Bell, Shield, CreditCard, Moon, Volume2, Globe, Cpu } from "lucide-react";
+import { Settings as SettingsIcon, Bell, Shield, CreditCard, Moon, Volume2, Globe, Cpu, ArrowLeft } from "lucide-react";
 import { GlassSelect } from "@/components/ui/glass-select";
+import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -35,6 +36,11 @@ export default function SettingsPage() {
 
   return (
     <AnimatedPage stagger className="p-4 md:p-8 max-w-4xl mx-auto space-y-6 pb-20">
+      <div className="shrink-0">
+        <Link href="/profile" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-4 transition-colors">
+          <ArrowLeft className="w-4 h-4" /> Back to Profile
+        </Link>
+      </div>
       <div className="flex items-center gap-4 mb-8">
         <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center neon-glow">
           <SettingsIcon className="h-6 w-6 text-primary" />
