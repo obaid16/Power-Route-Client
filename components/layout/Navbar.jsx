@@ -24,9 +24,13 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef(null);
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const pathname = usePathname();
   const { user, logout, isInitialized } = useAuthStore();
+
+  const logoSrc = mounted && resolvedTheme === "dark" 
+    ? "/logo_horizontal_dark.png" 
+    : "/logo_horizontal_light.png";
 
   useEffect(() => {
     Promise.resolve().then(() => setMounted(true));
@@ -52,9 +56,9 @@ export function Navbar() {
           )}
           <Link href="/" className="flex items-center group" onClick={() => setIsMobileMenuOpen(false)}>
             <Image 
-              src="/logo_horizontal.png" 
+              src={logoSrc} 
               alt="PoweRoute Logo" 
-              width={176} 
+              width={125} 
               height={44} 
               className="h-[44px] w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-[1.03]" 
               priority
